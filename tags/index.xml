@@ -6,7 +6,7 @@
     <description>Recent content in Tags on Just for</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 29 Jul 2019 15:00:15 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 29 Jul 2019 18:10:36 +0800</lastBuildDate>
     
 	<atom:link href="https://mybigdaxin.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>tag1</title>
       <link>https://mybigdaxin.github.io/tags/tag1/</link>
-      <pubDate>Mon, 29 Jul 2019 15:00:15 +0800</pubDate>
+      <pubDate>Mon, 29 Jul 2019 18:10:36 +0800</pubDate>
       
       <guid>https://mybigdaxin.github.io/tags/tag1/</guid>
       <description></description>
@@ -23,7 +23,7 @@
     <item>
       <title>tag2</title>
       <link>https://mybigdaxin.github.io/tags/tag2/</link>
-      <pubDate>Mon, 29 Jul 2019 15:00:15 +0800</pubDate>
+      <pubDate>Mon, 29 Jul 2019 18:10:36 +0800</pubDate>
       
       <guid>https://mybigdaxin.github.io/tags/tag2/</guid>
       <description></description>
@@ -39,7 +39,7 @@
     </item>
     
     <item>
-      <title>Image</title>
+      <title>image</title>
       <link>https://mybigdaxin.github.io/tags/image/</link>
       <pubDate>Mon, 24 Dec 2018 12:29:41 +0800</pubDate>
       
