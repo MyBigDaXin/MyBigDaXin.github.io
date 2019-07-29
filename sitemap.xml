@@ -67,6 +67,12 @@
   </url>
   
   <url>
+    <loc>https://mybigdaxin.github.io/tags/image/</loc>
+    <lastmod>2018-12-24T12:29:41+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://mybigdaxin.github.io/posts/</loc>
     <lastmod>2018-12-24T12:29:41+08:00</lastmod>
     <priority>0</priority>
@@ -75,12 +81,6 @@
   <url>
     <loc>https://mybigdaxin.github.io/posts/the-figure-shortcode/</loc>
     <lastmod>2018-12-24T12:29:41+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mybigdaxin.github.io/tags/image/</loc>
-    <lastmod>2018-12-24T12:29:41+08:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
