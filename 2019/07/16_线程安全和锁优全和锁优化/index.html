@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.55.5 with theme Tranquilpeak 0.4.6-BETA">
+<meta name="author" content="Da Xin">
+<meta name="keywords" content="tech">
+<meta name="description" content="">
+
+
+<meta property="og:description" content="">
+<meta property="og:type" content="article">
+<meta property="og:title" content="16_线程安全和锁优全和锁优化">
+<meta name="twitter:title" content="16_线程安全和锁优全和锁优化">
+<meta property="og:url" content="https://mybigdaxin.github.io/2019/07/16_%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E5%92%8C%E9%94%81%E4%BC%98%E5%85%A8%E5%92%8C%E9%94%81%E4%BC%98%E5%8C%96/">
+<meta property="twitter:url" content="https://mybigdaxin.github.io/2019/07/16_%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E5%92%8C%E9%94%81%E4%BC%98%E5%85%A8%E5%92%8C%E9%94%81%E4%BC%98%E5%8C%96/">
+<meta property="og:site_name" content="Just for">
+<meta property="og:description" content="">
+<meta name="twitter:description" content="">
+<meta property="og:locale" content="zh-cn">
+
+  
+    <meta property="article:published_time" content="2019-07-29T22:57:48">
+  
+  
+    <meta property="article:modified_time" content="2019-07-29T22:57:48">
+  
+  
+  
+    
+      <meta property="article:section" content="category">
+    
+      <meta property="article:section" content="subcategory">
+    
+  
+  
+    
+      <meta property="article:tag" content="Java">
+    
+      <meta property="article:tag" content="JVM">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://mybigdaxin.github.io/images/jvm_16.png">
+  <meta property="twitter:image" content="https://mybigdaxin.github.io/images/jvm_16.png">
+
+
+  <meta property="og:image" content="https://mybigdaxin.github.io/images/cover.jpg">
+  <meta property="twitter:image" content="https://mybigdaxin.github.io/images/cover.jpg">
+
+
+
+
+  <meta property="og:image" content="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=640">
+  <meta property="twitter:image" content="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=640">
+
+
+    <title>16_线程安全和锁优全和锁优化</title>
+
+    <link rel="icon" href="https://mybigdaxin.github.io/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://mybigdaxin.github.io/2019/07/16_%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E5%92%8C%E9%94%81%E4%BC%98%E5%85%A8%E5%92%8C%E9%94%81%E4%BC%98%E5%8C%96/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://mybigdaxin.github.io/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="5">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://mybigdaxin.github.io/">Just for</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://mybigdaxin.github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=90" alt="作者的图片" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="5">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://mybigdaxin.github.io/#about">
+          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=110" alt="作者的图片" />
+        </a>
+        <h4 class="sidebar-profile-name">Da Xin</h4>
+        
+          <h5 class="sidebar-profile-bio">Just for</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">首页</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">分类</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">标签</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">关于</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/MyBigDaXin" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+  <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=240 height=52 src="//music.163.com/outchain/player?type=0&id=2905300990&auto=1&height=32"></iframe>
+</nav>
+
+      
+  <div class="post-header-cover
+              text-center
+              post-header-cover--full"
+       style="background-image:url('/images/cover.jpg')"
+       data-behavior="5">
+    
+      <div class="post-header main-content-wrap text-center">
+  
+    <h1 class="post-title" itemprop="headline">
+      16_线程安全和锁优全和锁优化
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-07-29T22:57:48&#43;08:00">
+        
+  七月 29, 2019
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://mybigdaxin.github.io/categories/category">category</a>, 
+    
+      <a class="category-link" href="https://mybigdaxin.github.io/categories/subcategory">subcategory</a>
+    
+  
+
+  </div>
+
+</div>
+    
+  </div>
+
+
+      <div id="main" data-behavior="5"
+        class="hasCover
+               hasCoverMetaIn
+               hasCoverCaption">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+            <span class="post-header-cover-caption caption">深入理解JVM</span>
+          
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <h1 id="table-of-contents">目录</h1><nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#java语言中的线程安全与锁优化">Java语言中的线程安全与锁优化</a>
+<ul>
+<li><a href="#不可变">不可变</a></li>
+<li><a href="#绝对线程安全">绝对线程安全</a></li>
+<li><a href="#相对线程安全">相对线程安全</a></li>
+<li><a href="#线程兼容">线程兼容</a></li>
+<li><a href="#线程对立">线程对立</a></li>
+</ul></li>
+<li><a href="#线程安全的实现方法">线程安全的实现方法</a>
+<ul>
+<li><a href="#互斥同步">互斥同步</a></li>
+<li><a href="#非阻塞同步">非阻塞同步</a></li>
+</ul></li>
+<li><a href="#自旋锁">自旋锁</a></li>
+<li><a href="#自适应锁">自适应锁</a></li>
+<li><a href="#锁消除">锁消除</a></li>
+<li><a href="#锁粗化">锁粗化</a></li>
+<li><a href="#轻量级锁">轻量级锁</a>
+<ul>
+<li><a href="#对象头">对象头</a></li>
+<li><a href="#加锁过程">加锁过程</a></li>
+<li><a href="#解锁">解锁</a></li>
+</ul></li>
+<li><a href="#偏向锁">偏向锁</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+
+<p>线程安全的定义:</p>
+
+<blockquote>
+<p>多个线程访问一个对象 不考虑线程在运行时的调度和交替执行</p>
+</blockquote>
+
+<ul>
+<li>不要加额外的同步</li>
+<li>不要调用方法进行任何其他的协调</li>
+</ul>
+
+<p>调用对象的行为都能得到正确 则是线程安全</p>
+
+<h3 id="java语言中的线程安全与锁优化">Java语言中的线程安全与锁优化</h3>
+
+<h4 id="不可变">不可变</h4>
+
+<p>不可变的对象一定是线程安全的 用final实现的就能保证它是不可变的</p>
+
+<h4 id="绝对线程安全">绝对线程安全</h4>
+
+<p>满足上面的定义 但没有绝对的线程安全</p>
+
+<p>像vector的操作是线程安全的 但在多线程环境中 没有在方法调用(<strong>方法的组合</strong>)中进行额外的同步措施的话 仍是不安全的</p>
+
+<h4 id="相对线程安全">相对线程安全</h4>
+
+<p>通常意义的线程安全  对象的单独操作是线程安全的</p>
+
+<p>但特定顺序的连续调用需要使用<strong>同步手段保证调用的正确性</strong></p>
+
+<h4 id="线程兼容">线程兼容</h4>
+
+<p>对象本身并不是线程安全的 但可以通过在调用段正确使用同步手段实现在并发环境中安全的使用</p>
+
+<p>ArrayList 和HashMap 就是这样的</p>
+
+<h4 id="线程对立">线程对立</h4>
+
+<p>无论调用段是否采取同步措施 都无法在多线程环境中并发使用的代码</p>
+
+<h3 id="线程安全的实现方法">线程安全的实现方法</h3>
+
+<p>线程安全一方面和代码编写有关 同时也和JVM本身提供的同步和锁机制也有关系
+<strong>相对来说 后者更加的重要</strong></p>
+
+<h4 id="互斥同步">互斥同步</h4>
+
+<p>最常见的一种并发正确性保障手段
+&gt; 同步: 多个线程并发访问共享数据 保证共享数据在同一时刻只被一个线程使用</p>
+
+<p>==临界区,互斥量,信号量 是实现互斥的方式==</p>
+
+<p><strong>互斥是因 同步是果  互斥是方法 同步是目的</strong></p>
+
+<p>sync关键字经过编译的字节码会有 两个字节码指令  字节码都要 <strong>reference类型 的参数来指明 要锁定和解锁的对象</strong></p>
+
+<p>执行monitorenter指令时 会尝试获得对象的锁 如果<strong>对象没被锁定 或当前线程已经有了锁</strong> 会将==锁的计数器+1==  执行moitorexit指令时 ==会 -1
+计数器为0 进行释放==</p>
+
+<p>注意sync是可重入的 不会锁死自己 Java里的线程是依赖操作系统的原生线程的  阻塞或唤醒 需要操作系统的 处理 包括陷入 状态的转换 <strong>但这是非常慢的</strong></p>
+
+<p>还可以使用concurrent 包的 进行实现同步 sync是api层面的 concurent是原生层面  同时还新增了 一些高级功能 ==等待可中断 可实现公平锁 锁可绑定==
+- 等待可中断: 持有锁的线程长期不释放锁 在等待的线程可以选择放弃等待 改为处理其他事情
+- 公平锁: 多个线程在等待同一个锁的时候 必须<strong>按照申请锁的时间顺序依次获得锁</strong>
+- 锁绑定多个条件指 一个ReentrantLock对象可以同时绑定多个Condition对象 sync中</p>
+
+<p><strong>随着Java版本的优化 尽量使用synchonized来进行同步</strong></p>
+
+<h4 id="非阻塞同步">非阻塞同步</h4>
+
+<p>上面的主要影响的是线程阻塞和唤醒带来的性能问题 也是一种悲观的策略 总认为非 同步 即出错</p>
+
+<p><strong>非同步就是基于冲突检测的乐观并发策略</strong> 先进行操作 如果没有其他线程争用共享数据 则 操作就成功了 如果没有其他线程抢着用 操作就成功了 如果有争用 就进行补偿措施(不断重试 直到成功为止)</p>
+
+<p>使用乐观并发策略 需要硬件指令集 支持</p>
+
+<p>因为操作和冲突检测这个步骤需要原子性 ==如果使用互斥同步 那就没有必要== 因此就要硬件指令进行支持</p>
+
+<blockquote>
+<p>硬件保证了 一个语义<strong>看起来需要多次操作的行为</strong> 只通过一条处理器指令就能够完成</p>
+</blockquote>
+
+<ul>
+<li>测试并设置</li>
+<li>获取并增加</li>
+<li>交换</li>
+</ul>
+
+<p>上面3条上世纪已经有了</p>
+
+<p>下面的2条是新增的
+- 比较并交换
+- 加载链接/条件存储</p>
+
+<p>CAS: 需要3个操作数
+1. 内存位置V 变量的内存地址
+2. 旧的预期值 A
+3. 新值 B</p>
+
+<p><strong>CAS指令执行是 仅仅当V 复合A时 用B更新V 否则不执行更新 无论是否更新 都会返回V的旧值</strong></p>
+
+<p>JDK1.5 之后才能使用 CAS 由 Unsafe进行提供</p>
+
+<pre><code>incrementAndGet()
+不断尝试将一个比当前值大1的新值 赋给自己
+</code></pre>
+
+<h3 id="自旋锁">自旋锁</h3>
+
+<p>阻塞或唤醒一个Java线程需要操作系统<strong>切换CPU状态</strong>来完成，这种状态转换需要<strong>耗费处理器时间</strong>。如果同步代码块中的内容过于简单，状态转换消耗的时间有可能比用户代码执行的时间还要长。</p>
+
+<p>互斥同步对性能最大的影响就是<strong>阻塞的实现</strong> 因为 有关线程的<strong>挂起与恢复</strong> 涉及到了 内核的陷入 于是就给系统的并发性能带来了 一些压力  同时对于某些情况 共享数据的锁定 只会持续很小的一段时间 为了这一小段时间 而去采用挂起和恢复 实在是不划算 这时候就出现了 自旋锁: <strong>让后面的请求的进程进行自旋 不放弃处理器的执行时间</strong> 正因为自旋是不会放弃处理器的运行时间</p>
+
+<p>在许多场景中，同步资源的锁定时间很短，为了这一小段时间去切换线程，线程挂起和恢复现场的花费可能会让系统得不偿失。如果物理机器有多个处理器，能够让两个或以上的线程同时并行执行，我们就可以让后面那个请求锁的线程不放弃CPU的执行时间，看看持有锁的线程是否很快就会释放锁。</p>
+
+<p>而为了让当前线程“稍等一下”，我们需让当前线程进行自旋，如果在自旋完成后前面锁定同步资源的线程已经释放了锁，那么当前线程就可以不必阻塞而是直接获取同步资源，从而避免切换线程的开销。这就是自旋锁。</p>
+
+<p>自旋锁的缺点
+- 不能代替阻塞,虽然避免了线程切换的开销，但它要占用处理器时间
+&gt; 如果被占用的时间很短，自旋等待的效果就会非常好,如果锁被占用的时间很长，那么自旋的线程只会白浪费处理器资源  限定次数（默认是10次，可以使用-XX:PreBlockSpin来更改) 超过次数没有成功得到锁 则就==要挂起线程==</p>
+
+<p><strong>底层实现</strong>:</p>
+
+<p>自旋锁的实现原理同样也是CAS，AtomicInteger中调用unsafe进行自增操作的源码中的do-while循环就是一个自旋操作，如果修改数值失败则通过循环来执行自旋，直至修改成功</p>
+
+<pre><code class="language-java"> public final int getAndAddInt(Object var1, long var2, int var4) {
+        int var5;
+        do {
+            var5 = this.getIntVolatile(var1, var2);
+        } while(!this.compareAndSwapInt(var1, var2, var5, var5 + var4));
+
+        return var5;
+    }
+</code></pre>
+
+<h3 id="自适应锁">自适应锁</h3>
+
+<p>自适应说明自旋次数 <strong>不是固定</strong>,由前一次在<strong>同一个锁</strong>上的自旋时间及锁的拥有者的状态来决定
+- 若自旋等待的锁成功获得 并且还在运行 虚拟机会认为很有可能再成功 进而允许自旋等待持续相对更长的时间
+- 那在以后尝试获取这个锁时将可能省略掉自旋过程，直接阻塞线程，避免浪费处理器资源</p>
+
+<pre><code>TicketLock、CLHlock和MCSlock
+</code></pre>
+
+<h3 id="锁消除">锁消除</h3>
+
+<p>对一些代码上要求同步 但是被检测到不可能存在共享数据竞争的锁进行清除</p>
+
+<p>锁清除 主要判定依据来源于逃逸分析的数据支持  若判断在代码中 堆上的所有数据不会逃逸出去从而被别的线程所访问到 则可以把他们当作栈上数据对待 认为是私有的 无需同步加锁</p>
+
+<h3 id="锁粗化">锁粗化</h3>
+
+<p>原则上 编写代码 会尽量的将同步块的范围限制的尽量小 只在<strong>共享数据</strong> 的实际作用域进行同步 这样能够使得需要同步操作的数量尽量的小</p>
+
+<h3 id="轻量级锁">轻量级锁</h3>
+
+<p>这里的轻量是相对于使用OS的互斥量来实现的传统锁而言</p>
+
+<p>轻量锁的主要目的是为了在==没有多线程竞争==的前提下 减少传统的重量级锁带来的性能消耗</p>
+
+<p>要想了解轻量锁 先来了解下HotSpot虚拟机的对象头</p>
+
+<h4 id="对象头">对象头</h4>
+
+<ol>
+<li>markWord <strong>非固定的数据结构 用于尽量存储更多的信息</strong></li>
+</ol>
+
+<p>用于<strong>存储对象自身的运行时数据</strong>，如哈希码（HashCode）、GC分代年龄、锁状态标志、线程持有的锁、偏向线程ID、偏向时间戳等，这部分数据的长度在32位和64位的虚拟机（未开启压缩指针）中分别为32bit和64bit，
+2. klass <strong>对象指向它的类元数据的指针</strong>，虚拟机通过这个指针来确定这个对象是哪个类的实例
+3. 数组长度: 只有<strong>数组才有</strong></p>
+
+<h4 id="加锁过程">加锁过程</h4>
+
+<p>代码进入同步块的时候 若<strong>此同步对象没被锁定</strong> JVM首先将在当前线程的栈帧中 建立一个名为锁(Lock Record)的空间 用以存储锁对象 也是目前的Mark Word 的拷贝</p>
+
+<p>然后JVM使用CAS 尝试将对象的Mark Word更新为指向lock Record 的指针 如果更新成功 则线程拥有该对象的锁
+并且标志位变为00 说明是在轻量锁</p>
+
+<p>如果<strong>更新操作失败</strong> 则会检查对象的Mark Word <strong>是否指向</strong>当前线程的栈帧 如果指向 说明之前已经拥有了 <strong>直接进入同步块</strong> 否则说明这个锁对象已经被其他线程抢占了 膨胀为重量级锁  Mark Word 存储的就是指向重量级锁的指针 后面的进程进入阻塞</p>
+
+<h4 id="解锁">解锁</h4>
+
+<p>也是利用CAS  若对象的Mark Word仍之喜爱你个线程的锁记录 利用CAS将对象当前的Mark Word 和线程复制的Displaced Mark Word替换回来 替换成功 则完成同步 替换失败 则 释放锁的同时唤醒被挂起的线程</p>
+
+<h3 id="偏向锁">偏向锁</h3>
+
+<p>消除<strong>无竞争</strong>下的同步原语 提高程序的运行性能  偏向锁是在无竞争的情况下把整个同步消除 <strong>如果第一个获得这个锁的线程在之后没有 没其他线程获取 则有偏向锁的线程永远不会同步</strong></p>
+
+<p>启用偏向锁 则 锁对象第一次被线程获取会<strong>把对象头标志位设为01</strong> 同时<strong>使用CAS 操作</strong>把获得到的这个<strong>锁的线程ID 放入对象的Mark Word中</strong> 操作成功后 持有偏向锁的线程以后每次进入这个锁相关的同步块 <strong>不需要进行同步</strong>  当有其他线程争夺的时候 偏向模式宣告结束</p>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">标签</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://mybigdaxin.github.io/tags/java/">Java</a>
+
+  <a class="tag tag--primary tag--small" href="https://mybigdaxin.github.io/tags/jvm/">JVM</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/07/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" data-tooltip="消息队列">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/07/16_%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E5%92%8C%E9%94%81%E4%BC%98%E5%85%A8%E5%92%8C%E9%94%81%E4%BC%98%E5%8C%96/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/07/16_%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E5%92%8C%E9%94%81%E4%BC%98%E5%85%A8%E5%92%8C%E9%94%81%E4%BC%98%E5%8C%96/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/07/16_%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E5%92%8C%E9%94%81%E4%BC%98%E5%85%A8%E5%92%8C%E9%94%81%E4%BC%98%E5%8C%96/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 Da Xin. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/07/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" data-tooltip="消息队列">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/07/16_%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E5%92%8C%E9%94%81%E4%BC%98%E5%85%A8%E5%92%8C%E9%94%81%E4%BC%98%E5%8C%96/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/07/16_%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E5%92%8C%E9%94%81%E4%BC%98%E5%85%A8%E5%92%8C%E9%94%81%E4%BC%98%E5%8C%96/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/07/16_%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E5%92%8C%E9%94%81%E4%BC%98%E5%85%A8%E5%92%8C%E9%94%81%E4%BC%98%E5%8C%96/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F07%2F16_%25E7%25BA%25BF%25E7%25A8%258B%25E5%25AE%2589%25E5%2585%25A8%25E5%2592%258C%25E9%2594%2581%25E4%25BC%2598%25E5%2585%25A8%25E5%2592%258C%25E9%2594%2581%25E4%25BC%2598%25E5%258C%2596%2F">
+          <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F07%2F16_%25E7%25BA%25BF%25E7%25A8%258B%25E5%25AE%2589%25E5%2585%25A8%25E5%2592%258C%25E9%2594%2581%25E4%25BC%2598%25E5%2585%25A8%25E5%2592%258C%25E9%2594%2581%25E4%25BC%2598%25E5%258C%2596%2F">
+          <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F07%2F16_%25E7%25BA%25BF%25E7%25A8%258B%25E5%25AE%2589%25E5%2585%25A8%25E5%2592%258C%25E9%2594%2581%25E4%25BC%2598%25E5%2585%25A8%25E5%2592%258C%25E9%2594%2581%25E4%25BC%2598%25E5%258C%2596%2F">
+          <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=110" alt="作者的图片" />
+    
+    <h4 id="about-card-name">Da Xin</h4>
+    
+      <div id="about-card-bio">Just for</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        Javaer
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        China
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('https://mybigdaxin.github.io/images/cover.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://mybigdaxin.github.io/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+  
+    <script src="https://mybigdaxin.github.io/js/clicklove.js"></script>
+  
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/mybigdaxin.github.io\/2019\/07\/16_%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E5%92%8C%E9%94%81%E4%BC%98%E5%85%A8%E5%92%8C%E9%94%81%E4%BC%98%E5%8C%96\/';
+          
+            this.page.identifier = '\/2019\/07\/16_%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E5%92%8C%E9%94%81%E4%BC%98%E5%85%A8%E5%92%8C%E9%94%81%E4%BC%98%E5%8C%96\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'tranquilpeak';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+
