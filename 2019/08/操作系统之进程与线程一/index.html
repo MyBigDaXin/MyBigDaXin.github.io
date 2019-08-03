@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.55.5 with theme Tranquilpeak 0.4.6-BETA">
+<meta name="author" content="Da Xin">
+<meta name="keywords" content="tech">
+<meta name="description" content="">
+
+
+<meta property="og:description" content="">
+<meta property="og:type" content="article">
+<meta property="og:title" content="操作系统之进程与线程(一)">
+<meta name="twitter:title" content="操作系统之进程与线程(一)">
+<meta property="og:url" content="https://mybigdaxin.github.io/2019/08/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B%E4%B8%80/">
+<meta property="twitter:url" content="https://mybigdaxin.github.io/2019/08/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B%E4%B8%80/">
+<meta property="og:site_name" content="Just for">
+<meta property="og:description" content="">
+<meta name="twitter:description" content="">
+<meta property="og:locale" content="zh-cn">
+
+  
+    <meta property="article:published_time" content="2019-08-03T22:18:21">
+  
+  
+    <meta property="article:modified_time" content="2019-08-03T22:18:21">
+  
+  
+  
+    
+      <meta property="article:section" content="category">
+    
+      <meta property="article:section" content="subcategory">
+    
+  
+  
+    
+      <meta property="article:tag" content="OS">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://mybigdaxin.github.io/images/os_1.jpg">
+  <meta property="twitter:image" content="https://mybigdaxin.github.io/images/os_1.jpg">
+
+
+  <meta property="og:image" content="https://mybigdaxin.github.io/images/os_1.png">
+  <meta property="twitter:image" content="https://mybigdaxin.github.io/images/os_1.png">
+
+
+
+
+  <meta property="og:image" content="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=640">
+  <meta property="twitter:image" content="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=640">
+
+
+    <title>操作系统之进程与线程(一)</title>
+
+    <link rel="icon" href="https://mybigdaxin.github.io/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://mybigdaxin.github.io/2019/08/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B%E4%B8%80/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://mybigdaxin.github.io/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="5">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://mybigdaxin.github.io/">Just for</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://mybigdaxin.github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=90" alt="作者的图片" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="5">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://mybigdaxin.github.io/#about">
+          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=110" alt="作者的图片" />
+        </a>
+        <h4 class="sidebar-profile-name">Da Xin</h4>
+        
+          <h5 class="sidebar-profile-bio">Just for</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">首页</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">分类</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">标签</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">关于</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/MyBigDaXin" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+  <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=240 height=52 src="//music.163.com/outchain/player?type=0&id=2905300990&auto=1&height=32"></iframe>
+</nav>
+
+      
+  <div class="post-header-cover
+              text-center
+              post-header-cover--full"
+       style="background-image:url('/images/os_1.png')"
+       data-behavior="5">
+    
+      <div class="post-header main-content-wrap text-center">
+  
+    <h1 class="post-title" itemprop="headline">
+      操作系统之进程与线程(一)
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-08-03T22:18:21&#43;08:00">
+        
+  八月 3, 2019
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://mybigdaxin.github.io/categories/category">category</a>, 
+    
+      <a class="category-link" href="https://mybigdaxin.github.io/categories/subcategory">subcategory</a>
+    
+  
+
+  </div>
+
+</div>
+    
+  </div>
+
+
+      <div id="main" data-behavior="5"
+        class="hasCover
+               hasCoverMetaIn
+               hasCoverCaption">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+            <span class="post-header-cover-caption caption">进程与线程</span>
+          
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <h1 id="table-of-contents">目录</h1><nav id="TableOfContents">
+<ul>
+<li><a href="#操作系统之进程与线程-一">操作系统之进程与线程(一)</a>
+<ul>
+<li><a href="#进程">进程</a>
+<ul>
+<li><a href="#进程是什么">进程是什么</a></li>
+<li><a href="#进程的创建和终止">进程的创建和终止</a>
+<ul>
+<li><a href="#创建">创建</a></li>
+<li><a href="#终止">终止</a></li>
+</ul></li>
+<li><a href="#进程的层次结构">进程的层次结构</a></li>
+<li><a href="#进程的状态">进程的状态</a></li>
+<li><a href="#进程的实现">进程的实现</a></li>
+<li><a href="#多道程序设计模型">多道程序设计模型</a></li>
+</ul></li>
+<li><a href="#进程间的通信ipc">进程间的通信IPC</a>
+<ul>
+<li>
+<ul>
+<li><a href="#竞争条件">竞争条件</a></li>
+<li><a href="#临界区">临界区</a></li>
+<li><a href="#忙等待的互斥">忙等待的互斥</a></li>
+<li><a href="#睡眠与唤醒">睡眠与唤醒</a></li>
+<li><a href="#信号量">信号量</a></li>
+<li><a href="#使用信号量解决生产者-消费者问题">使用信号量解决生产者-消费者问题</a></li>
+<li><a href="#互斥量">互斥量</a></li>
+<li><a href="#管程">管程</a></li>
+<li><a href="#消息传递">消息传递</a></li>
+<li><a href="#屏障">屏障</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#线程">线程</a>
+<ul>
+<li><a href="#经典的线程模型">经典的线程模型</a></li>
+<li><a href="#用户空间实现线程">用户空间实现线程</a></li>
+<li><a href="#内核中实现进程">内核中实现进程</a></li>
+<li><a href="#混合实现">混合实现</a></li>
+<li><a href="#调度程序激活机制">调度程序激活机制</a></li>
+<li><a href="#弹出式线程">弹出式线程</a></li>
+</ul></li>
+<li><a href="#调度">调度</a>
+<ul>
+<li><a href="#进程行为">进程行为</a></li>
+<li><a href="#何时调度">何时调度</a></li>
+<li><a href="#调度算法分类">调度算法分类</a></li>
+<li><a href="#调度算法的目标">调度算法的目标</a>
+<ul>
+<li><a href="#批处理系统的调度-吞吐量-周转时间-cpu利用率">批处理系统的调度 吞吐量 周转时间 CPU利用率</a></li>
+<li><a href="#交互式系统-响应时间-均衡性">交互式系统: 响应时间 均衡性</a></li>
+<li><a href="#实时系统-满足截止时间-可预测性">实时系统: 满足截止时间 可预测性</a></li>
+</ul></li>
+<li><a href="#策略和机制">策略和机制</a>
+<ul>
+<li><a href="#线程调度">线程调度</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="操作系统之进程与线程-一">操作系统之进程与线程(一)</h1>
+
+<h2 id="进程">进程</h2>
+
+<h3 id="进程是什么">进程是什么</h3>
+
+<p>进程就是一个正在执行程序的<strong>实例</strong> 进程是<strong>独立的实体</strong> 有自己的程序计数器  和状态  它存放着<strong>程序正文</strong>  数据 以及其他资源的i<strong>地址空间</strong> 同时还有一个<strong>执行线程</strong> 该线程有PC 寄存器 堆栈等</p>
+
+<h3 id="进程的创建和终止">进程的创建和终止</h3>
+
+<h4 id="创建">创建</h4>
+
+<ol>
+<li><strong>系统</strong>初始化</li>
+<li>执行了正在运行的进程所调用</li>
+<li>用户<strong>请求创建</strong>一个新进程</li>
+<li>一个批处理作业的初始化</li>
+</ol>
+
+<p>新进程由老进程执行<u>系统调用</u> 创建</p>
+
+<ul>
+<li>unix中创建进程的<strong>唯一</strong>个方式是fork函数 但分<strong>两步</strong> fork 然后再 execve 为了fork后进行文件描述符的修改 子进程的地址空间是父进程的副本</li>
+<li>windows 则含多个 createProcess同时做两件事 子进程<strong>地址空间</strong>和父进程不同</li>
+</ul>
+
+<h4 id="终止">终止</h4>
+
+<ol>
+<li>正常退出</li>
+<li>出错退出</li>
+<li>严重错误</li>
+<li>kill</li>
+</ol>
+
+<h3 id="进程的层次结构">进程的层次结构</h3>
+
+<ul>
+<li>unix: 进程只有<strong>一个</strong>父进程 隶属于一个进程(递归也是)的包括该进程一起组成一个<strong>进程组</strong> 发送一个信号给进程组 组内成员可以捕获 忽略 或被信号杀死</li>
+</ul>
+
+<p>OS启动时 由init特殊进程启动 读入终端 为终端<strong>依次</strong>创建进程</p>
+
+<ul>
+<li><p>windows: 进程创建时 <strong>父进程</strong>得到一个句柄 拥有句柄就可以控制子进程</p>
+
+<h3 id="进程的状态">进程的状态</h3></li>
+</ul>
+
+<ol>
+<li>运行态</li>
+<li>就绪态</li>
+<li>阻塞态</li>
+</ol>
+
+<p>3种状态有4种转换关系  其中只有<strong>运行态和就绪态之间能够相互转换</strong> 其他的都是单向转换</p>
+
+<h3 id="进程的实现">进程的实现</h3>
+
+<p>OS内部维护一个进程表 每一个进程占一个表项(也叫进程控制块PCB) 表项中包含了 <strong>程序计数器</strong>  <strong>堆栈指针</strong> <strong>内存分配状况</strong> <strong>锁打开文件的状态</strong> 账号 和 <strong>调度信息</strong></p>
+
+<p><strong>中断发生后OS的底层的工作步骤</strong></p>
+
+<ol>
+<li>硬件压入堆栈PC</li>
+<li>硬件从中断向量装入新的PC</li>
+<li>汇编保存寄存器值</li>
+<li>汇编语言设置新的堆栈</li>
+<li>C中断服务例程启动</li>
+<li>调度决定下一个进程</li>
+<li>C返回到汇编</li>
+<li>汇编开始执行新线程</li>
+</ol>
+
+<h3 id="多道程序设计模型">多道程序设计模型</h3>
+
+<pre><code class="language-math">CPU利用率 = 1 - p^n
+</code></pre>
+
+<ul>
+<li>p: 等待I/O操作时间和停留于内存的时间比</li>
+<li>n: 内存中有n个进程</li>
+</ul>
+
+<h2 id="进程间的通信ipc">进程间的通信IPC</h2>
+
+<p>3个主要问题</p>
+
+<ol>
+<li>一个进程如何把信息传递给另一个   shell 中一个进程的输出传给第二个进程</li>
+<li>确保两个或更多的进程在关键活动中不会出现交叉</li>
+<li>正确的顺序 A必须在B之前打印</li>
+</ol>
+
+<h4 id="竞争条件">竞争条件</h4>
+
+<p>多个进程读取公用存储区(共享数据) 最后结果取决于进程运行的<strong>精确时序</strong></p>
+
+<p>Murphy法则: 任何可能出错的地儿都会出错</p>
+
+<h4 id="临界区">临界区</h4>
+
+<p>对<strong>共享内存进行访问的程序片段</strong> 就叫临界区域</p>
+
+<ol>
+<li>任何两个进程不能同时在临界区</li>
+<li>不应对CPU的速度和数量进行任何假设</li>
+<li>临界区外运行的进程不得阻塞其他进程</li>
+<li>不得使进程无限期等待进入临界区</li>
+</ol>
+
+<h4 id="忙等待的互斥">忙等待的互斥</h4>
+
+<ol>
+<li>屏蔽中断</li>
+</ol>
+
+<p>进程进入临界区后立即屏蔽所有中断 包括时钟中断</p>
+
+<p>但若屏蔽不打开 则很有影响 对于用户进程 屏蔽并不是一个合适的机制</p>
+
+<ol>
+<li>锁变量</li>
+</ol>
+
+<p>0 可进入 1 不可进入</p>
+
+<p>但当一个进程发现为0 到准备设置为1的时候 进行了时钟中断 被切换了线程 仍会造成这样的问题</p>
+
+<ol>
+<li>严格轮转法</li>
+</ol>
+
+<p>用于忙等待的锁是自旋锁</p>
+
+<ol>
+<li>TSL指令</li>
+</ol>
+
+<p>测试并加锁 将内存字读到寄存器RX 然后在该内存地址上存一个非零值 读写不可分割 指令结束前其他处理器无法访问内存字 执行<strong>TSL的CPU锁住内存总线</strong></p>
+
+<blockquote>
+<p>锁总线 不同于屏蔽中断 锁总线能够防止其他处理器的影响 屏蔽中断 只能影响当前的处理器 对其他处理器没有影响</p>
+</blockquote>
+
+<h4 id="睡眠与唤醒">睡眠与唤醒</h4>
+
+<h4 id="信号量">信号量</h4>
+
+<p><strong>整型变量</strong>累计唤醒次数 正值 表示有一个或多个唤醒操作</p>
+
+<p>down 和 up 操作 都为不可分割的原子操作</p>
+
+<p>down 检查是否大于0 大于0 -1 为0 睡眠 检查数值 修改数值 睡眠 都为原子操作</p>
+
+<p>若一个或多个进程在信号量上睡眠 不能完成一个先前的down 则随机挑选来完成down</p>
+
+<h4 id="使用信号量解决生产者-消费者问题">使用信号量解决生产者-消费者问题</h4>
+
+<p>使用3个信号量</p>
+
+<ul>
+<li>full</li>
+<li>empty</li>
+<li>mutex</li>
+</ul>
+
+<p>信号量也可以用于同步</p>
+
+<h4 id="互斥量">互斥量</h4>
+
+<p>信号量的简化版本 仅仅适用于管理共享资源或一小段代码</p>
+
+<p>数值0 表示解锁 其他的值表示加锁</p>
+
+<h4 id="管程">管程</h4>
+
+<p>高级同步原语 由过程 变量和数据结构组成的集合 并且任意时刻 只能有一个活跃进程调用管程进程</p>
+
+<p>如何让生产者在发现缓冲区满的时候阻塞?</p>
+
+<p>引入条件变量 有wait 和 signal2个 且 sigal语句只能作为一个管程过程的最后一条语句 <strong>执行signal的进程必须立即退出管程</strong></p>
+
+<h4 id="消息传递">消息传递</h4>
+
+<p>进程间通信的方法使用2条原语 send receive 为<strong>系统调用</strong></p>
+
+<ol>
+<li>消息传递的要点
+
+<ul>
+<li>防止网络丢失</li>
+<li>身份认证 确认是与文件服务器</li>
+<li>正确接收与确认正确接收</li>
+</ul></li>
+<li>用消息传递解决生产者&ndash;消费者问题</li>
+</ol>
+
+<p>消费者发送消息 生产者发送包含实际数据的消息</p>
+
+<p><strong>对消息进行编址</strong></p>
+
+<ol>
+<li>为每个进程分配唯一一个地址</li>
+<li>引进信箱这个数据结构 <strong>一个是有缓冲区的 一个是无缓冲区的</strong></li>
+</ol>
+
+<h4 id="屏障">屏障</h4>
+
+<p>这个同步机制用于进程组 只有<strong>所有进程到达</strong>的时候才能够进行下一阶段</p>
+
+<h2 id="线程">线程</h2>
+
+<p><strong>为什么要有线程?</strong></p>
+
+<ol>
+<li>许多应用在同时发生着多种活动,分解为准并行的多个顺序线程可以让程序设计模型<strong>简单化</strong></li>
+<li>线程比进程更<strong>轻量级</strong></li>
+<li><strong>性能方面</strong> cpu密集型 不能得到性能的加强 但有大量计算和I/O处理的则会加快执行速度</li>
+</ol>
+
+<blockquote>
+<p>进程模型的抽象使得不用考虑中断 定时器和上下文切换 有了多线程概念 就可以让并行实体共享同一个地址空间 和数据</p>
+</blockquote>
+
+<p>像是3个线程程进行PDF的编辑 一个用于编辑 一个用于备份 一个用于监听 更加的方便与快捷</p>
+
+<p><strong>构造服务器的3个方法</strong></p>
+
+<table>
+<thead>
+<tr>
+<th>模型</th>
+<th>特性</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>多线程</td>
+<td>并行 阻塞系统调用</td>
+</tr>
+
+<tr>
+<td>单线程进程</td>
+<td>无并行 阻塞系统调用</td>
+</tr>
+
+<tr>
+<td>有限状态机</td>
+<td>并行性 非阻塞系统调用 中断</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>有限状态机</strong>
+&gt; 请求到来时 判断是否在高速缓存中能找到请求对应的吗 能则返回 不能则启动一个非阻塞的磁盘操作 服务器记录当前请求的状态 处理下一个事件 可能是新的请求 可能是磁盘操作结束的回答(一般以信号 或中断方式出现)</p>
+
+<h3 id="经典的线程模型">经典的线程模型</h3>
+
+<p>进程基于两个独立的概念:</p>
+
+<ol>
+<li>资源分组处理</li>
+<li>资源分组执行</li>
+</ol>
+
+<p>进程可以理解为用某种方法把相关的资源集合于一起</p>
+
+<p><strong>每个进程存放了</strong></p>
+
+<ol>
+<li>程序正文和数据</li>
+<li>全局变量</li>
+<li>其他资源地址空间
+
+<ol>
+<li>打开文件</li>
+<li>子进程</li>
+<li>即将发生的报警</li>
+<li>信号与信号处理程序</li>
+<li>账户信息</li>
+</ol></li>
+</ol>
+
+<p>每个<strong>线程</strong>存放了</p>
+
+<ol>
+<li>PC</li>
+<li>寄存器</li>
+<li>堆栈</li>
+<li>状态</li>
+</ol>
+
+<blockquote>
+<p>进程用于把资源集中到一起 线程则是在CPU上被调度执行的实体</p>
+</blockquote>
+
+<h3 id="用户空间实现线程">用户空间实现线程</h3>
+
+<p>线程包放入<strong>用户空间</strong></p>
+
+<ul>
+<li>优点:可以在不支持线程的OS中使用 允许每个线程有自己的定制的调度算法 拥有较好的扩展性</li>
+<li>缺点:
+
+<ul>
+<li>难实现阻塞系统调用 另一个相似的问题是(页面故障问题 并不是所有的程序都一次性放入内存 某个程序调用或跳转到一条不存在内存的指令会引起这个问题)</li>
+<li>一个线程开始运行 其他线程不能运行 单独进程因<strong>无时钟中断</strong> 无法用轮转调用</li>
+</ul></li>
+</ul>
+
+<p>OS<strong>内核空间</strong>存放进程表 用户空间都运行时系统存放 线程表</p>
+
+<h3 id="内核中实现进程">内核中实现进程</h3>
+
+<p>能够<strong>阻塞线程的调用</strong> 都以系统调用的形式实现 一个线程阻塞时 内核可以运行该线程所属的进程的其他线程 也可以运行其他进程中的线程</p>
+
+<p>某个进程的线程引起页面故障 内核可以很快检查进程是否有任何其他可运行的线程 有的话 在等需要的页面读入过程 就可以让其他线程运行</p>
+
+<ul>
+<li>缺点: 很难判断多线程进程创建新的进程时 创一个线程还是同等数量级的线程</li>
+</ul>
+
+<h3 id="混合实现">混合实现</h3>
+
+<p>将一个内核级线程对应多个用户级进程</p>
+
+<h3 id="调度程序激活机制">调度程序激活机制</h3>
+
+<p>模拟内核线程的功能</p>
+
+<h3 id="弹出式线程">弹出式线程</h3>
+
+<p>传统处理服务请求是 请求来之前就准备线程</p>
+
+<p>弹出式线程 是服务请求来之后 创建一个线程进行处理</p>
+
+<p>试图将单线程转为多线程的问题是:有些库函数是不可重入的 不能在没调用完上一个的情况下 就调用下一个 (malloc也是类似的 ) 可以使<strong>用二进制标志位的包装器</strong>来解决上面的问题</p>
+
+<p>对于在多线程中的信号问题 一个信号可能在不同线程表达的意思不同 也许是中断 亦或是捕捉信号</p>
+
+<h2 id="调度">调度</h2>
+
+<p>OS为多道程序设计系统 有<strong>多个进程竞争CPU</strong> 多个进程处于<strong>就绪</strong>状态 如果只有一个CPU可用 则必须选择下一个要运行的<strong>进程</strong></p>
+
+<p>进行选择工作的则为<strong>调度程序</strong></p>
+
+<h3 id="进程行为">进程行为</h3>
+
+<ul>
+<li>CPU密集型进程</li>
+<li>I/O密集型进程 如今要越来越偏重这个</li>
+</ul>
+
+<h3 id="何时调度">何时调度</h3>
+
+<ol>
+<li>创建一个进程后 运行父进程还是子进程</li>
+<li>进程退出</li>
+<li>进程阻塞在I/O 或信号量</li>
+<li>I/O中断 根据硬件时钟的中断 进行调度
+
+<ol>
+<li>非抢占式调度算法 选一个进程直到进程自动释放CPU</li>
+<li>抢占式调度算法 让其运行固定时段最大值 然后挂起 选择别的进程</li>
+</ol></li>
+</ol>
+
+<h3 id="调度算法分类">调度算法分类</h3>
+
+<ol>
+<li>批处理 账单</li>
+<li>交互式 防止一个进程霸占CPU</li>
+<li>实时</li>
+</ol>
+
+<h3 id="调度算法的目标">调度算法的目标</h3>
+
+<p>基本目标: <strong>公平</strong> <strong>策略强制执行</strong> <strong>平衡</strong></p>
+
+<h4 id="批处理系统的调度-吞吐量-周转时间-cpu利用率">批处理系统的调度 吞吐量 周转时间 CPU利用率</h4>
+
+<ol>
+<li>先来先服务</li>
+<li>最短作业优先 非抢占式 只有当所有作业可运行情况下 才是最优化</li>
+<li>最短剩余时间优先 上面的抢占式版本 运行时间需要掌握</li>
+</ol>
+
+<h4 id="交互式系统-响应时间-均衡性">交互式系统: 响应时间 均衡性</h4>
+
+<ol>
+<li>轮转调度 进程分配时间片 维护进程列表 时间片太短 进程切换过快 设置太长对交互的请求响应时间长</li>
+<li>优先级调度 静态和动态赋予 随时间降低优先级 动态是使用完优先级的进程优先级越高</li>
+<li>多级队列 为cpu密集型设置较长时间片比较耗时 进行递增的添加 不是1-&gt;1</li>
+<li>最短进程优先</li>
+<li>保证调度</li>
+<li>彩票调度</li>
+<li>公平分享调度</li>
+</ol>
+
+<h4 id="实时系统-满足截止时间-可预测性">实时系统: 满足截止时间 可预测性</h4>
+
+<p>可静态(系统开始前做出调度,且要掌握所有信息) 可动态(运行过程中做出调度) 讲究实时性 迟到的应答还不如不来</p>
+
+<ul>
+<li>硬实时: 绝对的截止时间</li>
+<li>软实时: 不希望延时 但能容忍</li>
+</ul>
+
+<p>按响应方式 又有<strong>周期性</strong>和<strong>非周期性</strong>事件</p>
+
+<pre><code class="language-math">m Σ(i = 1)ci/pi &lt;=1
+ pi: 事件i以周期pi发生
+ ci: 需要ci秒cpu时间处理
+</code></pre>
+
+<p>则是可调度的</p>
+
+<h3 id="策略和机制">策略和机制</h3>
+
+<p>上面的算法都是写死了的调度决策信息 无法接收用户进程的自定义调度决策信息 使用调度机制和调度策略分离 提供用户进程填写参数</p>
+
+<h4 id="线程调度">线程调度</h4>
+
+<p>多个进程中有多个线程  调度处理取决于是<strong>用户级进程</strong>还是<strong>内核级进程</strong></p>
+
+<ul>
+<li>用户级进程</li>
+</ul>
+
+<p>多道线程不存在时钟中断 可任意运行多长时间 线程用完了所属进程的时间片 内核切换到别的进程运行  缺陷是缺乏一个时钟将运行过长的线程中断</p>
+
+<ul>
+<li>内核级进程</li>
+</ul>
+
+<p>内核随意选线程 不考虑线程所属哪个进程</p>
+
+<p>内核的线程切换比用户线程消耗资源要多 内核级进程要<strong>切换上下文</strong>等 <strong>修改内存镜像</strong> <strong>清除高速缓存</strong> 但内核级线程时 线程阻塞在I/O上 不会<strong>像用户级线程样将整个进程挂起</strong></p>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">标签</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://mybigdaxin.github.io/tags/os/">OS</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/07/16_%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E5%92%8C%E9%94%81%E4%BC%98%E5%85%A8%E5%92%8C%E9%94%81%E4%BC%98%E5%8C%96/" data-tooltip="16_线程安全和锁优全和锁优化">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/08/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B%E4%B8%80/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/08/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B%E4%B8%80/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/08/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B%E4%B8%80/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 Da Xin. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/07/16_%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E5%92%8C%E9%94%81%E4%BC%98%E5%85%A8%E5%92%8C%E9%94%81%E4%BC%98%E5%8C%96/" data-tooltip="16_线程安全和锁优全和锁优化">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/08/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B%E4%B8%80/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/08/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B%E4%B8%80/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/08/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B%E4%B8%80/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F08%2F%25E6%2593%258D%25E4%25BD%259C%25E7%25B3%25BB%25E7%25BB%259F%25E4%25B9%258B%25E8%25BF%259B%25E7%25A8%258B%25E4%25B8%258E%25E7%25BA%25BF%25E7%25A8%258B%25E4%25B8%2580%2F">
+          <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F08%2F%25E6%2593%258D%25E4%25BD%259C%25E7%25B3%25BB%25E7%25BB%259F%25E4%25B9%258B%25E8%25BF%259B%25E7%25A8%258B%25E4%25B8%258E%25E7%25BA%25BF%25E7%25A8%258B%25E4%25B8%2580%2F">
+          <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F08%2F%25E6%2593%258D%25E4%25BD%259C%25E7%25B3%25BB%25E7%25BB%259F%25E4%25B9%258B%25E8%25BF%259B%25E7%25A8%258B%25E4%25B8%258E%25E7%25BA%25BF%25E7%25A8%258B%25E4%25B8%2580%2F">
+          <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=110" alt="作者的图片" />
+    
+    <h4 id="about-card-name">Da Xin</h4>
+    
+      <div id="about-card-bio">Just for</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        Javaer
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        China
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('https://mybigdaxin.github.io/images/cover.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://mybigdaxin.github.io/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+  
+    <script src="https://mybigdaxin.github.io/js/clicklove.js"></script>
+  
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/mybigdaxin.github.io\/2019\/08\/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B%E4%B8%80\/';
+          
+            this.page.identifier = '\/2019\/08\/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B%E4%B8%80\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'tranquilpeak';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+
