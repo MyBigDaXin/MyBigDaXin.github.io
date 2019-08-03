@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>OS on Just for</title>
+    <link>https://mybigdaxin.github.io/categories/os/</link>
+    <description>Recent content in OS on Just for</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 03 Aug 2019 22:18:21 +0800</lastBuildDate>
+    
+	<atom:link href="https://mybigdaxin.github.io/categories/os/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>操作系统之进程与线程(一)</title>
+      <link>https://mybigdaxin.github.io/2019/08/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B%E4%B8%80/</link>
+      <pubDate>Sat, 03 Aug 2019 22:18:21 +0800</pubDate>
+      
+      <guid>https://mybigdaxin.github.io/2019/08/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B%E4%B8%80/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

@@ -12,20 +12,56 @@
     
     
     <item>
-      <title>category</title>
-      <link>https://mybigdaxin.github.io/categories/category/</link>
+      <title>OS</title>
+      <link>https://mybigdaxin.github.io/categories/os/</link>
       <pubDate>Sat, 03 Aug 2019 22:18:21 +0800</pubDate>
       
-      <guid>https://mybigdaxin.github.io/categories/category/</guid>
+      <guid>https://mybigdaxin.github.io/categories/os/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>subcategory</title>
-      <link>https://mybigdaxin.github.io/categories/subcategory/</link>
+      <title>基础</title>
+      <link>https://mybigdaxin.github.io/categories/%E5%9F%BA%E7%A1%80/</link>
       <pubDate>Sat, 03 Aug 2019 22:18:21 +0800</pubDate>
       
-      <guid>https://mybigdaxin.github.io/categories/subcategory/</guid>
+      <guid>https://mybigdaxin.github.io/categories/%E5%9F%BA%E7%A1%80/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>JVM</title>
+      <link>https://mybigdaxin.github.io/categories/jvm/</link>
+      <pubDate>Mon, 29 Jul 2019 22:57:48 +0800</pubDate>
+      
+      <guid>https://mybigdaxin.github.io/categories/jvm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Java</title>
+      <link>https://mybigdaxin.github.io/categories/java/</link>
+      <pubDate>Mon, 29 Jul 2019 22:57:48 +0800</pubDate>
+      
+      <guid>https://mybigdaxin.github.io/categories/java/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>消息队列</title>
+      <link>https://mybigdaxin.github.io/categories/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/</link>
+      <pubDate>Mon, 29 Jul 2019 18:10:36 +0800</pubDate>
+      
+      <guid>https://mybigdaxin.github.io/categories/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>项目</title>
+      <link>https://mybigdaxin.github.io/categories/%E9%A1%B9%E7%9B%AE/</link>
+      <pubDate>Mon, 29 Jul 2019 18:10:36 +0800</pubDate>
+      
+      <guid>https://mybigdaxin.github.io/categories/%E9%A1%B9%E7%9B%AE/</guid>
       <description></description>
     </item>
     
