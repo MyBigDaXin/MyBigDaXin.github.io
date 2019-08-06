@@ -13,20 +13,20 @@
 
 <meta property="og:description" content="">
 <meta property="og:type" content="article">
-<meta property="og:title" content="操作系统之存储管理(二)">
-<meta name="twitter:title" content="操作系统之存储管理(二)">
-<meta property="og:url" content="https://mybigdaxin.github.io/2019/08/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E4%BA%8C/">
-<meta property="twitter:url" content="https://mybigdaxin.github.io/2019/08/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E4%BA%8C/">
+<meta property="og:title" content="操作系统之页面置换算法(三)">
+<meta name="twitter:title" content="操作系统之页面置换算法(三)">
+<meta property="og:url" content="https://mybigdaxin.github.io/2019/08/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E9%A1%B5%E9%9D%A2%E7%BD%AE%E6%8D%A2%E7%AE%97%E6%B3%95%E4%B8%89/">
+<meta property="twitter:url" content="https://mybigdaxin.github.io/2019/08/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E9%A1%B5%E9%9D%A2%E7%BD%AE%E6%8D%A2%E7%AE%97%E6%B3%95%E4%B8%89/">
 <meta property="og:site_name" content="Just for">
 <meta property="og:description" content="">
 <meta name="twitter:description" content="">
 <meta property="og:locale" content="zh-cn">
 
   
-    <meta property="article:published_time" content="2019-08-04T22:43:19">
+    <meta property="article:published_time" content="2019-08-06T16:13:27">
   
   
-    <meta property="article:modified_time" content="2019-08-04T22:43:19">
+    <meta property="article:modified_time" content="2019-08-06T16:13:27">
   
   
   
@@ -65,14 +65,14 @@
   <meta property="twitter:image" content="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=640">
 
 
-    <title>操作系统之存储管理(二)</title>
+    <title>操作系统之页面置换算法(三)</title>
 
     <link rel="icon" href="https://mybigdaxin.github.io/favicon.png">
     
 
     
 
-    <link rel="canonical" href="https://mybigdaxin.github.io/2019/08/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E4%BA%8C/">
+    <link rel="canonical" href="https://mybigdaxin.github.io/2019/08/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E9%A1%B5%E9%9D%A2%E7%BD%AE%E6%8D%A2%E7%AE%97%E6%B3%95%E4%B8%89/">
 
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
@@ -221,15 +221,15 @@
       <div class="post-header main-content-wrap text-center">
   
     <h1 class="post-title" itemprop="headline">
-      操作系统之存储管理(二)
+      操作系统之页面置换算法(三)
     </h1>
   
   
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2019-08-04T22:43:19&#43;08:00">
+      <time itemprop="datePublished" datetime="2019-08-06T16:13:27&#43;08:00">
         
-  八月 4, 2019
+  八月 6, 2019
 
       </time>
     
@@ -257,196 +257,116 @@
                hasCoverCaption">
         <article class="post" itemscope itemType="http://schema.org/BlogPosting">
           
-            <span class="post-header-cover-caption caption">存储管理</span>
+            <span class="post-header-cover-caption caption">页面置换算法</span>
           
           
           <div class="post-content markdown" itemprop="articleBody">
             <div class="main-content-wrap">
               <h1 id="table-of-contents">目录</h1><nav id="TableOfContents">
 <ul>
-<li><a href="#操作系统之存储管理-二">操作系统之存储管理(二)</a>
+<li><a href="#操作系统之页面置换算法-三">操作系统之页面置换算法(三)</a>
 <ul>
 <li>
 <ul>
-<li><a href="#无存储器抽象">无存储器抽象</a></li>
-<li><a href="#地址空间-存储器的抽象">地址空间: 存储器的抽象</a></li>
-<li><a href="#基址寄存器和界限寄存器">基址寄存器和界限寄存器</a>
-<ul>
-<li><a href="#交换技术">交换技术</a></li>
-<li><a href="#空闲内存管理">空闲内存管理</a></li>
-</ul></li>
-<li><a href="#虚拟内存">虚拟内存</a>
-<ul>
-<li><a href="#分页">分页</a></li>
-<li><a href="#页表">页表</a></li>
-<li><a href="#加速分页过程">加速分页过程</a></li>
-</ul></li>
+<li><a href="#最佳置换算法-opt">最佳置换算法(OPT)</a></li>
+<li><a href="#先进先出算法-fifo">先进先出算法 (FIFO)</a></li>
+<li><a href="#最近最久未使用置换算法-lru">最近最久未使用置换算法 (LRU)</a></li>
+<li><a href="#时钟置换算法-clock">时钟置换算法(CLOCK)</a></li>
+<li><a href="#改进型的时钟置换算法">改进型的时钟置换算法</a></li>
+<li><a href="#总结">总结</a></li>
 </ul></li>
 </ul></li>
 </ul>
 </nav>
 
-<h1 id="操作系统之存储管理-二">操作系统之存储管理(二)</h1>
+<h1 id="操作系统之页面置换算法-三">操作系统之页面置换算法(三)</h1>
 
-<p>存储管理器: 管理分层存储器体系 用于<strong>管理内存</strong></p>
-
-<h3 id="无存储器抽象">无存储器抽象</h3>
-
-<p>直接访问物理内存 0-&gt;上限地址的集合 每个地址容纳8个二进制的存储单元</p>
-
-<p>只有OS和一个用户进程下 组织内存的3个简单方法</p>
-
-<ol>
-<li>OS位于RAM底部 <strong>可能摧毁OS</strong></li>
-<li>OS位于ROM顶部</li>
-<li>设备驱动程序位于内存顶端的ROM中 OS其他部分位于下面RAM的底部 <strong>可能摧毁OS</strong></li>
-</ol>
-
-<p>不使用内存抽象情况下 仍是能运行多道程序 当要运行别的程序时 先保存当前内存的所有内容 然后切换 其他程序 早期模型中给内存设有保护键 （4位） PSW(程序状态字)有1个4位码 若进程要访问保护键和其PSW码不同的内存 硬件就能捕捉到 只有OS才能修改保护键</p>
-
-<p>同时还有一个缺陷:装载2个程序 程序访问的是<strong>绝对物理地址</strong> 会造成访问到别的程序的内容的情况 使用<strong>静态重定位</strong>可以解决 但不是通用的方法</p>
-
-<h3 id="地址空间-存储器的抽象">地址空间: 存储器的抽象</h3>
-
-<p>保证多个程序处于内存且不会互相影响 要解决两个问题</p>
-
-<ol>
-<li><strong>保护</strong></li>
-<li><strong>重定向</strong></li>
-</ol>
-
-<p>上面的保护键 解决了保护问题 但对于重定位问题是比较的<strong>缓慢且复杂</strong></p>
-
-<p>更好的办法是创建新的内存抽象: 地址空间 地址空间创建了<strong>抽象的内存</strong></p>
+<p>发生<strong>缺页中断</strong>时 OS需要在内存选择一个页面将其换出内存  用来为调入的页面腾出空间 如果要换出的页面 <strong>修改</strong>过 则需要回写磁盘  否则直接覆盖该页面就行 若一个频繁使用的页面被换出 则很有可能又在不久被调入内存 造成不必要开销 因此需要合适的页面置换算法来决定调入到哪个页面</p>
 
 <blockquote>
-<p>地址空间: 一个进程可用于寻址内存的一套地址集合</p>
+<p>缺页次数 =  总数 - 空白列数</p>
+
+<p>缺页率 = 缺页次数 / 总列数</p>
 </blockquote>
 
-<p>但让A程序的地址对应的物理地址空间与B程序对应的物理空间不同是比较难的</p>
+<h3 id="最佳置换算法-opt">最佳置换算法(OPT)</h3>
 
-<h3 id="基址寄存器和界限寄存器">基址寄存器和界限寄存器</h3>
+<p>每次选择淘汰的页面将是以后<strong>永不使用</strong>，或者在<strong>最长时间内不再被访问的页面</strong>，这样可以保证最低的缺页率。</p>
 
-<p>动态重定位</p>
+<p><img src="https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/data/20190806154155.png" alt="" /></p>
 
-<ul>
-<li>基址寄存器: 存放起始物理地址</li>
-<li>界限寄存器: 程序的长度</li>
-</ul>
+<p>它的前提是要预先知道<strong>所有要访问的页面</strong>, 但只有在进程执行的时候才能知道接下来会访问到哪个页面 因此是<strong>无法实现的</strong></p>
 
-<p>上面的两个寄存器给每个进程提供私有地址空间 且为了提供保护 只有OS能够修改他们 缺陷是每次访问需进行<strong>加法</strong>和<strong>比较</strong>运算</p>
+<h3 id="先进先出算法-fifo">先进先出算法 (FIFO)</h3>
 
-<h4 id="交换技术">交换技术</h4>
+<p>每次选择淘汰的页面是<strong>最早进入内存的页面</strong></p>
 
-<p>OS启动时候加载进程是很多的 遇到内存超载情况 可以使用</p>
+<p>实现方法：把调入内存的页面根据调入的先后顺序<strong>排成一个队列</strong>，需要换出页面时选择队头页面即可。</p>
 
-<p><strong>交换技术</strong></p>
+<p><img src="https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/data/20190806154727.png" alt="" /></p>
+
+<p>可以看为 淘汰页面号最长的 到0的时候 <strong>3页面号最长</strong>  于是淘汰3号     上面<strong>总共缺页9次</strong></p>
 
 <blockquote>
-<p>完整调入内存 运行一段时间 再存回磁盘</p>
+<p>FIFO 是唯一一个会产生Belady异常的算法 即当当为进程分配的物理块数增大时，缺页次数不减反增的异常现象。</p>
 </blockquote>
 
-<p><strong>虚拟内存</strong></p>
+<p><strong>实现简单  但考虑到实际运行情况的规律与该算法不一定适应  先进入的页面也有可能被经常访问 算法性能差</strong></p>
+
+<h3 id="最近最久未使用置换算法-lru">最近最久未使用置换算法 (LRU)</h3>
+
+<p>每次淘汰的页面是<strong>最近最久未使用</strong>的页面</p>
+
+<p>实现方法：赋予每个页面对应的页表项中，用<strong>访问字段</strong>(下图)记录该页面<strong>自上次被访问以来所经历的时间t</strong>
+当需要淘汰一个页面时，选择现有页面中t值最大的，即最近最久未使用的页面</p>
+
+<p><img src="https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/data/20190806155617.png" alt="" /></p>
+
+<p><img src="https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/data/20190806155713.png" alt="" /></p>
+
+<p>要访问3页面的时候 从<strong>右往左推</strong> 发现7离3最远 于是覆盖7</p>
+
+<p><strong>需要专门的硬件支持，虽然算法性能好但是实现围难，开销大</strong></p>
+
+<h3 id="时钟置换算法-clock">时钟置换算法(CLOCK)</h3>
+
+<p>为每个页面设置一个<strong>访问位</strong>，再将内存中的页面都通过链接指针链接成个<strong>循环队列</strong>。形似时钟 当某页被访问时，其访问位置为1.当需要淘汰一个页面时，只需检查页的访问位如果是0，就选择该页换出；如果是1，则将它置为0，暂不换出，继续检査下一个页面，若第一轮扫描中所有页面都是1，则将这些页面的访问位依次置为0后，再进行第二轮扫描（第二轮扫描中一定会有访问位为0的页面，因此简单的 CLOCK算法选择一个淘汰页面最多会经过<strong>两轮扫描</strong>）</p>
 
 <blockquote>
-<p>使程序在只有一部分被调入内存的情况下运行</p>
+<p>如果访问位为0 淘汰 为1  则置为0 访问下一个</p>
 </blockquote>
 
-<p>内存紧缩: 将空余区合成一大块</p>
+<p><img src="https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/data/20190806160301.png" alt="" /></p>
 
-<p>进行内存分配的时候 如果进程创建时大小是固定的 比较容易 但进程的<strong>数据段</strong> 会出现增长</p>
+<h3 id="改进型的时钟置换算法">改进型的时钟置换算法</h3>
 
-<p>为了方便则可以分配额外的内存 交换出去的时候<strong>只交换实际上使用的内存的内容</strong></p>
-
-<h4 id="空闲内存管理">空闲内存管理</h4>
-
-<p>2种方式跟踪内存使用情况</p>
-
-<ol>
-<li>位图 几个字或几千个字节为分配单元</li>
-<li>空闲链表 空间区: 开始地址: 长度</li>
-</ol>
-
-<p>按照地址顺序在链表中存放进程和空闲区时 可以使用几种算法来分配内存</p>
-
-<p><strong>以存储管理器知道要为进程分配多大内存为前提</strong></p>
-
-<ul>
-<li>首次适配算法</li>
-</ul>
-
-<p>除非空闲区和要分配的大小一样 否则分为2部分 1部分供进程 一部分供空闲区</p>
-
-<ul>
-<li>下次适配算法</li>
-</ul>
-
-<p>找到合适位置时候记录当时位置 以便下次继续搜索 但这个算法性能<strong>略低</strong>于上面的算法性能</p>
-
-<ul>
-<li>最佳适配</li>
-</ul>
-
-<p>遍历整个链表 找到能容纳进程的最小空闲区 但会产生大量无用的小空闲区</p>
-
-<ul>
-<li>最差适配</li>
-</ul>
-
-<p>总是分配最大的可用空闲区 使得新的空闲区比较大从而可以继续使用</p>
-
-<h3 id="虚拟内存">虚拟内存</h3>
-
-<p>如今 需要运行的程序 大到内存无法容纳 交换技术也不是很有效的方案 以前是通过使用<strong>覆盖</strong>技术 即把程序分割为许多片段</p>
-
-<p>程序运行时 管理模块立即装入并允许覆盖0 0执行完成后 通知1 但这是十分的繁琐并且容易出错的</p>
-
-<p>于是就使用虚拟内存</p>
+<p>简单的时钟置换算法仅考虑到一个页面最近是否被访问过。事实上，如果被淘汰的页面没有被修改过，就不需要执行I/O操作写回外存。只有被淘汰的页面被修改过时，才需要写回外存。
+因此，除了考虑一个页面最近有没有被访问过之外，操作系统还应考虑页面有没有被修改过。在其他条件都相同时，<strong>应优先淘汰没有修改过的页面</strong>，避免I/O操作。这就是改进型的时钟置换算法的思想。
+修改位=0，表示页面没有被修改过；修改位=1，表示页面被修改过。
+为方便讨论，用（<strong>访问位，修改位</strong>）的形式表示各页面状态。如（1，1）表示一个页面近期被访问过，且被修改过</p>
 
 <blockquote>
-<p>每个程序拥有自己地址空间 空间被分割为多个块 每个块叫做<strong>页</strong> 每个页有连续的地址范围 页被映射到物理内存 部分页在内存中也可以运行 程序引用到物理内存的地址空间时 硬件执行映射 引用到不再物理内存中的地址空间时 OS负责装入缺失的部分</p>
+<p>设置为2个位  优先淘汰没有被修改的页面</p>
 </blockquote>
 
-<h4 id="分页">分页</h4>
-
-<p>虚拟地址为程序产生的地址 构成了虚拟地址空间</p>
-
-<ul>
-<li>没有虚拟内存的计算机 系统直接将虚拟地址送到内存总线</li>
-<li>有虚拟内存的计算机 先送到MMU(内存管理单元)进行<strong>映射</strong></li>
-</ul>
-
-<p>设置<strong>MMU</strong> 可以将16个虚拟页面映射到8个页框(物理内存对应单元) 有8个没有映射</p>
-
-<p>如果MMU映射的是无映射的 则称为<strong>缺页中断</strong> OS找一个使用较少的页框 去修改它 将之前无映射的页面读到页框 修改映射关系</p>
-
-<h4 id="页表">页表</h4>
-
-<p>虚拟地址被分为<strong>虚拟页号</strong> <strong>偏移量</strong></p>
-
-<p>页表项可以找到页框号 页框号拼接到偏移量的高位端 替换掉虚拟页号</p>
-
-<p>虚拟页号作为页表索引 找到虚拟页面的页表项 页表项找到页框号</p>
-
-<p><strong>页表项的细节</strong></p>
+<p><strong>算法规则</strong>：</p>
 
 <ol>
-<li>页框号</li>
-<li>在/不在位</li>
-<li>保护位 允许什么样的访问</li>
-<li>修改位</li>
-<li>访问位</li>
-<li>禁止高速缓存位</li>
+<li>第一轮：从当前位置开始扫描到第一个（0，0）的帧用于替换。本轮扫描不修改任何标志位</li>
+<li>第二轮：若第一轮扫描失败，则重新扫描，査找第一个（0，1）的帧用于替换。本轮将所有扫描过的帧<strong>访问位</strong>设为0</li>
+<li>第三轮：若第二轮扫描失败，则重新扫描，查找第一个（0，0）的帧用于替换。本轮扫描不修改任何标志位</li>
+<li>第四轮：若第三轮扫描失败，则重新扫描，査找第一个（0，1）的帧用于替换</li>
 </ol>
 
-<h4 id="加速分页过程">加速分页过程</h4>
+<p>由于第二轮已将所有帧的访问位设为0，因此经过第三轮、第四轮扫描定会有一个帧被选中，因此改进型 CLOCK置换算法选择一个淘汰页面最多会进行<strong>四轮扫描</strong></p>
 
-<p>分页式系统中 要考虑2个问题</p>
+<blockquote>
+<p>一轮扫00 二轮扫01 三轮扫00 四轮扫01</p>
+</blockquote>
 
-<ol>
-<li>虚拟地址到物理地址的映射必须快</li>
-<li>虚拟地址空间很大 页表也会很大</li>
-</ol>
+<h3 id="总结">总结</h3>
+
+<p><img src="https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/data/20190806161228.png" alt="" /></p>
               
             </div>
           </div>
@@ -471,7 +391,7 @@
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/08/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B8%80-%E4%BA%8C%E5%8F%89%E6%A0%91/" data-tooltip="每日算法(一)      二叉树">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/08/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E4%BA%8C/" data-tooltip="操作系统之存储管理(二)">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -479,7 +399,7 @@
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/08/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E9%A1%B5%E9%9D%A2%E7%BD%AE%E6%8D%A2%E7%AE%97%E6%B3%95%E4%B8%89/" data-tooltip="操作系统之页面置换算法(三)">
+                <a class="post-action-btn btn btn--disabled">
               
                   <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -497,19 +417,19 @@
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/08/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E4%BA%8C/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/08/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E9%A1%B5%E9%9D%A2%E7%BD%AE%E6%8D%A2%E7%AE%97%E6%B3%95%E4%B8%89/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/08/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E4%BA%8C/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/08/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E9%A1%B5%E9%9D%A2%E7%BD%AE%E6%8D%A2%E7%AE%97%E6%B3%95%E4%B8%89/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/08/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E4%BA%8C/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/08/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E9%A1%B5%E9%9D%A2%E7%BD%AE%E6%8D%A2%E7%AE%97%E6%B3%95%E4%B8%89/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -557,7 +477,7 @@
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/08/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B8%80-%E4%BA%8C%E5%8F%89%E6%A0%91/" data-tooltip="每日算法(一)      二叉树">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/08/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E4%BA%8C/" data-tooltip="操作系统之存储管理(二)">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -565,7 +485,7 @@
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/08/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E9%A1%B5%E9%9D%A2%E7%BD%AE%E6%8D%A2%E7%AE%97%E6%B3%95%E4%B8%89/" data-tooltip="操作系统之页面置换算法(三)">
+                <a class="post-action-btn btn btn--disabled">
               
                   <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -583,19 +503,19 @@
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/08/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E4%BA%8C/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/08/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E9%A1%B5%E9%9D%A2%E7%BD%AE%E6%8D%A2%E7%AE%97%E6%B3%95%E4%B8%89/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/08/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E4%BA%8C/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/08/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E9%A1%B5%E9%9D%A2%E7%BD%AE%E6%8D%A2%E7%AE%97%E6%B3%95%E4%B8%89/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/08/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E4%BA%8C/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/08/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E9%A1%B5%E9%9D%A2%E7%BD%AE%E6%8D%A2%E7%AE%97%E6%B3%95%E4%B8%89/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -625,19 +545,19 @@
   <ul class="share-options">
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F08%2F%25E6%2593%258D%25E4%25BD%259C%25E7%25B3%25BB%25E7%25BB%259F%25E4%25B9%258B%25E5%25AD%2598%25E5%2582%25A8%25E7%25AE%25A1%25E7%2590%2586%25E4%25BA%258C%2F">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F08%2F%25E6%2593%258D%25E4%25BD%259C%25E7%25B3%25BB%25E7%25BB%259F%25E4%25B9%258B%25E9%25A1%25B5%25E9%259D%25A2%25E7%25BD%25AE%25E6%258D%25A2%25E7%25AE%2597%25E6%25B3%2595%25E4%25B8%2589%2F">
           <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F08%2F%25E6%2593%258D%25E4%25BD%259C%25E7%25B3%25BB%25E7%25BB%259F%25E4%25B9%258B%25E5%25AD%2598%25E5%2582%25A8%25E7%25AE%25A1%25E7%2590%2586%25E4%25BA%258C%2F">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F08%2F%25E6%2593%258D%25E4%25BD%259C%25E7%25B3%25BB%25E7%25BB%259F%25E4%25B9%258B%25E9%25A1%25B5%25E9%259D%25A2%25E7%25BD%25AE%25E6%258D%25A2%25E7%25AE%2597%25E6%25B3%2595%25E4%25B8%2589%2F">
           <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F08%2F%25E6%2593%258D%25E4%25BD%259C%25E7%25B3%25BB%25E7%25BB%259F%25E4%25B9%258B%25E5%25AD%2598%25E5%2582%25A8%25E7%25AE%25A1%25E7%2590%2586%25E4%25BA%258C%2F">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F08%2F%25E6%2593%258D%25E4%25BD%259C%25E7%25B3%25BB%25E7%25BB%259F%25E4%25B9%258B%25E9%25A1%25B5%25E9%259D%25A2%25E7%25BD%25AE%25E6%258D%25A2%25E7%25AE%2597%25E6%25B3%2595%25E4%25B8%2589%2F">
           <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
         </a>
       </li>
@@ -733,9 +653,9 @@ $(document).ready(function() {
     
       <script>
         var disqus_config = function () {
-          this.page.url = 'https:\/\/mybigdaxin.github.io\/2019\/08\/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E4%BA%8C\/';
+          this.page.url = 'https:\/\/mybigdaxin.github.io\/2019\/08\/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E9%A1%B5%E9%9D%A2%E7%BD%AE%E6%8D%A2%E7%AE%97%E6%B3%95%E4%B8%89\/';
           
-            this.page.identifier = '\/2019\/08\/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E4%BA%8C\/'
+            this.page.identifier = '\/2019\/08\/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E9%A1%B5%E9%9D%A2%E7%BD%AE%E6%8D%A2%E7%AE%97%E6%B3%95%E4%B8%89\/'
           
         };
         (function() {
