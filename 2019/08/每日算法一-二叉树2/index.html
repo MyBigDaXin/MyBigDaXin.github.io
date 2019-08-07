@@ -13,20 +13,20 @@
 
 <meta property="og:description" content="">
 <meta property="og:type" content="article">
-<meta property="og:title" content="每日算法(一)      二叉树">
-<meta name="twitter:title" content="每日算法(一)      二叉树">
-<meta property="og:url" content="https://mybigdaxin.github.io/2019/08/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B8%80-%E4%BA%8C%E5%8F%89%E6%A0%91/">
-<meta property="twitter:url" content="https://mybigdaxin.github.io/2019/08/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B8%80-%E4%BA%8C%E5%8F%89%E6%A0%91/">
+<meta property="og:title" content="每日算法(一)      二叉树2">
+<meta name="twitter:title" content="每日算法(一)      二叉树2">
+<meta property="og:url" content="https://mybigdaxin.github.io/2019/08/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B8%80-%E4%BA%8C%E5%8F%89%E6%A0%912/">
+<meta property="twitter:url" content="https://mybigdaxin.github.io/2019/08/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B8%80-%E4%BA%8C%E5%8F%89%E6%A0%912/">
 <meta property="og:site_name" content="Just for">
 <meta property="og:description" content="">
 <meta name="twitter:description" content="">
 <meta property="og:locale" content="zh-cn">
 
   
-    <meta property="article:published_time" content="2019-08-04T08:22:23">
+    <meta property="article:published_time" content="2019-08-07T23:34:42">
   
   
-    <meta property="article:modified_time" content="2019-08-04T08:22:23">
+    <meta property="article:modified_time" content="2019-08-07T23:34:42">
   
   
   
@@ -67,14 +67,14 @@
   <meta property="twitter:image" content="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=640">
 
 
-    <title>每日算法(一)      二叉树</title>
+    <title>每日算法(一)      二叉树2</title>
 
     <link rel="icon" href="https://mybigdaxin.github.io/favicon.png">
     
 
     
 
-    <link rel="canonical" href="https://mybigdaxin.github.io/2019/08/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B8%80-%E4%BA%8C%E5%8F%89%E6%A0%91/">
+    <link rel="canonical" href="https://mybigdaxin.github.io/2019/08/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B8%80-%E4%BA%8C%E5%8F%89%E6%A0%912/">
 
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
@@ -223,15 +223,15 @@
       <div class="post-header main-content-wrap text-center">
   
     <h1 class="post-title" itemprop="headline">
-      每日算法(一)      二叉树
+      每日算法(一)      二叉树2
     </h1>
   
   
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2019-08-04T08:22:23&#43;08:00">
+      <time itemprop="datePublished" datetime="2019-08-07T23:34:42&#43;08:00">
         
-  八月 4, 2019
+  八月 7, 2019
 
       </time>
     
@@ -259,222 +259,180 @@
                hasCoverCaption">
         <article class="post" itemscope itemType="http://schema.org/BlogPosting">
           
-            <span class="post-header-cover-caption caption">每日算法</span>
+            <span class="post-header-cover-caption caption">二叉树_2</span>
           
           
           <div class="post-content markdown" itemprop="articleBody">
             <div class="main-content-wrap">
               <h1 id="table-of-contents">目录</h1><nav id="TableOfContents">
 <ul>
-<li><a href="#每日算法-一-二叉树">每日算法(一)&mdash;&mdash;二叉树</a>
+<li><a href="#每日算法-二-二叉树">每日算法(二)&mdash;&mdash;二叉树</a>
 <ul>
-<li>
-<ul>
-<li><a href="#判断二叉树是否为平衡二叉树">判断二叉树是否为平衡二叉树</a></li>
-<li><a href="#二叉树中找到一个节点的后继节点">二叉树中找到一个节点的后继节点</a>
-<ul>
-<li><a href="#有父节点">有父节点</a></li>
-<li><a href="#无父节点">无父节点</a></li>
-</ul></li>
-<li><a href="#二叉树找到两个节点的最近公共祖先">二叉树找到两个节点的最近公共祖先</a></li>
-<li><a href="#二叉树结点间的最大距离">二叉树结点间的最大距离</a></li>
-</ul></li>
+<li><a href="#先序中序后序两两结合组成树">先序中序后序两两结合组成树</a></li>
+<li><a href="#通过先序和中序生成后序数组">通过先序和中序生成后序数组</a></li>
+<li><a href="#统计完全二叉树的节点数">统计完全二叉树的节点数</a></li>
 </ul></li>
 </ul>
 </nav>
 
-<h1 id="每日算法-一-二叉树">每日算法(一)&mdash;&mdash;二叉树</h1>
+<h1 id="每日算法-二-二叉树">每日算法(二)&mdash;&mdash;二叉树</h1>
 
-<h3 id="判断二叉树是否为平衡二叉树">判断二叉树是否为平衡二叉树</h3>
+<h2 id="先序中序后序两两结合组成树">先序中序后序两两结合组成树</h2>
 
-<p><strong>平衡二叉树</strong></p>
+<p>给定一个二叉树正确的先序,中序,后序数组 重构出原来的二叉树 并返回头节点</p>
+
+<p><strong>思路</strong>: 根据 3种遍历方式的特点 <strong>先序</strong>遍历的<strong>第一个元素为树的根节点</strong> <strong>后序</strong>遍历的<strong>最后一个元素为树的根节点</strong> 利用递归方式重构树</p>
+
+<pre><code class="language-java"> public Node buildTree(int[] preorder, int[] inorder) {
+        return buildTrees(preorder, 0, preorder.length - 1, inorder, 0, inorder.length - 1);
+    }
+
+    private Node buildTrees(int[] preorder, int pleft, int pright, int[] inorder, int inleft, int inright) {
+        if(pleft &gt; pright || inleft &gt; inright) return null;
+      // 头节点
+        Node root = new Node(preorder[pleft]);
+        int rootIn = inleft;
+        while(preorder[pleft] != inorder[rootIn]){
+            rootIn++;
+        }
+      // 左子树的长度
+        int left = rootIn - inleft;
+      // 先序/中序遍历的左子树范围
+        root.left = buildTrees(preorder,pleft +1,pleft + left,inorder,inleft,rootIn - 1);
+      // 先序/中序遍历的右子树范围
+        root.right = buildTrees(preorder,pleft + left + 1,pright,inorder,rootIn + 1,inright);
+        return root;
+    }
+</code></pre>
+
+<pre><code class="language-java"> public Node buildTree(int[] inorder, int[] postorder) {
+        return buildTrees(inorder, 0, inorder.length - 1, postorder, 0, postorder.length - 1);
+    }
+
+    private Node buildTrees(int[] inorder, int inLeft, int inRight, int[] postorder, int posLeft, int posRight) {
+        if (inLeft &gt; inRight || posLeft &gt; posRight) return null;
+      // 头节点
+        Node root = new Node(postorder[posRight]);
+        int rootIn = inLeft;
+        while(inorder[rootIn] != postorder[posRight]){
+            rootIn++;
+        }
+        int leftLen = rootIn - inLeft;
+        root.left = buildTrees(inorder,inLeft,rootIn - 1,postorder,posLeft,posLeft + leftLen - 1);
+        root.right= buildTrees(inorder,rootIn + 1,inRight,postorder,posLeft + leftLen,posRight - 1);
+        return root;
+    }
+</code></pre>
+
+<p>特别注意: 先序和后序的组合并不一定能重构出正确的树</p>
+
+<p>​   A           A                      二者的先序和后序 都是    AB    BA</p>
+
+<p>​     /                   </p>
+
+<p>B                      B</p>
+
+<p>即 只有每个结点的孩子树为 0 或 2 的二叉树才能被先序和后序正确还原</p>
+
+<pre><code class="language-java">public static Node prePosToTree(int[] pre, int[] pos) {
+		if (pre == null || pos == null) {
+			return null;
+		}
+		HashMap&lt;Integer, Integer&gt; map = new HashMap&lt;Integer, Integer&gt;();
+		for (int i = 0; i &lt; pos.length; i++) {
+			map.put(pos[i], i);
+		}
+		return prePos(pre, 0, pre.length - 1, pos, 0, pos.length - 1, map);
+	}
+
+	public static Node prePos(int[] p, int pi, int pj, int[] s, int si, int sj,
+			HashMap&lt;Integer, Integer&gt; map) {
+		Node head = new Node(s[sj--]);
+		if (pi == pj) {
+			return head;
+		}
+		int index = map.get(p[++pi]);
+		head.left = prePos(p, pi, pi + index - si, s, si, index, map);
+		head.right = prePos(p, pi + index - si + 1, pj, s, index + 1, sj, map);
+		return head;
+	}
+</code></pre>
+
+<h2 id="通过先序和中序生成后序数组">通过先序和中序生成后序数组</h2>
+
+<pre><code class="language-java">public static int[] getPosArray(int[] pre, int[] in) {
+		if (pre == null || in == null) {
+			return null;
+		}
+		int len = pre.length;
+		int[] pos = new int[len];
+  // 预先保存中序遍历时每个结点的位置 不必像上一题中遍历求解位置
+		HashMap&lt;Integer, Integer&gt; map = new HashMap&lt;Integer, Integer&gt;();
+		for (int i = 0; i &lt; len; i++) {
+			map.put(in[i], i);
+		}
+		setPos(pre, 0, len - 1, in, 0, len - 1, pos, len - 1, map);
+		return pos;
+	}
+
+	public static int setPos(int[] p, int pi, int pj, int[] n, int ni, int nj,
+			int[] s, int si, HashMap&lt;Integer, Integer&gt; map) {
+		if (pi &gt; pj) {
+			return si;
+		}
+      // 填充数组
+		s[si--] = p[pi];
+		int i = map.get(p[pi]);
+		si = setPos(p, pj - nj + i + 1, pj, n, i + 1, nj, s, si, map);
+		return setPos(p, pi + 1, pi + i - ni, n, ni, i - 1, s, si, map);
+	}
+</code></pre>
+
+<h2 id="统计完全二叉树的节点数">统计完全二叉树的节点数</h2>
 
 <blockquote>
-<p>一个二叉树*每个节点 *的左右两个子树的高度差的绝对值不超过1。</p>
+<p>满二叉树引出: 满二叉树:除最后一层无任何子<a href="http://baike.baidu.com/view/47398.htm">节点</a>外，每一层上的所有结点都有两个子结点</p>
+
+<p>完全二叉树: 有左无右  至多只有最下面的两层上的结点的度数可以小于2，并且最下层上的结点都集中在该层最<strong>左边</strong>的若干位置上</p>
 </blockquote>
 
-<p>思路: 利用递归收集左右子树的深度以及子树是否是平衡二叉树 实现 函数返回一个ReturnData类</p>
+<p>思路: 如果右子树没有到达最后一层 则说明右子树为满二叉树  否则左子树为满二叉树</p>
 
-<pre><code class="language-java">class ReturnData{
-  // 是否平衡
-        boolean bal;
-  // 深度
-        int deep;
-        public ReturnData(boolean bal,int deep){
-            this.bal = bal;
-            this.deep = deep;
-        }
-    }
-</code></pre>
+<blockquote>
+<p>一颗树深度为h，最大层数为k，深度与最大层数相同，k=h;</p>
 
-<pre><code class="language-java">  public boolean isBalanced(TreeNode root) {
-        if(root == null) return true;
-        return isB(root).bal;
-        
-    }
-    public ReturnData isB(TreeNode root){
-        if(root == null)return new ReturnData(true,0);
-        ReturnData left = isB(root.left);
-        ReturnData right = isB(root.right);
-        int deeps = Math.max(left.deep,right.deep) + 1;
-      // 如果高度差大于1 或者 左/右子树不平衡
-        if(Math.abs(left.deep - right.deep) &gt; 1 || !left.bal ||!right.bal)               return new ReturnData(false,deeps);
-        else return new ReturnData(true,deeps);
-        
-    }
-</code></pre>
+<p>　　它的叶子数是： 2^h</p>
 
-<h3 id="二叉树中找到一个节点的后继节点">二叉树中找到一个节点的后继节点</h3>
+<p>　　第k层的结点数是： 2^(k-1)</p>
 
-<h4 id="有父节点">有父节点</h4>
+<p>　　总结点数是： 2^k-1 (2的k次方减一)</p>
+</blockquote>
 
-<p>思路:
-&gt; 根据中序遍历是升序可知 后继为例:
-1. <strong>有右节点,则后继节点就是该右子树的最左节点</strong>
-2. <strong>没有右子树,则不断往上回溯找到 par.left = ch</strong></p>
+<pre><code class="language-java">public static int nodeNum(Node head) {
+		if (head == null) {
+			return 0;
+		}
+		return bs(head, 1, mostLeftLevel(head, 1));
+	}
+// bs(node,l,h) 以node为头的完全二叉树的节点数是多少
+	public static int bs(Node node, int l, int h) {
+		if (l == h) {
+			return 1;
+		}
+		if (mostLeftLevel(node.right, l + 1) == h) {
+			return (1 &lt;&lt; (h - l)) + bs(node.right, l + 1, h);
+		} else {
+			return (1 &lt;&lt; (h - l - 1)) + bs(node.left, l + 1, h);
+		}
+	}
 
-<pre><code class="language-java">    public TreeNode successor(TreeNode node){
-        if( node == null){
-            return null;
-        }
-        // 情况1,有右子树,则后继节点就是该右子树的最左节点
-        if( node.right != null){
-            TreeNode tmp = node.right;
-            while(tmp.left != null)
-                tmp = tmp.left;
-            return tmp;
-        }else{
-            // 情况2 没有右子树,则不断往上回溯找到 par.left = ch
-            TreeNode par = node.parent;
-            TreeNode ch = node;
-            while(par != null &amp;&amp; ch == par.right){
-                ch = par;
-                par = par.parent;
-            }
-            return par;
-        }
-
-    }
-
-    public TreeNode predecessor(TreeNode node){
-        // 和后继是反过来的
-        if( node == null){
-            return null;
-        }
-        // 情况1,有左子树,则后继节点就是该左子树的最右节点
-        if( node.left!= null){
-            TreeNode tmp = node.left;
-            while(tmp.right != null)
-                tmp = tmp.right;
-            return tmp;
-        }else{
-            // 情况2 没有左子树,则不断往上回溯找到 par.right = ch
-            TreeNode par = node.parent;
-            TreeNode ch = node;
-            while(par != null &amp;&amp; ch == par.left){
-                ch = par;
-                par = par.parent;
-            }
-            return par;
-        }
-    }
-</code></pre>
-
-<h4 id="无父节点">无父节点</h4>
-
-<p>思路:
-1. 情况1 p是最大节点 没有后继 返回null
-2. 情况2 p有右子树 找右子树最左节点
-3. 情况3 p没有右子树 快慢指针</p>
-
-<pre><code class="language-java">
-    public TreeNode successor(TreeNode root, TreeNode node) {
-        // 边界判断
-        if (node == null) return null;
-        // 情况1 p是最大节点 没有后继 返回null
-        if (getMaxNode(node) == node) return null;
-        // 情况2 p有右子树 找右子树最左节点
-        if (node.right != null) return getMinNode(node.right);
-        // 情况3 p没有右子树
-        TreeNode parent = root;
-        TreeNode temp = root;
-        while (parent != null) {
-            if (parent == node) {
-                break;
-            } else if (node.val &lt; parent.val) {
-                temp = parent;
-                parent = parent.left;
-            } else {
-                parent = parent.right;
-            }
-        }
-        return temp;
-    }
-
-    public TreeNode getMaxNode(TreeNode node) {
-        if (node == null) return null;
-        while (node.right != null) {
-            node = node.right;
-        }
-        return node;
-    }
-
-    public TreeNode getMinNode(TreeNode node) {
-        if (node == null) return null;
-        while (node.left != null) {
-            node = node.left;
-        }
-        return node;
-    }
-</code></pre>
-
-<h3 id="二叉树找到两个节点的最近公共祖先">二叉树找到两个节点的最近公共祖先</h3>
-
-<p>思路: 利用递归 看是否能够找到两个节点 找到后就返回  如果左子树和右子树找到的节点都不为空 说明左/右子树都发现了2个节点中的一个 则2者节点往上走首先在遍历到的当前节点相遇  如果有一个为空 一个不为空 说明可能当前的node 是2者的最近公共祖先 或者是二者中的一个</p>
-
-<pre><code class="language-java"> public static Node findFather(Node head, Node o1, Node o2) {
-        if (head == null || head == o1 || head == o2) {
-            return head;
-        }
-        Node left = findFather(head.left, o1, o2);
-        Node right = findFather(head.right, o1, o2);
-        if (left != null &amp;&amp; right != null) return head;
-        return left != null ? left : right;
-    }
-</code></pre>
-
-<h3 id="二叉树结点间的最大距离">二叉树结点间的最大距离</h3>
-
-<p>思路: 最大距离来自于</p>
-
-<ol>
-<li>左/右子树的最大距离</li>
-<li>经过当前节点的最远距离</li>
-</ol>
-
-<p>于是用一个全局变量保存 左/右子树据结点的最大距离</p>
-
-<pre><code class="language-java">   public static int maxDistance(Node head) {
-        int[] record = new int[1];
-        return posOrder(head, record);
-    }
-
-    private static int posOrder(Node head, int[] record) {
-        if (head == null) {
-            record[0] = 0;
-            return 0;
-        }
-
-        int lMax = posOrder(head.left, record);
-      // 距离左子节点的最大距离
-        int maxfromLeft = record[0];
-        int rMax = posOrder(head.right, record);
-       // 距离右子节点的最大距离
-        int maxfromRight = record[0];
-        int curNodeMax = maxfromLeft + maxfromRight + 1;
-        record[0] = Math.max(maxfromLeft, maxfromRight) + 1;
-        return Math.max(Math.max(lMax, rMax), curNodeMax);
-    }
+	public static int mostLeftLevel(Node node, int level) {
+		while (node != null) {
+			level++;
+			node = node.left;
+		}
+		return level - 1;
+	}
 </code></pre>
               
             </div>
@@ -502,7 +460,7 @@
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/08/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B%E4%B8%80/" data-tooltip="操作系统之进程与线程(一)">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/08/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%BA%8C-%E5%AD%97%E7%AC%A6%E4%B8%B2/" data-tooltip="每日算法(二)  字符串">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -510,7 +468,7 @@
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/08/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E4%BA%8C/" data-tooltip="操作系统之存储管理(二)">
+                <a class="post-action-btn btn btn--disabled">
               
                   <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -528,19 +486,19 @@
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/08/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B8%80-%E4%BA%8C%E5%8F%89%E6%A0%91/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/08/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B8%80-%E4%BA%8C%E5%8F%89%E6%A0%912/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/08/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B8%80-%E4%BA%8C%E5%8F%89%E6%A0%91/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/08/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B8%80-%E4%BA%8C%E5%8F%89%E6%A0%912/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/08/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B8%80-%E4%BA%8C%E5%8F%89%E6%A0%91/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/08/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B8%80-%E4%BA%8C%E5%8F%89%E6%A0%912/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -588,7 +546,7 @@
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/08/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B%E4%B8%80/" data-tooltip="操作系统之进程与线程(一)">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/08/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%BA%8C-%E5%AD%97%E7%AC%A6%E4%B8%B2/" data-tooltip="每日算法(二)  字符串">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -596,7 +554,7 @@
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/08/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E4%BA%8C/" data-tooltip="操作系统之存储管理(二)">
+                <a class="post-action-btn btn btn--disabled">
               
                   <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -614,19 +572,19 @@
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/08/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B8%80-%E4%BA%8C%E5%8F%89%E6%A0%91/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/08/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B8%80-%E4%BA%8C%E5%8F%89%E6%A0%912/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/08/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B8%80-%E4%BA%8C%E5%8F%89%E6%A0%91/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/08/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B8%80-%E4%BA%8C%E5%8F%89%E6%A0%912/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/08/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B8%80-%E4%BA%8C%E5%8F%89%E6%A0%91/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/08/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B8%80-%E4%BA%8C%E5%8F%89%E6%A0%912/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -656,19 +614,19 @@
   <ul class="share-options">
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F08%2F%25E6%25AF%258F%25E6%2597%25A5%25E7%25AE%2597%25E6%25B3%2595%25E4%25B8%2580-%25E4%25BA%258C%25E5%258F%2589%25E6%25A0%2591%2F">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F08%2F%25E6%25AF%258F%25E6%2597%25A5%25E7%25AE%2597%25E6%25B3%2595%25E4%25B8%2580-%25E4%25BA%258C%25E5%258F%2589%25E6%25A0%25912%2F">
           <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F08%2F%25E6%25AF%258F%25E6%2597%25A5%25E7%25AE%2597%25E6%25B3%2595%25E4%25B8%2580-%25E4%25BA%258C%25E5%258F%2589%25E6%25A0%2591%2F">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F08%2F%25E6%25AF%258F%25E6%2597%25A5%25E7%25AE%2597%25E6%25B3%2595%25E4%25B8%2580-%25E4%25BA%258C%25E5%258F%2589%25E6%25A0%25912%2F">
           <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F08%2F%25E6%25AF%258F%25E6%2597%25A5%25E7%25AE%2597%25E6%25B3%2595%25E4%25B8%2580-%25E4%25BA%258C%25E5%258F%2589%25E6%25A0%2591%2F">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F08%2F%25E6%25AF%258F%25E6%2597%25A5%25E7%25AE%2597%25E6%25B3%2595%25E4%25B8%2580-%25E4%25BA%258C%25E5%258F%2589%25E6%25A0%25912%2F">
           <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
         </a>
       </li>
@@ -764,9 +722,9 @@ $(document).ready(function() {
     
       <script>
         var disqus_config = function () {
-          this.page.url = 'https:\/\/mybigdaxin.github.io\/2019\/08\/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B8%80-%E4%BA%8C%E5%8F%89%E6%A0%91\/';
+          this.page.url = 'https:\/\/mybigdaxin.github.io\/2019\/08\/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B8%80-%E4%BA%8C%E5%8F%89%E6%A0%912\/';
           
-            this.page.identifier = '\/2019\/08\/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B8%80-%E4%BA%8C%E5%8F%89%E6%A0%91\/'
+            this.page.identifier = '\/2019\/08\/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B8%80-%E4%BA%8C%E5%8F%89%E6%A0%912\/'
           
         };
         (function() {

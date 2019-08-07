@@ -328,6 +328,144 @@
 
 <p><strong>需要专门的硬件支持，虽然算法性能好但是实现围难，开销大</strong></p>
 
+<pre><code class="language-java">
+public class LRU {
+
+    public static class Node&lt;V&gt; {
+        public V value;
+        public Node&lt;V&gt; last;
+        public Node&lt;V&gt; next;
+
+        public Node(V value) {
+            this.value = value;
+        }
+    }
+
+    public static class NodeDoubleLinkedList&lt;V&gt; {
+        private Node&lt;V&gt; head;
+        private Node&lt;V&gt; tail;
+
+        public NodeDoubleLinkedList() {
+            this.head = null;
+            this.tail = null;
+        }
+
+        public void addNode(Node&lt;V&gt; newNode) {
+            if (newNode == null) {
+                return;
+            }
+            if (this.head == null) {
+                this.head = newNode;
+                this.tail = newNode;
+            } else {
+                this.tail.next = newNode;
+                newNode.last = this.tail;
+                this.tail = newNode;
+            }
+        }
+
+        public void moveNodeToTail(Node&lt;V&gt; node) {
+            // 本来就在最后面 不动
+            if (this.tail == node) {
+                return;
+            }
+            // 如果是在第一个 直接
+            if (this.head == node) {
+                this.head = node.next;
+                this.head.last = null;
+            } else {
+                // 否则让该node断开
+                node.last.next = node.next;
+                node.next.last = node.last;
+            }
+            // 放入最后一个
+            node.last = this.tail;
+            node.next = null;
+            this.tail.next = node;
+            this.tail = node;
+        }
+
+        public Node&lt;V&gt; removeHead() {
+            if (this.head == null) {
+                return null;
+            }
+            Node&lt;V&gt; res = this.head;
+            if (this.head == this.tail) {
+                this.head = null;
+                this.tail = null;
+            } else {
+                this.head = res.next;
+                res.next = null;
+                this.head.last = null;
+            }
+            return res;
+        }
+
+    }
+
+    public static class MyCache&lt;K, V&gt; {
+        private HashMap&lt;K,Node&lt;V&gt;&gt; keyNodeMap;
+        private HashMap&lt;Node&lt;V&gt;,K&gt; nodeKeyMap;
+        private NodeDoubleLinkedList&lt;V&gt; nodeList;
+        private int capacity;
+
+        public MyCache(int capacity) {
+            if (capacity &lt; 1) {
+                throw new RuntimeException(&quot;should be more than 0.&quot;);
+            }
+            this.keyNodeMap = new HashMap&lt;K, Node&lt;V&gt;&gt;();
+            this.nodeKeyMap = new HashMap&lt;Node&lt;V&gt;, K&gt;();
+            this.nodeList = new NodeDoubleLinkedList&lt;V&gt;();
+            this.capacity = capacity;
+        }
+
+        public V get(K key){
+            if(this.keyNodeMap.containsKey(key)){
+                Node&lt;V&gt; res = this.keyNodeMap.get(key);
+                this.nodeList.moveNodeToTail(res);
+                return res.value;
+            }
+            return null;
+        }
+
+        public void set(K key, V value){
+            if(this.keyNodeMap.containsKey(key)){
+                Node&lt;V&gt; node = this.keyNodeMap.get(key);
+                node.value = value;
+                this.nodeList.moveNodeToTail(node);
+            }else{
+                Node&lt;V&gt; newNode = new Node&lt;&gt;(value);
+                this.keyNodeMap.put(key,newNode);
+                this.nodeKeyMap.put(newNode, key);
+                this.nodeList.addNode(newNode);
+                // 超过了限制 则将最近醉久未使用的Node删除
+                if(this.keyNodeMap.size() == this.capacity + 1){
+                    this.removeMostUnusedCache();
+                }
+            }
+        }
+        private void removeMostUnusedCache(){
+            Node&lt;V&gt; removeNode = this.nodeList.removeHead();
+            K removeKey = this.nodeKeyMap.get(removeNode);
+            this.nodeKeyMap.remove(removeNode);
+            this.keyNodeMap.remove(removeKey);
+        }
+    }
+
+    public static void main(String[] args) {
+        MyCache&lt;String, Integer&gt; testCache = new MyCache&lt;String, Integer&gt;(3);
+        testCache.set(&quot;A&quot;, 1);
+        testCache.set(&quot;B&quot;, 2);
+        testCache.set(&quot;C&quot;, 3);
+        System.out.println(testCache.get(&quot;B&quot;));
+        System.out.println(testCache.get(&quot;A&quot;));
+        testCache.set(&quot;D&quot;, 4);
+        System.out.println(testCache.get(&quot;D&quot;));
+        System.out.println(testCache.get(&quot;C&quot;));
+    }
+}
+</code></pre>
+
 <h3 id="时钟置换算法-clock">时钟置换算法(CLOCK)</h3>
 
 <p>为每个页面设置一个<strong>访问位</strong>，再将内存中的页面都通过链接指针链接成个<strong>循环队列</strong>。形似时钟 当某页被访问时，其访问位置为1.当需要淘汰一个页面时，只需检查页的访问位如果是0，就选择该页换出；如果是1，则将它置为0，暂不换出，继续检査下一个页面，若第一轮扫描中所有页面都是1，则将这些页面的访问位依次置为0后，再进行第二轮扫描（第二轮扫描中一定会有访问位为0的页面，因此简单的 CLOCK算法选择一个淘汰页面最多会经过<strong>两轮扫描</strong>）</p>
@@ -399,7 +537,7 @@
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--disabled">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/08/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%BA%8C-%E5%AD%97%E7%AC%A6%E4%B8%B2/" data-tooltip="每日算法(二)  字符串">
               
                   <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -485,7 +623,7 @@
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--disabled">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/08/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%BA%8C-%E5%AD%97%E7%AC%A6%E4%B8%B2/" data-tooltip="每日算法(二)  字符串">
               
                   <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                   <i class="fa fa-angle-right"></i>
