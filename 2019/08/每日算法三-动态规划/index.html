@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.55.5 with theme Tranquilpeak 0.4.6-BETA">
+<meta name="author" content="Da Xin">
+<meta name="keywords" content="tech">
+<meta name="description" content="">
+
+
+<meta property="og:description" content="">
+<meta property="og:type" content="article">
+<meta property="og:title" content="每日算法(三)    动态规划">
+<meta name="twitter:title" content="每日算法(三)    动态规划">
+<meta property="og:url" content="https://mybigdaxin.github.io/2019/08/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B8%89-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+<meta property="twitter:url" content="https://mybigdaxin.github.io/2019/08/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B8%89-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+<meta property="og:site_name" content="Just for">
+<meta property="og:description" content="">
+<meta name="twitter:description" content="">
+<meta property="og:locale" content="zh-cn">
+
+  
+    <meta property="article:published_time" content="2019-08-08T21:52:20">
+  
+  
+    <meta property="article:modified_time" content="2019-08-08T21:52:20">
+  
+  
+  
+    
+      <meta property="article:section" content="基础">
+    
+      <meta property="article:section" content="数据结构与算法">
+    
+  
+  
+    
+      <meta property="article:tag" content="日常">
+    
+      <meta property="article:tag" content="算法">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://mybigdaxin.github.io/images/al.jpg">
+  <meta property="twitter:image" content="https://mybigdaxin.github.io/images/al.jpg">
+
+
+  <meta property="og:image" content="https://mybigdaxin.github.io/images/al.jpg">
+  <meta property="twitter:image" content="https://mybigdaxin.github.io/images/al.jpg">
+
+
+
+
+  <meta property="og:image" content="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=640">
+  <meta property="twitter:image" content="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=640">
+
+
+    <title>每日算法(三)    动态规划</title>
+
+    <link rel="icon" href="https://mybigdaxin.github.io/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://mybigdaxin.github.io/2019/08/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B8%89-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://mybigdaxin.github.io/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="5">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://mybigdaxin.github.io/">Just for</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://mybigdaxin.github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=90" alt="作者的图片" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="5">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://mybigdaxin.github.io/#about">
+          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=110" alt="作者的图片" />
+        </a>
+        <h4 class="sidebar-profile-name">Da Xin</h4>
+        
+          <h5 class="sidebar-profile-bio">Just for</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">首页</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">分类</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">标签</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">关于</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/MyBigDaXin" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+  <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=240 height=52 src="//music.163.com/outchain/player?type=0&id=2905300990&auto=1&height=32"></iframe>
+</nav>
+
+      
+  <div class="post-header-cover
+              text-center
+              post-header-cover--full"
+       style="background-image:url('/images/al.jpg')"
+       data-behavior="5">
+    
+      <div class="post-header main-content-wrap text-center">
+  
+    <h1 class="post-title" itemprop="headline">
+      每日算法(三)    动态规划
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-08-08T21:52:20&#43;08:00">
+        
+  八月 8, 2019
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://mybigdaxin.github.io/categories/%e5%9f%ba%e7%a1%80">基础</a>, 
+    
+      <a class="category-link" href="https://mybigdaxin.github.io/categories/%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84%e4%b8%8e%e7%ae%97%e6%b3%95">数据结构与算法</a>
+    
+  
+
+  </div>
+
+</div>
+    
+  </div>
+
+
+      <div id="main" data-behavior="5"
+        class="hasCover
+               hasCoverMetaIn
+               hasCoverCaption">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+            <span class="post-header-cover-caption caption">动态规划..实属花了好久才写好的..</span>
+          
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <h1 id="table-of-contents">目录</h1><nav id="TableOfContents">
+<ul>
+<li><a href="#每日算法-三-动态规划">每日算法(三)&mdash;-动态规划</a>
+<ul>
+<li>
+<ul>
+<li><a href="#给定一个数字三角形-找到从顶部到底部的最小路径和-每一步可以移动到下面一行的相邻数字上">给定一个数字三角形，找到从顶部到底部的最小路径和。每一步可以移动到下面一行的相邻数字上</a>
+<ul>
+<li><a href="#遍历法">遍历法</a></li>
+<li><a href="#分治法">分治法</a></li>
+<li><a href="#分治-记忆化搜索">分治  + 记忆化搜索</a></li>
+<li><a href="#多重循环">多重循环</a></li>
+<li><a href="#多重循环-vs-记忆化搜索">多重循环 VS 记忆化搜索</a></li>
+<li><a href="#什么时候使用动态规划">什么时候使用动态规划</a></li>
+<li><a href="#如何使用动态规划">如何使用动态规划</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#常见动态规划类型">常见动态规划类型</a>
+<ul>
+<li><a href="#坐标型动态规划">坐标型动态规划</a>
+<ul>
+<li><a href="#最小路径和">最小路径和</a></li>
+</ul></li>
+<li><a href="#单序列动态规划">单序列动态规划</a>
+<ul>
+<li><a href="#分割回文串">分割回文串 ||</a></li>
+<li><a href="#word-break">word break</a></li>
+</ul></li>
+<li><a href="#双序列动态规划">双序列动态规划</a>
+<ul>
+<li><a href="#longest-common-subsequence">Longest Common Subsequence</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="每日算法-三-动态规划">每日算法(三)&mdash;-动态规划</h1>
+
+<h3 id="给定一个数字三角形-找到从顶部到底部的最小路径和-每一步可以移动到下面一行的相邻数字上">给定一个数字三角形，找到从顶部到底部的最小路径和。每一步可以移动到下面一行的相邻数字上</h3>
+
+<pre><code>[
+[2],
+[3,4],
+[6,5,7],
+[4,1,8,3]
+]
+// 最小路径: 2 + 3 + 5 + 1 = 11
+</code></pre>
+
+<h4 id="遍历法">遍历法</h4>
+
+<pre><code class="language-c">void traverse（int x， int y， int sum）{
+  // sum是走到当前 x y 点的时候 路径的和 不包括x y
+ if(x == n){
+ if(sum&lt;best){
+ 	best = sum;
+ }
+ return;
+ }
+traverse(x+l,y+l,sum + A[x][y]);
+traverse(x + 1,y,sum + A[x][y]);
+}
+traverse(0,0,0);
+</code></pre>
+
+<p><img src="https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/data/20190808152145.png" alt="" /></p>
+
+<p>代码遍历 如上图 中间的结点<strong>走了2次</strong>  N为结点的个数 n为上面的图的<strong>高度</strong></p>
+
+<p><strong>时间复杂度</strong>: 根据代码来看 每次在前面有2条路径 又有n层 于是时间复杂度为O(2 ^ n)</p>
+
+<h4 id="分治法">分治法</h4>
+
+<pre><code class="language-java">int dfs(int x，int y){
+if(x == n)return 0;
+	return A[x][y]+ Math.min(dfs(x+1,y),dfs(x + 1, y + 1));
+}
+
+dfs(0,0);
+</code></pre>
+
+<p>时间复杂度同样是 O(2 ^ n)</p>
+
+<h4 id="分治-记忆化搜索">分治  + 记忆化搜索</h4>
+
+<pre><code class="language-c">int dfs(int x, int y ){
+  if(x == n) return 0;
+  if(hash[x][y] != Integer.MAX_VALUE){
+    return hash[x][y];
+  }
+  hash[x][y] = A[x][y] + Math.min(dfs(x + 1 ,y),dfs(x + 1,y + 1));
+  return hash[x][y];
+}
+hash[*][*] = Integer.MAX_VALUE;
+dfs(0,0);
+</code></pre>
+
+<p>时间复杂度: O(n ^ 2)</p>
+
+<h4 id="多重循环">多重循环</h4>
+
+<ul>
+<li><strong>自底向上</strong></li>
+</ul>
+
+<pre><code class="language-c">A[][]
+// 状态定义  表示从i,j出发走到最后一层的最小路径长度
+f[i][j] 
+// 初始化 从最底下开始赋值
+for(int i = 0;i &lt; n;i++){
+  f[n - 1][i] = A[n - 1][i];
+}
+// 循环递推求解
+for(int i = n - 2; i &gt;= 0; i--){
+  for(int j = 0;j &lt;= i; j++){
+  // 选择左边和右边的最小值  
+    f[i][j] = Math.min(f[i + 1][j], f[i + 1][j + 1]) + A[i][j];
+  }
+}
+// 求最终的结果 起点
+f[0][0]
+</code></pre>
+
+<p>时间复杂度: O(n ^ 2)</p>
+
+<ul>
+<li><strong>自顶向下</strong></li>
+</ul>
+
+<pre><code class="language-c">// 初始化: 起点
+f[0][0] = A[0][0]
+
+// 初始化3角形的左边和右边 边缘
+for(int i = 1; i &lt; n; i++){
+  f[i][0] = f[i - 1][0] + A[i][0];
+  f[i][i] = f[i - 1][i - 1] + A[i][i];
+}
+// 循环递推求解
+for(int i = 1; i &lt; n;i--){
+  for(int j = 1; j &lt; i;j++){
+    f[i][j] = Math.min(f[i - 1][j],f[i - 1][j - 1]) + A[i][j];
+  }
+}
+
+Math.min(f[n - 1][0], f[n - 1][1], f[n - 1][2]..);
+
+</code></pre>
+
+<h4 id="多重循环-vs-记忆化搜索">多重循环 VS 记忆化搜索</h4>
+
+<ul>
+<li>多重循环:
+
+<ul>
+<li>优点：正规，大多数面试官可以接受，存在空间优化可能性</li>
+<li>缺点：思考有难度</li>
+</ul></li>
+<li>记忆化搜索:
+
+<ul>
+<li>优点: 容易从搜索算法直接转化过来 有的时候可以节省更多的时间</li>
+<li>缺点: 递归</li>
+</ul></li>
+</ul>
+
+<h4 id="什么时候使用动态规划">什么时候使用动态规划</h4>
+
+<ol>
+<li>求最大值最小值</li>
+<li>判断是否<strong>可行</strong></li>
+<li>统计方案<strong>个数</strong> 而不是<strong>具体方案</strong></li>
+</ol>
+
+<h4 id="如何使用动态规划">如何使用动态规划</h4>
+
+<pre><code>f[][] : 定义好状态
+初始化
+方程
+答案
+</code></pre>
+
+<h2 id="常见动态规划类型">常见动态规划类型</h2>
+
+<h3 id="坐标型动态规划">坐标型动态规划</h3>
+
+<p>state f【×】表示我从起点走到坐标x&hellip;</p>
+
+<p>f【×】【y】表示我从起点走到坐标x,y&hellip;</p>
+
+<p>function：研究走到x,y这个点之前的一步</p>
+
+<p>intialize：起点</p>
+
+<p>answer：终点</p>
+
+<h4 id="最小路径和">最小路径和</h4>
+
+<p>给定一个只含非负整数的m*n网格，找到一条从左上角到右下角的可以使数字和最小的路径 只能向右 或向下</p>
+
+<pre><code class="language-java">// f[x][y]: 到 x y 的路径数字和
+ public int minPathSum(int[][] grid) {
+        if (grid == null || grid.length == 0 || grid[0].length == 0) {
+            return 0;
+        }
+
+        int M = grid.length;
+        int N = grid[0].length;
+        int[][] sum = new int[M][N];
+
+        sum[0][0] = grid[0][0];
+
+        for (int i = 1; i &lt; M; i++) {
+            sum[i][0] = sum[i - 1][0] + grid[i][0];
+        }
+
+        for (int i = 1; i &lt; N; i++) {
+            sum[0][i] = sum[0][i - 1] + grid[0][i];
+        }
+
+        for (int i = 1; i &lt; M; i++) {
+            for (int j = 1; j &lt; N; j++) {
+                sum[i][j] = Math.min(sum[i - 1][j], sum[i][j - 1]) + grid[i][j];
+            }
+        }
+
+        return sum[M - 1][N - 1];
+    }
+}
+</code></pre>
+
+<h3 id="单序列动态规划">单序列动态规划</h3>
+
+<pre><code>state: f[i] 表示前i个位置/数字/字母,
+function:f[i]=f[j]… j是i之前的一个位置
+initialize:f[0]..
+answer:f[n - 1]..
+单序列动态规划没有坐标的概念 但有子串 前缀串的关系  
+区别是 因为考虑了前i 开辟数组的时候 就要开辟n +1个数
+</code></pre>
+
+<h4 id="分割回文串">分割回文串 ||</h4>
+
+<pre><code>// state: f[i] 前 i 个字符组成的子字符串最少需要cut 几次
+假如在 j 和 j + 1那儿进行切分 则要判断在j +1 和 i之间是否是回文串 是回文串 则切 j ~ j + 1之间就时产生一个候选方案 就可以表示为f[i]+1  但只是候选方案 不是一定的  因为 j 可以变动  即0 ~ i - 1 如下图 可以在任意之间分割 去尝试
+// function: 
+</code></pre>
+
+<p><img src="https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/data/20190808204307.png" alt="" /></p>
+
+<pre><code class="language-java">// 根据上面的分析 得出这个
+for(int i = 1; i &lt;=s.length();i++){
+// 0 ~ i - 1之间插入
+  for(int j = 0; j &lt; i;j++){
+    if(isPalindrome[j][i-1]){
+      f[i] = Math.min(f[i], f[j] + 1);
+    }
+  }
+}
+</code></pre>
+
+<p>预处理</p>
+
+<pre><code class="language-java">f[i][j] : i -&gt; j范围内是否是回文
+// axxxxa   i 是前面最右边的x j 是最左边的x
+f[i][j] = f[i + 1][j - 1] &amp;&amp; s[i] == s[j]
+// 不能用for(int i:0 -&gt; n) 得从大到小 
+// 因为大区间 依赖小区间 所以要先算小区间的长度 然后再去循环起始位置
+</code></pre>
+
+<pre><code class="language-java">// getIsPalindrome(String s)： 使用的是区间型dp
+private boolean[][] getIsPalindrome(String s) {
+        boolean[][] isPalindrome = new boolean[s.length()][s.length()];
+  
+  for(int i = 0 ; i &lt; s.length();i++){
+    isPalindrome[i][i] = true;
+  }
+  for(int i = 0; i&lt; s.length() - 1;i++){
+    isPalindrome[i][i + 1] = (s.charAt(i) == s.charAt(i + 1));
+  }
+  for(int length = 2; length &lt; s.length();length++){
+    for(int start = 0; start + length &lt; s.length(); start++){
+      isPalindrome[start][start + length]
+         = isPalindrome[start + 1][start + length - 1 ] &amp;&amp; s.charAt(start) == s.charAt(start +  length);
+    }
+  }
+  return isPalindrome;
+}
+</code></pre>
+
+<p>初始化</p>
+
+<pre><code class="language-java">// 3个字符划2刀 这样每个地方就是回文串 于是i个字符 划1 - 1刀 就能得到回文字符串 
+  int[] f = new int[s.length() + 1];
+        for (int i = 0; i &lt;= s.length(); i++) {
+            f[i] = i - 1;
+        }
+</code></pre>
+
+<pre><code> public int minCut(String s) {
+        if (s == null || s.length() == 0) return 0;
+        // 预处理
+        boolean[][] isPalindrome = getIsPalindrome(s);
+
+		// 初始化
+        int[] f = new int[s.length() + 1];
+        for (int i = 0; i &lt;= s.length(); i++) {
+            f[i] = i - 1;
+        }
+
+        for (int i = 1; i &lt;= s.length(); i++) {
+            for (int j = 0; j &lt; i; j++) {
+                if (isPalindrome[j][i - 1]) {
+                    f[i] = Math.min(f[i], f[j] + 1);
+                }
+            }
+        }
+        return f[s.length()];
+    }
+</code></pre>
+
+<blockquote>
+<p>如果不是跟坐标相关的动态规划般有N个数/字符，就开N+1个位置的数组第0个位置单独留出来作初始化</p>
+</blockquote>
+
+<h4 id="word-break">word break</h4>
+
+<pre><code class="language-java">// state: f[i]: 前 i 个字符能否被完美切分
+// function: f[i] = OR{f[j]} , j &lt; i, j + 1 ~ i是词典的单词
+// f[i] = f[j] &amp;&amp; j + 1 ~ i 在dict中
+// initialize: f[0] = true
+// answer : f[s.length()]
+
+public class Solution {
+    private int getMaxLength(Set&lt;String&gt; dict) {
+        int maxLength = 0;
+        for (String word : dict) {
+            maxLength = Math.max(maxLength, word.length());
+        }
+        return maxLength;
+    }
+
+    public boolean wordBreak(String s, Set&lt;String&gt; dict) {
+        if (s == null || s.length() == 0) {
+            return true;
+        }
+
+        int maxLength = getMaxLength(dict);
+        boolean[] canSegment = new boolean[s.length() + 1];
+
+        canSegment[0] = true;
+        for (int i = 1; i &lt;= s.length(); i++) {
+            canSegment[i] = false;
+          // 开始切 单词长度不能大于最长的 且切割的不能
+            for (int lastWordLength = 1;
+                     lastWordLength &lt;= maxLength &amp;&amp; lastWordLength &lt;= i;
+                     lastWordLength++) {
+                if (!canSegment[i - lastWordLength]) {
+                    continue;
+                }
+                String word = s.substring(i - lastWordLength, i);
+              // 这里算上单词长度的话 就是L
+                if (dict.contains(word)) {
+                    canSegment[i] = true;
+                    break;
+                }
+            }
+        }
+
+        return canSegment[s.length()];
+    }
+}
+// 时间复杂度 O(N * L ^ 2) N：字符串长度L：最长的单词的长度
+</code></pre>
+
+<h3 id="双序列动态规划">双序列动态规划</h3>
+
+<pre><code>// state:  f[i][j]代表了第一个 sequence的前i个数字/字符，配上第二个 sequence的前j个
+// function: f[i][j] = 研宄第个和第j个的匹配关系
+// initialize: f[i][0]和f[0][j] 
+// answer: f[s1.length()][s2.length()]
+</code></pre>
+
+<h4 id="longest-common-subsequence">Longest Common Subsequence</h4>
+
+<pre><code>// state: f[i][j] 表示前i个字符配上前j个字符的LCS的长度
+// function: f[i][j]
+= MAX(f[i - 1][j],f[i][j - 1],f[i - 1][j - 1] + 1 ) // a[i]==b[j]
+= MAX(f[i - 1][j],f[i][j - 1]) 	                    // a[i] != b[j]
+//  f[i - 1][j] // 让J的a和i的前面的a匹配
+i: abcd a x
+       \
+j: edfg z  a
+// intialize : f[i][0] = 0  f[0][i] = 0
+// answer: f[a.length()][b.length()]
+					
+</code></pre>
+
+<pre><code class="language-java">public int longestCommonSubsequence(String A, String B) {
+        int n = A.length();
+        int m = B.length();
+        int f[][] = new int[n + 1][m + 1];
+        for(int i = 1; i &lt;= n; i++){
+            for(int j = 1; j &lt;= m; j++){
+                f[i][j] = Math.max(f[i - 1][j], f[i][j - 1]);
+                if(A.charAt(i - 1) == B.charAt(j - 1))
+                    f[i][j] = f[i - 1][j - 1] + 1;
+            }
+        }
+        return f[n][m];
+    }
+</code></pre>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">标签</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://mybigdaxin.github.io/tags/%E6%97%A5%E5%B8%B8/">日常</a>
+
+  <a class="tag tag--primary tag--small" href="https://mybigdaxin.github.io/tags/%E7%AE%97%E6%B3%95/">算法</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/08/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B8%80-%E4%BA%8C%E5%8F%89%E6%A0%912/" data-tooltip="每日算法(一)      二叉树2">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/08/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B8%89-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/08/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B8%89-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/08/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B8%89-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 Da Xin. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/08/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B8%80-%E4%BA%8C%E5%8F%89%E6%A0%912/" data-tooltip="每日算法(一)      二叉树2">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/08/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B8%89-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/08/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B8%89-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/08/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B8%89-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F08%2F%25E6%25AF%258F%25E6%2597%25A5%25E7%25AE%2597%25E6%25B3%2595%25E4%25B8%2589-%25E5%258A%25A8%25E6%2580%2581%25E8%25A7%2584%25E5%2588%2592%2F">
+          <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F08%2F%25E6%25AF%258F%25E6%2597%25A5%25E7%25AE%2597%25E6%25B3%2595%25E4%25B8%2589-%25E5%258A%25A8%25E6%2580%2581%25E8%25A7%2584%25E5%2588%2592%2F">
+          <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F08%2F%25E6%25AF%258F%25E6%2597%25A5%25E7%25AE%2597%25E6%25B3%2595%25E4%25B8%2589-%25E5%258A%25A8%25E6%2580%2581%25E8%25A7%2584%25E5%2588%2592%2F">
+          <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=110" alt="作者的图片" />
+    
+    <h4 id="about-card-name">Da Xin</h4>
+    
+      <div id="about-card-bio">Just for</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        Javaer
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        China
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('https://mybigdaxin.github.io/images/cover.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://mybigdaxin.github.io/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+  
+    <script src="https://mybigdaxin.github.io/js/clicklove.js"></script>
+  
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/mybigdaxin.github.io\/2019\/08\/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B8%89-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92\/';
+          
+            this.page.identifier = '\/2019\/08\/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B8%89-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'tranquilpeak';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+
