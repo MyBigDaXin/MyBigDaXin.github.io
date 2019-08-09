@@ -13,32 +13,30 @@
 
 <meta property="og:description" content="">
 <meta property="og:type" content="article">
-<meta property="og:title" content="排序算法">
-<meta name="twitter:title" content="排序算法">
-<meta property="og:url" content="https://mybigdaxin.github.io/2019/08/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/">
-<meta property="twitter:url" content="https://mybigdaxin.github.io/2019/08/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/">
+<meta property="og:title" content="Java并发机制底层实现原理">
+<meta name="twitter:title" content="Java并发机制底层实现原理">
+<meta property="og:url" content="https://mybigdaxin.github.io/2019/08/java%E5%B9%B6%E5%8F%91%E6%9C%BA%E5%88%B6%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">
+<meta property="twitter:url" content="https://mybigdaxin.github.io/2019/08/java%E5%B9%B6%E5%8F%91%E6%9C%BA%E5%88%B6%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">
 <meta property="og:site_name" content="Just for">
 <meta property="og:description" content="">
 <meta name="twitter:description" content="">
 <meta property="og:locale" content="zh-cn">
 
   
-    <meta property="article:published_time" content="2019-08-08T23:04:52">
+    <meta property="article:published_time" content="2019-08-09T15:01:29">
   
   
-    <meta property="article:modified_time" content="2019-08-08T23:04:52">
+    <meta property="article:modified_time" content="2019-08-09T15:01:29">
   
   
   
     
-      <meta property="article:section" content="基础">
-    
-      <meta property="article:section" content="数据结构与算法">
+      <meta property="article:section" content="并发">
     
   
   
     
-      <meta property="article:tag" content="算法">
+      <meta property="article:tag" content="并发">
     
   
 
@@ -51,12 +49,12 @@
 
 
 
-  <meta property="og:image" content="https://mybigdaxin.github.io/images/beauty.png">
-  <meta property="twitter:image" content="https://mybigdaxin.github.io/images/beauty.png">
+  <meta property="og:image" content="https://mybigdaxin.github.io/images/concurrent.png">
+  <meta property="twitter:image" content="https://mybigdaxin.github.io/images/concurrent.png">
 
 
-  <meta property="og:image" content="https://mybigdaxin.github.io/images/beauty.png">
-  <meta property="twitter:image" content="https://mybigdaxin.github.io/images/beauty.png">
+  <meta property="og:image" content="https://mybigdaxin.github.io/images/concurrent.png">
+  <meta property="twitter:image" content="https://mybigdaxin.github.io/images/concurrent.png">
 
 
 
@@ -65,14 +63,14 @@
   <meta property="twitter:image" content="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=640">
 
 
-    <title>排序算法</title>
+    <title>Java并发机制底层实现原理</title>
 
     <link rel="icon" href="https://mybigdaxin.github.io/favicon.png">
     
 
     
 
-    <link rel="canonical" href="https://mybigdaxin.github.io/2019/08/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/">
+    <link rel="canonical" href="https://mybigdaxin.github.io/2019/08/java%E5%B9%B6%E5%8F%91%E6%9C%BA%E5%88%B6%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">
 
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
@@ -215,21 +213,21 @@
   <div class="post-header-cover
               text-center
               post-header-cover--full"
-       style="background-image:url('/images/beauty.png')"
+       style="background-image:url('/images/concurrent.png')"
        data-behavior="5">
     
       <div class="post-header main-content-wrap text-center">
   
     <h1 class="post-title" itemprop="headline">
-      排序算法
+      Java并发机制底层实现原理
     </h1>
   
   
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2019-08-08T23:04:52&#43;08:00">
+      <time itemprop="datePublished" datetime="2019-08-09T15:01:29&#43;08:00">
         
-  八月 8, 2019
+  八月 9, 2019
 
       </time>
     
@@ -238,9 +236,7 @@
   
     <span>发布在</span>
     
-      <a class="category-link" href="https://mybigdaxin.github.io/categories/%e5%9f%ba%e7%a1%80">基础</a>, 
-    
-      <a class="category-link" href="https://mybigdaxin.github.io/categories/%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84%e4%b8%8e%e7%ae%97%e6%b3%95">数据结构与算法</a>
+      <a class="category-link" href="https://mybigdaxin.github.io/categories/%e5%b9%b6%e5%8f%91">并发</a>
     
   
 
@@ -257,315 +253,260 @@
                hasCoverCaption">
         <article class="post" itemscope itemType="http://schema.org/BlogPosting">
           
-            <span class="post-header-cover-caption caption">排序算法..待补充</span>
+            <span class="post-header-cover-caption caption">Java并发机制底层实现原理</span>
           
           
           <div class="post-content markdown" itemprop="articleBody">
             <div class="main-content-wrap">
               <h1 id="table-of-contents">目录</h1><nav id="TableOfContents">
 <ul>
-<li><a href="#排序算法">排序算法</a>
+<li><a href="#java并发机制底层实现原理">Java并发机制底层实现原理</a>
 <ul>
-<li><a href="#冒泡排序">冒泡排序</a></li>
-<li><a href="#插入排序">插入排序</a></li>
-<li><a href="#选择排序">选择排序</a></li>
-<li><a href="#堆排序">堆排序</a>
+<li>
 <ul>
-<li><a href="#递归">递归</a></li>
-<li><a href="#非递归">非递归</a></li>
+<li>
+<ul>
+<li><a href="#概念介绍">概念介绍</a></li>
 </ul></li>
-<li><a href="#快速排序">快速排序</a></li>
-<li><a href="#归并排序">归并排序</a></li>
-<li><a href="#总结">总结</a></li>
+</ul></li>
+<li><a href="#volatile应用">volatile应用</a>
+<ul>
+<li>
+<ul>
+<li><a href="#voliatile定义">voliatile定义</a></li>
+<li><a href="#变量在内存的工作过程">变量在内存的工作过程</a></li>
+<li><a href="#volatile的汇编形式">volatile的汇编形式</a></li>
+<li><a href="#volatile使用优化">volatile使用优化</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#synchronized实现原理及应用">synchronized实现原理及应用</a>
+<ul>
+<li>
+<ul>
+<li><a href="#sync方法与synchroized-this-与synchroized-非this对象-对比">sync方法与synchroized(this)与synchroized(非this对象)对比</a></li>
+<li><a href="#java对象头">java对象头</a></li>
+<li><a href="#synchronized和volatile的区别">synchronized和volatile的区别</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#原子操作的实现原理">原子操作的实现原理</a>
+<ul>
+<li>
+<ul>
+<li><a href="#java如何实现原子操作">Java如何实现原子操作</a></li>
+</ul></li>
+</ul></li>
 </ul></li>
 </ul>
 </nav>
 
-<h1 id="排序算法">排序算法</h1>
+<h1 id="java并发机制底层实现原理">Java并发机制底层实现原理</h1>
 
-<h2 id="冒泡排序">冒泡排序</h2>
+<h4 id="概念介绍">概念介绍</h4>
 
-<p>基本流程:  第一个与第二个比 大交换    第二个与第三个比 大交换</p>
-
-<pre><code class="language-java">public static void bubbleSort(int[] arr) {
-		if (arr == null || arr.length &lt; 2) {
-			return;
-		}
-		for (int e = arr.length - 1; e &gt; 0; e--) {
-			for (int i = 0; i &lt; e; i++) {
-				if (arr[i] &gt; arr[i + 1]) {
-					swap(arr, i, i + 1);
-				}
-			}
-		}
-	}
-	public static void swap(int[] arr, int i, int j) {
-		arr[i] = arr[i] ^ arr[j];
-		arr[j] = arr[i] ^ arr[j];
-		arr[i] = arr[i] ^ arr[j];
-	}
-</code></pre>
-
-<h2 id="插入排序">插入排序</h2>
-
-<p>基本流程: 从第2个数开始和第一个数比对,然后就是第3个数..</p>
-
-<pre><code class="language-java">public static void insertionSort(int[] arr) {
-		if (arr == null || arr.length &lt; 2) {
-			return;
-		}
-		for (int i = 1; i &lt; arr.length; i++) {
-			for (int j = i - 1; j &gt;= 0 &amp;&amp; arr[j] &gt; arr[j + 1]; j--) {
-				swap(arr, j, j + 1);
-			}
-		}
-	}
-
-	public static void swap(int[] arr, int i, int j) {
-		arr[i] = arr[i] ^ arr[j];
-		arr[j] = arr[i] ^ arr[j];
-		arr[i] = arr[i] ^ arr[j];
-	}
-</code></pre>
-
-<h2 id="选择排序">选择排序</h2>
-
-<p>基本流程:从第一个数开始 找到最小的下标,然后与第1个数进行交换 这时就确认第一个数是最小的,再从第二个数开始</p>
-
-<pre><code class="language-java">public static void selectionSort(int[] arr) {
-		if (arr == null || arr.length &lt; 2) {
-			return;
-		}
-		for (int i = 0; i &lt; arr.length - 1; i++) {
-			int minIndex = i;
-			for (int j = i + 1; j &lt; arr.length; j++) {
-				minIndex = arr[j] &lt; arr[minIndex] ? j : minIndex;
-			}
-			swap(arr, i, minIndex);
-		}
-	}
-
-	public static void swap(int[] arr, int i, int j) {
-		int tmp = arr[i];
-		arr[i] = arr[j];
-		arr[j] = tmp;
-	}
-
-</code></pre>
-
-<h2 id="堆排序">堆排序</h2>
-
-<h3 id="递归">递归</h3>
-
-<p>2 * i  + 1 : 左</p>
-
-<p>2 * i  +  2 : 右</p>
-
-<p>(i - 1)/2 : 父</p>
+<p><strong>非线程安全</strong>: 多个线程对同一对象中的<strong>实例变量</strong>并发访问时产生</p>
 
 <blockquote>
-<p>log1 + log2 + log3 + &hellip; log (n - 1) : O(N)</p>
+<p>方法内的私有变量是安全的 对私安全 对实危险</p>
 </blockquote>
 
-<pre><code class="language-java">public static void heapSort(int[] arr) {
-		if (arr == null || arr.length &lt; 2) {
-			return;
-		}
-		for (int i = 0; i &lt; arr.length; i++) {
-		// 进行堆的创建 堆是一个完全二叉树 而实质是一个数组
-			heapInsert(arr, i);
-		}
-		int size = arr.length;
-		swap(arr, 0, --size);
-		while (size &gt; 0) {
-			heapify(arr, 0, size);
-			swap(arr, 0, --size);
-		}
-	}
+<p><strong>线程安全</strong>: 获得实例变量的值经同步处理</p>
 
-// 建立大/小 根堆时间复杂度为O(N) 调整只和完全二叉树的高度有关系
-	public static void heapInsert(int[] arr, int index) {
-	// 如果 父节点的值小于子节点 交换 并网上搜寻
-		while (arr[index] &gt; arr[(index - 1) / 2]) {
-			swap(arr, index, (index - 1) / 2);
-			index = (index - 1) / 2;
-		}
-	}
-// 重新堆化 复杂度 O(logN)
-	public static void heapify(int[] arr, int index, int size) {
-	// 左边  size: 堆的边界 一个数组可能部分是堆
-		int left = index * 2 + 1;
-		while (left &lt; size) {
-		// left + 1 右孩子     largest找到了左右孩子中较大的那个
-			int largest = left + 1 &lt; size &amp;&amp; arr[left + 1] &gt; arr[left] ? left + 1 : left;
-			// 和当前的再进行比较
-			largest = arr[largest] &gt; arr[index] ? largest : index;
-			// 如果我仍是最大的 退出
-			if (largest == index) {
-				break;
-			}
-			// 不断往下沉
-			swap(arr, largest, index);
-			index = largest;
-			left = index * 2 + 1;
-		}
-	}
+<blockquote>
+<p>同步: 在方法上加上synchroized关键字</p>
+</blockquote>
 
-	public static void swap(int[] arr, int i, int j) {
-		int tmp = arr[i];
-		arr[i] = arr[j];
-		arr[j] = tmp;
-	}
+<p><strong>脏读</strong>: 获得到的数据是被更改过</p>
+
+<h2 id="volatile应用">volatile应用</h2>
+
+<p>volatile是<strong>轻量级</strong>的 synchronized，它在多处理器开发中保证了共享变量的“<strong>可见性</strong>”</p>
+
+<blockquote>
+<p>可见性: 一个线程修改共享变量 其他线程能读到修改的值</p>
+</blockquote>
+
+<h4 id="voliatile定义">voliatile定义</h4>
+
+<p>为了确保共享变量能被准确和一致地更新，线程应该确保通过<strong>排他锁</strong>单独获得这个变量</p>
+
+<h4 id="变量在内存的工作过程">变量在内存的工作过程</h4>
+
+<ul>
+<li>read</li>
+<li>load加载</li>
+</ul>
+
+<blockquote>
+<p>从主存复制到当前线程</p>
+</blockquote>
+
+<ul>
+<li>use操作</li>
+<li>asgin赋值</li>
+</ul>
+
+<blockquote>
+<p>执行代码 上面3步非原子性</p>
+</blockquote>
+
+<ul>
+<li>store</li>
+<li>write</li>
+</ul>
+
+<blockquote>
+<p>当前内存去刷新主存中对应变量的值</p>
+</blockquote>
+
+<p>多环境中 use assgin是多次出现 但<strong>并不是原子性</strong> 说不定加载完后 主存就刷新了值</p>
+
+<h4 id="volatile的汇编形式">volatile的汇编形式</h4>
+
+<pre><code class="language-java">instance = new Singleton(); // instance是volatile变量
+// 0x01a3de1d: movb $0×0,0×1104800(%esi);0x01a3de24: lock addl $0×0,(%esp);
 </code></pre>
 
-<h3 id="非递归">非递归</h3>
+<p>注意<strong>Lock</strong>指令 lock指令在多核处理器下会引发了两件事情</p>
 
-<pre><code class="language-java">public static void heapSort(char[] chas) {
-		for (int i = 0; i &lt; chas.length; i++) {
-			heapInsert(chas, i);
-		}
-		for (int i = chas.length - 1; i &gt; 0; i--) {
-			swap(chas, 0, i);
-			heapify(chas, 0, i);
-		}
-	}
-
-	public static void heapInsert(char[] chas, int i) {
-		int parent = 0;
-		while (i != 0) {
-			parent = (i - 1) / 2;
-			if (chas[parent] &lt; chas[i]) {
-				swap(chas, parent, i);
-				i = parent;
-			} else {
-				break;
-			}
-		}
-	}
-
-	public static void heapify(char[] chas, int i, int size) {
-		int left = i * 2 + 1;
-		int right = i * 2 + 2;
-		int largest = i;
-		while (left &lt; size) {
-			if (chas[left] &gt; chas[i]) {
-				largest = left;
-			}
-			if (right &lt; size &amp;&amp; chas[right] &gt; chas[largest]) {
-				largest = right;
-			}
-			if (largest != i) {
-				swap(chas, largest, i);
-			} else {
-				break;
-			}
-			i = largest;
-			left = i * 2 + 1;
-			right = i * 2 + 2;
-		}
-	}
-
-	public static void swap(char[] chas, int index1, int index2) {
-		char tmp = chas[index1];
-		chas[index1] = chas[index2];
-		chas[index2] = tmp;
-	}
+<pre><code>   	1.  将当前处理器**缓存行**的数据写回到系统内存
+ 	2.  写回内存的操作会**使在其他CPU里缓存了该内存地址的数据无效**
 </code></pre>
 
-<h2 id="快速排序">快速排序</h2>
+<h4 id="volatile使用优化">volatile使用优化</h4>
 
-<p>基本流程:比尾元素小的移动到序列左边，比尾元素大的移动到序列右边，
-对以该元素为界的左右两个子序列（均不包括该元素）重复此操作 尾元素通过递归
-是会改变的</p>
+<p>在JDK7并发包里 类<strong>LinkedTransferQueue</strong>   使用volatile变量时，用一种追加字节的方式来优化队列出队和入队的性能</p>
 
-<pre><code class="language-java">public static void quickSort(int[] arr) {
-		if (arr == null || arr.length &lt; 2) {
-			return;
-		}
-		quickSort(arr, 0, arr.length - 1);
-	}
-
-	public static void quickSort(int[] arr, int l, int r) {
-		if (l &lt; r) {
-		// 随机选取一个作为哨兵 放于末尾
-			swap(arr, l + (int) (Math.random() * (r - l + 1)), r);
-			int[] p = partition(arr, l, r);
-			quickSort(arr, l, p[0] - 1);
-			quickSort(arr, p[1] + 1, r);
-		}
-	}
-// 小于末尾的放左边 大于末尾的放右边 等于末尾的放中间
-	public static int[] partition(int[] arr, int l, int r) {
-		int less = l - 1;
-		int more = r;
-		while (l &lt; more) {
-			if (arr[l] &lt; arr[r]) {
-				swap(arr, ++less, l++);
-			} else if (arr[l] &gt; arr[r]) {
-				swap(arr, --more, l);
-			} else {
-				l++;
-			}
-		}
-		// 将刚开始的基准放到中间
-		swap(arr, more, r);
-		// 返回小于和大于的下标
-		return new int[] { less + 1, more };
-	}
-
-	public static void swap(int[] arr, int i, int j) {
-		int tmp = arr[i];
-		arr[i] = arr[j];
-		arr[j] = tmp;
-	}
+<pre><code class="language-java">/** 队列中的头部节点 */
+private transient f?inal PaddedAtomicReference&lt;QNode&gt; head;
+/** 队列中的尾部节点 */
+private transient f?inal PaddedAtomicReference&lt;QNode&gt; tail;
+static f?inal class PaddedAtomicReference &lt;T&gt; extends AtomicReference T&gt; {
+// 使用很多4个字节的引用追加到64个字节
+Object p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, pa, pb, pc, pd, pe;
+PaddedAtomicReference(T r) {
+super(r);
+}
+} public class AtomicReference &lt;
+V&gt; implements java.io.Serializable {
+private volatile V value;
+// 省略其他代码
+｝
 </code></pre>
 
-<p>最坏时的情况就是 基准为序列中最大/小的元素 partition过程 一次是处理好一个元素 于是为O(n - 1 +  n - 2 + .. + 1) = <strong>O(n^2)</strong></p>
+<p>PaddedAtomicReference 将共享变量追加到64字节  (pe ~ p0) * 4 + value = 64</p>
 
-<h2 id="归并排序">归并排序</h2>
+<p>追加到64字节 提升效率的原因是  <strong>酷睿i7、酷睿等处理器</strong>(但不是所有的处理器缓存行都为64字节宽)的L1 L2 L3 缓存的<strong>高速缓存行</strong>是64个字节宽</p>
 
-<p>分治法 划分一半左/右</p>
+<p>并且不支持<strong>部分填充缓存行</strong>  所以头尾结点不足64字节 则会放入一个缓存行 多处理器下 一个处理器修改了自己缓存行的头节点 会锁定整个缓存行 对应的 由于在缓存一致性机制 其他的处理器就<strong>不能访问尾结点</strong> 即时它没修改头节点</p>
 
-<pre><code class="language-java">	public static void mergeSort(int[] arr) {
-		if (arr == null || arr.length &lt; 2) {
-			return;
-		}
-		mergeSort(arr, 0, arr.length - 1);
-	}
+<h2 id="synchronized实现原理及应用">synchronized实现原理及应用</h2>
 
-	public static void mergeSort(int[] arr, int l, int r) {
-		if (l == r) {
-			return;
-		}
-		int mid = l + ((r - l) &gt;&gt; 1);
-		mergeSort(arr, l, mid);
-		mergeSort(arr, mid + 1, r);
-		merge(arr, l, mid, r);
-	}
+<p>synchronized <strong>同步块</strong>是解决sync申明方法上,执行长时间的任务<strong>其他线程等待时间过长</strong>的问题</p>
 
-	public static void merge(int[] arr, int l, int m, int r) {
-		int[] help = new int[r - l + 1];
-		int i = 0;
-		int p1 = l;
-		int p2 = m + 1;
-		while (p1 &lt;= m &amp;&amp; p2 &lt;= r) {
-			help[i++] = arr[p1] &lt; arr[p2] ? arr[p1++] : arr[p2++];
-		}
-		while (p1 &lt;= m) {
-			help[i++] = arr[p1++];
-		}
-		while (p2 &lt;= r) {
-			help[i++] = arr[p2++];
-		}
-		for (i = 0; i &lt; help.length; i++) {
-			arr[l + i] = help[i];
-		}
-	}
-</code></pre>
+<p>synchronized表现为3种形式</p>
 
-<h2 id="总结">总结</h2>
+<ol>
+<li>对于普通同步方法，锁是当前实例对象。即<strong>该方法所属对象</strong>的锁</li>
+<li>对于静态同步方法，锁是当前类的Class对象。</li>
+<li>对于同步方法块，锁是Synchonized括号里配置的对象</li>
+</ol>
 
-<p><img src="https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/data/20190808223216.png" alt="" /></p>
+<h4 id="sync方法与synchroized-this-与synchroized-非this对象-对比">sync方法与synchroized(this)与synchroized(非this对象)对比</h4>
+
+<ul>
+<li>sync方法与synchroized(this)二者都是锁定当前对象</li>
+<li>访问同一对象带有sync synchroized(this)的代码都是同步的</li>
+<li>sync(非this对象x)中程序与sync方法是异步的 不与其他锁this同步方法抢this</li>
+</ul>
+
+<blockquote>
+<p>synchronized声明的方法一定是排队运行,且只有共享资源的<strong>读写访问</strong>才需要同步化</p>
+</blockquote>
+
+<p>synchronized在JVM中<strong>实现原理</strong>是 monitorenter和monitorexit指令实现的</p>
+
+<ul>
+<li>对于monitorenter  它是在编译后插入到同步代码块的开始位置</li>
+<li>对于monitorexit    它是插入到方法结束处和异常处</li>
+</ul>
+
+<h4 id="java对象头">java对象头</h4>
+
+<p><strong>对象头的长度</strong></p>
+
+<p><img src="https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/data/20190809114219.png" alt="" /></p>
+
+<p><strong>对象头的存储结构</strong> Mark Word</p>
+
+<p><img src="https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/data/20190809115426.png" alt="" /></p>
+
+<p>Mark Word状态变化</p>
+
+<p><img src="https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/data/20190809115756.png" alt="" /></p>
+
+<p>synchronized用的锁是存在Java对象头中</p>
+
+<h4 id="synchronized和volatile的区别">synchronized和volatile的区别</h4>
+
+<ul>
+<li>关键字volatile是线程同步的<strong>轻量级</strong>的实现 s比较重</li>
+<li>v仅能修饰变量 s修饰方法 代码块</li>
+<li>v保证不会发生阻塞 s会出现阻塞</li>
+<li>v保证可见,不保证原子 s保证原子 间接保证可见</li>
+<li>s解决的是多个线程之间访问资源的同步性</li>
+</ul>
+
+<h2 id="原子操作的实现原理">原子操作的实现原理</h2>
+
+<p>原子操作涉及的基本术语</p>
+
+<p><img src="https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/data/20190809115831.png" alt="" /></p>
+
+<p>32位IA-32处理器使用基于对<strong>缓存加锁</strong>或<strong>总线加锁</strong>的方式来实现多处理器之间的原子操
+作   处理器保证从系统内存中<strong>读取或者写入一个字节</strong>是原子的</p>
+
+<ol>
+<li>总线加锁</li>
+</ol>
+
+<p>使用处理器提供的一个<strong>LOCK＃信号</strong>，当一个处理器在<strong>总线上输出此信号</strong>时，其他处理器的请求将被<strong>阻塞</strong>住</p>
+
+<ol>
+<li>缓存加锁</li>
+</ol>
+
+<p>总线锁定把CPU和内存之间的<strong>通信锁住</strong> 使得锁定期间  其他处理器<strong>不能操作其他内存地址的数据</strong></p>
+
+<p>需要花销小的操作  内存区域如果被缓存在处理器的缓存行中  执行锁操作<strong>回写到内存</strong>时 处理器变为修改内部的内存地址</p>
+
+<h4 id="java如何实现原子操作">Java如何实现原子操作</h4>
+
+<ol>
+<li>使用循环CAS实现原子操作</li>
+</ol>
+
+<p>CAS存在的问题</p>
+
+<ol>
+<li><p>ABA问题</p>
+
+<p>CAS需要在操作值的时候，是检查值有没有发生变化，如果没有发生变化
+  则更新 若值A-&gt;B-&gt;A  则会误以为没有变化</p>
+
+<p><strong>解决思路</strong>: 引入版本号 1A-&gt;2B-&gt;3A</p></li>
+
+<li><p>循环时间长开销大</p>
+
+<p>长时间不成功,给CPU带来非常大的执行开销</p></li>
+
+<li><p>只能保证一个共享变量的原子操作</p>
+
+<p>多个共享变量操作时，循环CAS就无法保证操作的原子性</p></li>
+
+<li><p>通过锁</p></li>
+</ol>
+
+<p>除了偏向锁，JVM实现锁的方式都用了<strong>循环CAS</strong></p>
               
             </div>
           </div>
@@ -577,7 +518,7 @@
                   <div class="post-footer-tags">
                     <span class="text-color-light text-small">标签</span><br/>
                     
-  <a class="tag tag--primary tag--small" href="https://mybigdaxin.github.io/tags/%E7%AE%97%E6%B3%95/">算法</a>
+  <a class="tag tag--primary tag--small" href="https://mybigdaxin.github.io/tags/%E5%B9%B6%E5%8F%91/">并发</a>
 
                   </div>
                 
@@ -590,7 +531,7 @@
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/08/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B8%89-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" data-tooltip="每日算法(三)    动态规划">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/08/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" data-tooltip="排序算法">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -598,7 +539,7 @@
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/08/java%E5%B9%B6%E5%8F%91%E6%9C%BA%E5%88%B6%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" data-tooltip="Java并发机制底层实现原理">
+                <a class="post-action-btn btn btn--disabled">
               
                   <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -616,19 +557,19 @@
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/08/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/08/java%E5%B9%B6%E5%8F%91%E6%9C%BA%E5%88%B6%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/08/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/08/java%E5%B9%B6%E5%8F%91%E6%9C%BA%E5%88%B6%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/08/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/08/java%E5%B9%B6%E5%8F%91%E6%9C%BA%E5%88%B6%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -676,7 +617,7 @@
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/08/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E4%B8%89-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" data-tooltip="每日算法(三)    动态规划">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/08/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" data-tooltip="排序算法">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -684,7 +625,7 @@
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/08/java%E5%B9%B6%E5%8F%91%E6%9C%BA%E5%88%B6%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" data-tooltip="Java并发机制底层实现原理">
+                <a class="post-action-btn btn btn--disabled">
               
                   <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -702,19 +643,19 @@
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/08/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/08/java%E5%B9%B6%E5%8F%91%E6%9C%BA%E5%88%B6%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/08/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/08/java%E5%B9%B6%E5%8F%91%E6%9C%BA%E5%88%B6%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/08/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/08/java%E5%B9%B6%E5%8F%91%E6%9C%BA%E5%88%B6%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -744,19 +685,19 @@
   <ul class="share-options">
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F08%2F%25E6%258E%2592%25E5%25BA%258F%25E7%25AE%2597%25E6%25B3%2595%2F">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F08%2Fjava%25E5%25B9%25B6%25E5%258F%2591%25E6%259C%25BA%25E5%2588%25B6%25E5%25BA%2595%25E5%25B1%2582%25E5%25AE%259E%25E7%258E%25B0%25E5%258E%259F%25E7%2590%2586%2F">
           <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F08%2F%25E6%258E%2592%25E5%25BA%258F%25E7%25AE%2597%25E6%25B3%2595%2F">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F08%2Fjava%25E5%25B9%25B6%25E5%258F%2591%25E6%259C%25BA%25E5%2588%25B6%25E5%25BA%2595%25E5%25B1%2582%25E5%25AE%259E%25E7%258E%25B0%25E5%258E%259F%25E7%2590%2586%2F">
           <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F08%2F%25E6%258E%2592%25E5%25BA%258F%25E7%25AE%2597%25E6%25B3%2595%2F">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F08%2Fjava%25E5%25B9%25B6%25E5%258F%2591%25E6%259C%25BA%25E5%2588%25B6%25E5%25BA%2595%25E5%25B1%2582%25E5%25AE%259E%25E7%258E%25B0%25E5%258E%259F%25E7%2590%2586%2F">
           <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
         </a>
       </li>
@@ -852,9 +793,9 @@ $(document).ready(function() {
     
       <script>
         var disqus_config = function () {
-          this.page.url = 'https:\/\/mybigdaxin.github.io\/2019\/08\/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95\/';
+          this.page.url = 'https:\/\/mybigdaxin.github.io\/2019\/08\/java%E5%B9%B6%E5%8F%91%E6%9C%BA%E5%88%B6%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86\/';
           
-            this.page.identifier = '\/2019\/08\/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95\/'
+            this.page.identifier = '\/2019\/08\/java%E5%B9%B6%E5%8F%91%E6%9C%BA%E5%88%B6%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86\/'
           
         };
         (function() {
