@@ -271,11 +271,19 @@
 <li><a href="#选择排序">选择排序</a></li>
 <li><a href="#堆排序">堆排序</a>
 <ul>
-<li><a href="#递归">递归</a></li>
 <li><a href="#非递归">非递归</a></li>
+<li><a href="#递归">递归</a></li>
 </ul></li>
-<li><a href="#快速排序">快速排序</a></li>
-<li><a href="#归并排序">归并排序</a></li>
+<li><a href="#快速排序">快速排序</a>
+<ul>
+<li><a href="#递归-1">递归</a></li>
+<li><a href="#非递归-1">非递归</a></li>
+</ul></li>
+<li><a href="#归并排序">归并排序</a>
+<ul>
+<li><a href="#递归-2">递归</a></li>
+<li><a href="#非递归-2">非递归</a></li>
+</ul></li>
 <li><a href="#总结">总结</a></li>
 </ul></li>
 </ul>
@@ -355,7 +363,7 @@
 
 <h2 id="堆排序">堆排序</h2>
 
-<h3 id="递归">递归</h3>
+<h3 id="非递归">非递归</h3>
 
 <p>2 * i  + 1 : 左</p>
 
@@ -418,61 +426,53 @@
 	}
 </code></pre>
 
-<h3 id="非递归">非递归</h3>
+<h3 id="递归">递归</h3>
 
-<pre><code class="language-java">public static void heapSort(char[] chas) {
-		for (int i = 0; i &lt; chas.length; i++) {
-			heapInsert(chas, i);
-		}
-		for (int i = chas.length - 1; i &gt; 0; i--) {
-			swap(chas, 0, i);
-			heapify(chas, 0, i);
-		}
-	}
+<pre><code class="language-java">public static void heapSort(int[] array) {
+  //初始堆，array[0]为第一趟值最大的元素
+        array = buildMaxHeap(array); 
+        for (int i = array.length - 1; i &gt;= 1; i--) {
+            //将堆顶元素和堆底元素交换，即得到当前最大元素正确的排序位置
+            swap(array, 0, i);
+            heapify(array, 0, i);  //整理，将剩余的元素整理成大顶堆
+        }
+    }
 
-	public static void heapInsert(char[] chas, int i) {
-		int parent = 0;
-		while (i != 0) {
-			parent = (i - 1) / 2;
-			if (chas[parent] &lt; chas[i]) {
-				swap(chas, parent, i);
-				i = parent;
-			} else {
-				break;
-			}
-		}
-	}
+    //自下而上构建大顶堆：将array看成完全二叉树的顺序存储结构
+    private static int[] buildMaxHeap(int[] array) {
+        //从最后一个节点array.length-1的父节点（array.length-1-1）/2开始，直到根节点0，反复调整堆
+        for (int i = (array.length - 2) / 2; i &gt;= 0; i--) {
+            heapify(array, i, array.length);
+        }
+        return array;
 
-	public static void heapify(char[] chas, int i, int size) {
-		int left = i * 2 + 1;
-		int right = i * 2 + 2;
-		int largest = i;
-		while (left &lt; size) {
-			if (chas[left] &gt; chas[i]) {
-				largest = left;
-			}
-			if (right &lt; size &amp;&amp; chas[right] &gt; chas[largest]) {
-				largest = right;
-			}
-			if (largest != i) {
-				swap(chas, largest, i);
-			} else {
-				break;
-			}
-			i = largest;
-			left = i * 2 + 1;
-			right = i * 2 + 2;
-		}
-	}
+    }
 
-	public static void swap(char[] chas, int index1, int index2) {
-		char tmp = chas[index1];
-		chas[index1] = chas[index2];
-		chas[index2] = tmp;
-	}
+    //自上而下调整大顶堆（递归）
+    private static void heapify(int[] array, int k, int length) {
+        int left = 2 * k + 1;
+        if (left &lt; length - 1 &amp;&amp; array[left] &lt; array[left + 1]) {
+            left++;
+        }
+        if (left &gt; length - 1 || array[k] &gt;= array[left]) {
+            return;
+        } else {
+            swap(array, k, left);
+            heapify(array, left, length);
+        }
+    }
+
+    public static void swap(int[] arr, int i, int j) {
+        int tmp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = tmp;
+    }
+
 </code></pre>
 
 <h2 id="快速排序">快速排序</h2>
+
+<h3 id="递归-1">递归</h3>
 
 <p>基本流程:比尾元素小的移动到序列左边，比尾元素大的移动到序列右边，
 对以该元素为界的左右两个子序列（均不包括该元素）重复此操作 尾元素通过递归
@@ -522,7 +522,55 @@
 
 <p>最坏时的情况就是 基准为序列中最大/小的元素 partition过程 一次是处理好一个元素 于是为O(n - 1 +  n - 2 + .. + 1) = <strong>O(n^2)</strong></p>
 
+<h3 id="非递归-1">非递归</h3>
+
+<pre><code class="language-java">public static void nonRecrutSort(int[] a) {
+//非递归快排，两个栈 模拟递归调用
+        //设置两个栈，一个用于保存
+        if (a == null || a.length &lt; 0) return;
+        Stack&lt;Integer&gt; startStack = new Stack&lt;Integer&gt;();//保存当前划分的最高位
+        Stack&lt;Integer&gt; endStack = new Stack&lt;Integer&gt;();//保存当前划分的最低位
+        int start = 0;
+        int end = a.length - 1;
+
+        int pivotPos;
+
+        startStack.push(start);
+        endStack.push(end);
+
+        while (!startStack.isEmpty()) {
+            start = startStack.pop();
+            end = endStack.pop();
+            pivotPos = partition(a, start, end);
+            if (start &lt; pivotPos - 1) {
+                startStack.push(start);
+                endStack.push(pivotPos - 1);
+            }
+            if (end &gt; pivotPos + 1) {
+                startStack.push(pivotPos + 1);
+                endStack.push(end);
+            }
+        }
+    }
+
+    public static int partition(int[] a, int start, int end) {//分块方法，在数组a中，对下标从start到end的数列进行划分
+        int pivot = a[start];                     //把比pivot(初始的pivot=a[start]小的数移动到pivot的左边
+        while (start &lt; end) {                       //把比pivot大的数移动到pivot的右边
+            while (start &lt; end &amp;&amp; a[end] &gt;= pivot) end--;
+            a[start] = a[end];
+            while (start &lt; end &amp;&amp; a[start] &lt;= pivot) start++;
+            a[end] = a[start];
+        }
+        a[start] = pivot;
+        return start;//返回划分后的pivot的位置
+        //printArray(a);
+    }
+// 参考：http://blog.csdn.net/bnuside/article/details/6906688
+</code></pre>
+
 <h2 id="归并排序">归并排序</h2>
+
+<h3 id="递归-2">递归</h3>
 
 <p>分治法 划分一半左/右</p>
 
@@ -561,6 +609,78 @@
 			arr[l + i] = help[i];
 		}
 	}
+</code></pre>
+
+<h3 id="非递归-2">非递归</h3>
+
+<pre><code class="language-java">public static void MergeSort(int[] arr)
+    {
+        //使用非递归的方式来实现归并排序
+        int len = arr.length;
+        int k = 1;
+        
+        while(k &lt; len)
+        {
+            MergePass(arr, k, len);
+            k *= 2;         
+        }
+    }
+    
+    //MergePass方法负责将数组中的相邻的有k个元素的字序列进行归并
+    private static void MergePass(int[] arr, int k, int n)
+    {
+        int i = 0;
+        int j;
+        
+        //从前往后,将2个长度为k的子序列合并为1个
+        while(i &lt; n - 2*k + 1)
+        {
+            merge(arr, i, i + k-1, i + 2*k - 1);
+            i += 2*k;
+        }
+        
+        //这段代码保证了，将那些“落单的”长度不足两两merge的部分和前面merge起来。
+        if(i &lt; n - k )
+        {
+            merge(arr, i, i+k-1, n-1);
+        }
+        
+    }
+    
+    //merge函数实际上是将两个有序数组合并成一个有序数组
+    //因为数组有序，合并很简单，只要维护几个指针就可以了
+    private static void merge(int[] arr, int low, int mid, int high)
+    {
+        //temp数组用于暂存合并的结果
+        int[] temp = new int[high - low + 1];
+        //左半边的指针
+        int i = low;
+        //右半边的指针
+        int j = mid+1;
+        //合并后数组的指针
+        int k = 0;
+        
+        //将记录由小到大地放进temp数组
+        for(; i &lt;= mid &amp;&amp; j &lt;= high; k++)
+        {
+            if(arr[i] &lt; arr[j])
+                temp[k] = arr[i++];
+            else
+                temp[k] = arr[j++];
+        }
+        
+        //接下来两个while循环是为了将剩余的（比另一边多出来的个数）放到temp数组中
+        while(i &lt;= mid)
+            temp[k++] = arr[i++];
+        
+        while(j &lt;= high)
+            temp[k++] = arr[j++];
+        
+        //将temp数组中的元素写入到待排数组中
+        for(int l = 0; l &lt; temp.length; l++)
+            arr[low + l] = temp[l];
+    }
+//  参考: https://www.jianshu.com/p/39dd1d9b491d
 </code></pre>
 
 <h2 id="总结">总结</h2>
