@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.55.5 with theme Tranquilpeak 0.4.6-BETA">
+<meta name="author" content="Da Xin">
+<meta name="keywords" content="tech">
+<meta name="description" content="">
+
+
+<meta property="og:description" content="">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大数据与空间限制">
+<meta name="twitter:title" content="大数据与空间限制">
+<meta property="og:url" content="https://mybigdaxin.github.io/2019/08/%E5%A4%A7%E6%95%B0%E6%8D%AE%E4%B8%8E%E7%A9%BA%E9%97%B4%E9%99%90%E5%88%B6/">
+<meta property="twitter:url" content="https://mybigdaxin.github.io/2019/08/%E5%A4%A7%E6%95%B0%E6%8D%AE%E4%B8%8E%E7%A9%BA%E9%97%B4%E9%99%90%E5%88%B6/">
+<meta property="og:site_name" content="Just for">
+<meta property="og:description" content="">
+<meta name="twitter:description" content="">
+<meta property="og:locale" content="zh-cn">
+
+  
+    <meta property="article:published_time" content="2019-08-10T14:39:51">
+  
+  
+    <meta property="article:modified_time" content="2019-08-10T14:39:51">
+  
+  
+  
+    
+      <meta property="article:section" content="数据结构与算法">
+    
+  
+  
+    
+      <meta property="article:tag" content="面试">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://mybigdaxin.github.io/images/dataStruct.png">
+  <meta property="twitter:image" content="https://mybigdaxin.github.io/images/dataStruct.png">
+
+
+  <meta property="og:image" content="https://mybigdaxin.github.io/images/dataStruct.png">
+  <meta property="twitter:image" content="https://mybigdaxin.github.io/images/dataStruct.png">
+
+
+
+
+  <meta property="og:image" content="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=640">
+  <meta property="twitter:image" content="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=640">
+
+
+    <title>大数据与空间限制</title>
+
+    <link rel="icon" href="https://mybigdaxin.github.io/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://mybigdaxin.github.io/2019/08/%E5%A4%A7%E6%95%B0%E6%8D%AE%E4%B8%8E%E7%A9%BA%E9%97%B4%E9%99%90%E5%88%B6/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://mybigdaxin.github.io/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="5">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://mybigdaxin.github.io/">Just for</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://mybigdaxin.github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=90" alt="作者的图片" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="5">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://mybigdaxin.github.io/#about">
+          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=110" alt="作者的图片" />
+        </a>
+        <h4 class="sidebar-profile-name">Da Xin</h4>
+        
+          <h5 class="sidebar-profile-bio">Just for</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">首页</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">分类</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">标签</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">关于</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/MyBigDaXin" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+  <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=240 height=52 src="//music.163.com/outchain/player?type=0&id=2905300990&auto=1&height=32"></iframe>
+</nav>
+
+      
+  <div class="post-header-cover
+              text-center
+              post-header-cover--full"
+       style="background-image:url('/images/dataStruct.png')"
+       data-behavior="5">
+    
+      <div class="post-header main-content-wrap text-center">
+  
+    <h1 class="post-title" itemprop="headline">
+      大数据与空间限制
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-08-10T14:39:51&#43;08:00">
+        
+  八月 10, 2019
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://mybigdaxin.github.io/categories/%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84%e4%b8%8e%e7%ae%97%e6%b3%95">数据结构与算法</a>
+    
+  
+
+  </div>
+
+</div>
+    
+  </div>
+
+
+      <div id="main" data-behavior="5"
+        class="hasCover
+               hasCoverMetaIn
+               hasCoverCaption">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+            <span class="post-header-cover-caption caption">大数据与空间限制&hellip;待完善</span>
+          
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <h1 id="table-of-contents">目录</h1><nav id="TableOfContents">
+<ul>
+<li><a href="#大数据与空间限制">大数据与空间限制</a>
+<ul>
+<li><a href="#背景知识">背景知识</a>
+<ul>
+<li><a href="#布隆过滤器">布隆过滤器</a></li>
+</ul></li>
+<li><a href="#题目">题目</a>
+<ul>
+<li><a href="#40亿个无符号数-找出不存在的数">40亿个无符号数 找出不存在的数</a></li>
+<li><a href="#进阶">进阶</a></li>
+<li><a href="#再度进阶">再度进阶</a></li>
+<li><a href="#再再进阶">再再进阶</a></li>
+<li><a href="#将10亿无序文件排好序-都在磁盘-内存给定为10mb">将10亿无序文件排好序 都在磁盘 内存给定为10MB</a></li>
+<li><a href="#找出重复的url">找出重复的URL</a></li>
+<li><a href="#进阶-1">进阶</a></li>
+<li><a href="#去内存限制为1gb-找到一个出现过2次的数">去内存限制为1GB 找到一个出现过2次的数</a></li>
+<li><a href="#进阶-2">进阶</a></li>
+</ul></li>
+<li><a href="#总结">总结</a></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="大数据与空间限制">大数据与空间限制</h1>
+
+<h2 id="背景知识">背景知识</h2>
+
+<h3 id="布隆过滤器">布隆过滤器</h3>
+
+<p>布隆过滤器,就是将一个对象给N个互相独立的hash函数去hash一波得到的N个值
+再去对要存放的数组进行求余, 那个数组是一个BitMap,(要么为0要么为1) 将得到的余数去对应的数组涂黑</p>
+
+<p><strong>检查某个数是否在数组中</strong>:</p>
+
+<p>将该对象去给N个hash函数hash再求余,去bitMap中一个个找,如果全是黑的,那么说明在
+不全是黑说明不在</p>
+
+<p><strong>如何生成布隆过滤器</strong>:</p>
+
+<ul>
+<li>对于输入的<strong>数据量n</strong>和<strong>失误率p</strong>，布隆过滤器的大小<strong>m</strong>：<code>m = - (n*lnp)/(ln2*ln2)</code>，计算结果向上取整</li>
+<li>需要的哈希函数的个数k：<code>k = ln2 * m/n = 0.7 * m/n</code></li>
+<li>由于前两步都进行了向上取整，那么由前两步确定的布隆过滤器的<strong>真正失误率p</strong>：<code>p = (1 - e^(-nk/m))^k</code></li>
+</ul>
+
+<h2 id="题目">题目</h2>
+
+<h3 id="40亿个无符号数-找出不存在的数">40亿个无符号数 找出不存在的数</h3>
+
+<p>32位无符号整数的范围是0~4,294,967,295，现在有一个正好包含40亿个无符号整数的文件，所以在整个范围中必然存在没出现过的数。可以使用最多1GB的内存，怎么找到所有未出现过的数</p>
+
+<p>10亿字节算1G 使用<strong>位图</strong>去计算 0-&gt;42亿的bit数组去表示每一个数是否出现过 出现了就描黑   42亿/8  &lt; 10亿字节</p>
+
+<blockquote>
+<p>如何做出1万亿的bit?</p>
+</blockquote>
+
+<p>如果拿一维数组下标来看的话 是无法达到的 这时候可以用二维数组来 每一行人为规定是1千万个bit</p>
+
+<p>使用long类型的2维数组
+第x位bit如何确定位置  让第x位除以1千万 定位是哪一行
+再用x-第几个千万 再除64 定位到哪一个数</p>
+
+<h3 id="进阶">进阶</h3>
+
+<p>内存限制为10MB，但是只用找到一个没出现过的数即可</p>
+
+<blockquote>
+<p><strong>分组思想</strong>: 将某一范围的数进行分组 再去对应的组中进行遍历查找 找到不满足条件的 再去不满足条件的组中 进行进一步的查找</p>
+</blockquote>
+
+<p><strong>举例</strong>:</p>
+
+<p>某一类 范围为0 ~ 1200  但只有1000个实例 如何找到没出现的数</p>
+
+<p>将0 ~ 1200 进行分组</p>
+
+<p>0 ~ 99   100 ~ 199 &hellip;.  1100 ~ 1199  1200</p>
+
+<p>再遍历1000个实例 若 遍历为 120 则将 100 ~ 199 区间的词频 + 1 最终找到区间少于100的 再遍历对应的组 缩小范围</p>
+
+<p><strong>解答</strong>:</p>
+
+<pre><code>10MB-&gt;Byte =&gt; 80M bit
+
+42亿/8千万 =  60
+
+int[] 长度 60 
+
+int[0] : 第一个8千万
+
+int[1] : 第二个8千万
+
+遍历寻找小于8千万的 再次进行分组
+</code></pre>
+
+<h3 id="再度进阶">再度进阶</h3>
+
+<p>内存限制为10kb 只用找到一个没出现过的数</p>
+
+<pre><code>10kb=&gt; 1000/4 = 250 int[] 长度:250
+
+42亿分250份 统计 找出不满足个数的区间例:[ a - b ] 
+再对[a,b]进行划分 250 分 再找不满足条件的 释放内存 进行划分
+</code></pre>
+
+<h3 id="再再进阶">再再进阶</h3>
+
+<p>给你几个变量 求42亿中的中位数</p>
+
+<pre><code>0--------|------42亿
+        mid
+        找到(2^32 - 1 ) / 2 中位数
+0----|----2^32 - 1 / 2
+     mid
+        直到为1
+</code></pre>
+
+<h3 id="将10亿无序文件排好序-都在磁盘-内存给定为10mb">将10亿无序文件排好序 都在磁盘 内存给定为10MB</h3>
+
+<pre><code>内存中创建个 大根堆 放入最小的1万数 算出1万个数后
+放入0号文件 拿到0号文件的最大值 假定为5000
+以后遍历的时候碰见小于5000的不理会 再次放到1号文件 又一个1万
+依次这样
+</code></pre>
+
+<h3 id="找出重复的url">找出重复的URL</h3>
+
+<p>有一个包含100亿个URL的大文件，假设每个URL占用64B，请找出其中所有重复的URL</p>
+
+<pre><code>对于要求时间: 
+1. 将100亿的URL进行hash
+2. 然后分散到机器上 
+3. 搞成文件
+4. 分别进行统计
+要求空间: 则使用布隆过滤器 判断 存在在过滤器的就进行记录 最后一起返回 表示有重复的
+可以减少内存
+</code></pre>
+
+<h3 id="进阶-1">进阶</h3>
+
+<p>某搜索公司一天的用户搜索词汇量是海量的 设计一种求Top100的词</p>
+
+<pre><code>用户进行正常的请求的话 正常返回给它就是
+但服务器此时要异步的记录url 将string发给机器
+然后分散给不同的文件 从各文件求出Top100
+</code></pre>
+
+<p><strong>如何排序</strong></p>
+
+<pre><code>拿外排的话  3 个文件 先各自大-&gt;小 排好来 进行对比 0
+1 2 选 17 9 100对比 选走K  然后移到 Z 再比较 
+拿走 A移到B 再比较拿到E 如此 复杂度O(N)
+
+二维堆排序
+0 1 2组成一个堆 A   A D K 比较的话 这三入堆 B
+选出最大的K 弹出 然后 Z 入堆 然后再弹出最大的
+复杂度O(NlogN)
+</code></pre>
+
+<p><img src="https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/data/20190810105531.png" alt="" /></p>
+
+<h3 id="去内存限制为1gb-找到一个出现过2次的数">去内存限制为1GB 找到一个出现过2次的数</h3>
+
+<p>32位无符号整数的范围是0-4294967295，现在有40亿个无符号整数，可以使用最多1GB的内存，找出所有出现了两次的数</p>
+
+<p>选择两个bit 作为位图的位</p>
+
+<ul>
+<li>00 0 次</li>
+<li>01 1 次</li>
+<li>10 2 次</li>
+<li>11 大于 2次</li>
+</ul>
+
+<h3 id="进阶-2">进阶</h3>
+
+<p>可以使用最多10MB的内存，怎么找到这40亿个整数的中位数？</p>
+
+<p><strong>分段统计</strong></p>
+
+<p>第一段出现 a 个 第二段 b 个 第三段 c 个 ..依次累加 达到20亿个或者刚超过20亿个 到刚好超过的那个区间 去划分</p>
+
+<h2 id="总结">总结</h2>
+
+<p>大数据题目的解题技巧</p>
+
+<ul>
+<li>哈希函数可以把数据按照种类均匀分流</li>
+<li>布隆过滤器用于集合的建立与查询，并可以节省大量空间</li>
+<li>一致性哈希解决数据服务器的负载管理问题</li>
+<li>利用并查集结构做岛问题的并行计算</li>
+<li>位图解决某一范围上数字的出现情况，并可以节省大量空间</li>
+<li>利用分段统计思想、并进一步节省大量空间</li>
+<li>利用堆、外排序来做多个处理单元的结果合并</li>
+</ul>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">标签</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://mybigdaxin.github.io/tags/%E9%9D%A2%E8%AF%95/">面试</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/08/java%E5%B9%B6%E5%8F%91%E6%9C%BA%E5%88%B6%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" data-tooltip="Java并发机制底层实现原理">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/08/%E5%A4%A7%E6%95%B0%E6%8D%AE%E4%B8%8E%E7%A9%BA%E9%97%B4%E9%99%90%E5%88%B6/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/08/%E5%A4%A7%E6%95%B0%E6%8D%AE%E4%B8%8E%E7%A9%BA%E9%97%B4%E9%99%90%E5%88%B6/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/08/%E5%A4%A7%E6%95%B0%E6%8D%AE%E4%B8%8E%E7%A9%BA%E9%97%B4%E9%99%90%E5%88%B6/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 Da Xin. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/08/java%E5%B9%B6%E5%8F%91%E6%9C%BA%E5%88%B6%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" data-tooltip="Java并发机制底层实现原理">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/08/%E5%A4%A7%E6%95%B0%E6%8D%AE%E4%B8%8E%E7%A9%BA%E9%97%B4%E9%99%90%E5%88%B6/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/08/%E5%A4%A7%E6%95%B0%E6%8D%AE%E4%B8%8E%E7%A9%BA%E9%97%B4%E9%99%90%E5%88%B6/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/08/%E5%A4%A7%E6%95%B0%E6%8D%AE%E4%B8%8E%E7%A9%BA%E9%97%B4%E9%99%90%E5%88%B6/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F08%2F%25E5%25A4%25A7%25E6%2595%25B0%25E6%258D%25AE%25E4%25B8%258E%25E7%25A9%25BA%25E9%2597%25B4%25E9%2599%2590%25E5%2588%25B6%2F">
+          <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F08%2F%25E5%25A4%25A7%25E6%2595%25B0%25E6%258D%25AE%25E4%25B8%258E%25E7%25A9%25BA%25E9%2597%25B4%25E9%2599%2590%25E5%2588%25B6%2F">
+          <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F08%2F%25E5%25A4%25A7%25E6%2595%25B0%25E6%258D%25AE%25E4%25B8%258E%25E7%25A9%25BA%25E9%2597%25B4%25E9%2599%2590%25E5%2588%25B6%2F">
+          <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=110" alt="作者的图片" />
+    
+    <h4 id="about-card-name">Da Xin</h4>
+    
+      <div id="about-card-bio">Just for</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        Javaer
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        China
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('https://mybigdaxin.github.io/images/cover.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://mybigdaxin.github.io/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+  
+    <script src="https://mybigdaxin.github.io/js/clicklove.js"></script>
+  
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/mybigdaxin.github.io\/2019\/08\/%E5%A4%A7%E6%95%B0%E6%8D%AE%E4%B8%8E%E7%A9%BA%E9%97%B4%E9%99%90%E5%88%B6\/';
+          
+            this.page.identifier = '\/2019\/08\/%E5%A4%A7%E6%95%B0%E6%8D%AE%E4%B8%8E%E7%A9%BA%E9%97%B4%E9%99%90%E5%88%B6\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'tranquilpeak';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+
