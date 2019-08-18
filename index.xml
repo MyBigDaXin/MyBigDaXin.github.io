@@ -6,10 +6,19 @@
     <description>Recent content on Just for</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 12 Aug 2019 23:41:49 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 18 Aug 2019 13:15:41 +0800</lastBuildDate>
     
 	<atom:link href="https://mybigdaxin.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>一致性算法  Paxos</title>
+      <link>https://mybigdaxin.github.io/2019/08/%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95-paxos/</link>
+      <pubDate>Sun, 18 Aug 2019 13:15:41 +0800</pubDate>
+      
+      <guid>https://mybigdaxin.github.io/2019/08/%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95-paxos/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>操作系统之死锁(四)</title>

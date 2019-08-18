@@ -4,30 +4,47 @@
   
   <url>
     <loc>https://mybigdaxin.github.io/categories/</loc>
-    <lastmod>2019-08-12T23:41:49+08:00</lastmod>
+    <lastmod>2019-08-18T13:15:41+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://mybigdaxin.github.io/</loc>
-    <lastmod>2019-08-12T23:41:49+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://mybigdaxin.github.io/categories/os/</loc>
-    <lastmod>2019-08-12T23:41:49+08:00</lastmod>
+    <lastmod>2019-08-18T13:15:41+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://mybigdaxin.github.io/post/</loc>
-    <lastmod>2019-08-12T23:41:49+08:00</lastmod>
+    <lastmod>2019-08-18T13:15:41+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://mybigdaxin.github.io/tags/</loc>
+    <lastmod>2019-08-18T13:15:41+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://mybigdaxin.github.io/2019/08/%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95-paxos/</loc>
+    <lastmod>2019-08-18T13:15:41+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mybigdaxin.github.io/categories/%E5%88%86%E5%B8%83%E5%BC%8F/</loc>
+    <lastmod>2019-08-18T13:15:41+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://mybigdaxin.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F/</loc>
+    <lastmod>2019-08-18T13:15:41+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://mybigdaxin.github.io/categories/os/</loc>
     <lastmod>2019-08-12T23:41:49+08:00</lastmod>
     <priority>0</priority>
   </url>
@@ -44,13 +61,13 @@
   </url>
   
   <url>
-    <loc>https://mybigdaxin.github.io/tags/jvm/</loc>
+    <loc>https://mybigdaxin.github.io/categories/jvm/</loc>
     <lastmod>2019-08-11T16:33:39+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://mybigdaxin.github.io/categories/jvm/</loc>
+    <loc>https://mybigdaxin.github.io/tags/jvm/</loc>
     <lastmod>2019-08-11T16:33:39+08:00</lastmod>
     <priority>0</priority>
   </url>
@@ -100,13 +117,13 @@
   </url>
   
   <url>
-    <loc>https://mybigdaxin.github.io/tags/%E5%B9%B6%E5%8F%91/</loc>
+    <loc>https://mybigdaxin.github.io/categories/%E5%B9%B6%E5%8F%91/</loc>
     <lastmod>2019-08-09T15:01:29+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://mybigdaxin.github.io/categories/%E5%B9%B6%E5%8F%91/</loc>
+    <loc>https://mybigdaxin.github.io/tags/%E5%B9%B6%E5%8F%91/</loc>
     <lastmod>2019-08-09T15:01:29+08:00</lastmod>
     <priority>0</priority>
   </url>
