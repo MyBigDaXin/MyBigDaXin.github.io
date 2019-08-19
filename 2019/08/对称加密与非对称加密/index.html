@@ -13,30 +13,30 @@
 
 <meta property="og:description" content="">
 <meta property="og:type" content="article">
-<meta property="og:title" content="一致性算法  Paxos">
-<meta name="twitter:title" content="一致性算法  Paxos">
-<meta property="og:url" content="https://mybigdaxin.github.io/2019/08/%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95-paxos/">
-<meta property="twitter:url" content="https://mybigdaxin.github.io/2019/08/%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95-paxos/">
+<meta property="og:title" content="对称加密与非对称加密">
+<meta name="twitter:title" content="对称加密与非对称加密">
+<meta property="og:url" content="https://mybigdaxin.github.io/2019/08/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%E4%B8%8E%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86/">
+<meta property="twitter:url" content="https://mybigdaxin.github.io/2019/08/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%E4%B8%8E%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86/">
 <meta property="og:site_name" content="Just for">
 <meta property="og:description" content="">
 <meta name="twitter:description" content="">
 <meta property="og:locale" content="zh-cn">
 
   
-    <meta property="article:published_time" content="2019-08-18T13:15:41">
+    <meta property="article:published_time" content="2019-08-19T15:04:13">
   
   
-    <meta property="article:modified_time" content="2019-08-18T13:15:41">
+    <meta property="article:modified_time" content="2019-08-19T15:04:13">
   
-  
-  
-    
-      <meta property="article:section" content="分布式">
-    
   
   
     
-      <meta property="article:tag" content="分布式">
+      <meta property="article:section" content="杂记">
+    
+  
+  
+    
+      <meta property="article:tag" content="杂记">
     
   
 
@@ -49,12 +49,12 @@
 
 
 
-  <meta property="og:image" content="https://mybigdaxin.github.io/images/dis/dis.jpg">
-  <meta property="twitter:image" content="https://mybigdaxin.github.io/images/dis/dis.jpg">
+  <meta property="og:image" content="https://mybigdaxin.github.io/images/store.jpg">
+  <meta property="twitter:image" content="https://mybigdaxin.github.io/images/store.jpg">
 
 
-  <meta property="og:image" content="https://mybigdaxin.github.io/images/dis/dis.jpg">
-  <meta property="twitter:image" content="https://mybigdaxin.github.io/images/dis/dis.jpg">
+  <meta property="og:image" content="https://mybigdaxin.github.io/images/store.jpg">
+  <meta property="twitter:image" content="https://mybigdaxin.github.io/images/store.jpg">
 
 
 
@@ -63,14 +63,14 @@
   <meta property="twitter:image" content="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=640">
 
 
-    <title>一致性算法  Paxos</title>
+    <title>对称加密与非对称加密</title>
 
     <link rel="icon" href="https://mybigdaxin.github.io/favicon.png">
     
 
     
 
-    <link rel="canonical" href="https://mybigdaxin.github.io/2019/08/%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95-paxos/">
+    <link rel="canonical" href="https://mybigdaxin.github.io/2019/08/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%E4%B8%8E%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86/">
 
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
@@ -213,21 +213,21 @@
   <div class="post-header-cover
               text-center
               post-header-cover--full"
-       style="background-image:url('/images/dis/dis.jpg')"
+       style="background-image:url('/images/store.jpg')"
        data-behavior="5">
     
       <div class="post-header main-content-wrap text-center">
   
     <h1 class="post-title" itemprop="headline">
-      一致性算法  Paxos
+      对称加密与非对称加密
     </h1>
   
   
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2019-08-18T13:15:41&#43;08:00">
+      <time itemprop="datePublished" datetime="2019-08-19T15:04:13&#43;08:00">
         
-  八月 18, 2019
+  八月 19, 2019
 
       </time>
     
@@ -236,7 +236,7 @@
   
     <span>发布在</span>
     
-      <a class="category-link" href="https://mybigdaxin.github.io/categories/%e5%88%86%e5%b8%83%e5%bc%8f">分布式</a>
+      <a class="category-link" href="https://mybigdaxin.github.io/categories/%e6%9d%82%e8%ae%b0">杂记</a>
     
   
 
@@ -253,184 +253,267 @@
                hasCoverCaption">
         <article class="post" itemscope itemType="http://schema.org/BlogPosting">
           
-            <span class="post-header-cover-caption caption">一致性算法paxos</span>
+            <span class="post-header-cover-caption caption">对称加密与非对称加密</span>
           
           
           <div class="post-content markdown" itemprop="articleBody">
             <div class="main-content-wrap">
               <h1 id="table-of-contents">目录</h1><nav id="TableOfContents">
 <ul>
-<li><a href="#一致性算法-paxos">一致性算法&ndash;Paxos</a>
+<li><a href="#加密">加密</a>
 <ul>
-<li><a href="#概念介绍">概念介绍</a>
+<li><a href="#非对称加密">非对称加密</a>
 <ul>
-<li><a href="#一致性">一致性</a></li>
-<li><a href="#一致性模型">一致性模型</a></li>
+<li><a href="#使用场景">使用场景</a></li>
+<li><a href="#特点">特点</a></li>
+<li><a href="#密钥对生成流程">密钥对生成流程</a>
+<ul>
+<li><a href="#私钥流程">私钥流程</a></li>
+<li><a href="#公钥流程">公钥流程</a></li>
 </ul></li>
-<li><a href="#强一致算法">强一致算法</a>
+<li><a href="#加解密">加解密</a>
 <ul>
-<li><a href="#同步-主从同步">同步(主从同步)</a></li>
-<li><a href="#多数派">多数派</a></li>
-<li><a href="#paxos">Paxos</a>
-<ul>
-<li><a href="#basic-paxos">Basic Paxos</a></li>
-<li><a href="#multi-paxos">Multi Paxos</a></li>
+<li><a href="#rsa加密">rsa加密</a></li>
+<li><a href="#rsa解密">rsa解密</a></li>
 </ul></li>
-<li><a href="#raft">Raft</a></li>
-<li><a href="#zab">ZAB</a></li>
+</ul></li>
+<li><a href="#对称加密">对称加密</a>
+<ul>
+<li>
+<ul>
+<li><a href="#特点-1">特点</a></li>
+<li><a href="#流程">流程</a></li>
+<li><a href="#弊端">弊端</a></li>
+<li><a href="#des">DES</a></li>
+<li><a href="#3des">3DES</a></li>
+<li><a href="#aes">AES</a></li>
+</ul></li>
+<li><a href="#分组密码模式">分组密码模式</a>
+<ul>
+<li><a href="#ecb-电子密码本">ECB 电子密码本</a></li>
+<li><a href="#cbc-密码块链模式">CBC 密码块链模式</a></li>
+<li><a href="#cfb-密码反馈模式">CFB 密码反馈模式</a></li>
+<li><a href="#ofb-输出反馈模式">OFB 输出反馈模式</a></li>
+<li><a href="#ctr-计数器模式">CTR 计数器模式</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#单向散列函数">单向散列函数</a>
+<ul>
+<li><a href="#单向散列函数的性质">单向散列函数的性质</a></li>
+<li><a href="#单向散列函数的应用">单向散列函数的应用</a></li>
+<li><a href="#常用的单向散列函数">常用的单向散列函数</a></li>
 </ul></li>
 </ul></li>
 </ul>
 </nav>
 
-<h1 id="一致性算法-paxos">一致性算法&ndash;Paxos</h1>
+<h1 id="加密">加密</h1>
 
-<h2 id="概念介绍">概念介绍</h2>
+<h2 id="非对称加密">非对称加密</h2>
 
-<h3 id="一致性">一致性</h3>
-
-<p>对于一个分布式系统，<strong>不能同时满足</strong>以下三点：
-一致性（ consistency）
-可用性（ Availability）
-分区容错性（ Partition Tolerance）</p>
-
-<p><strong>最终一致性</strong>: 分布式系统刚写完 你立即读是读不到更改的 但保证最终能读到</p>
-
-<h3 id="一致性模型">一致性模型</h3>
+<h3 id="使用场景">使用场景</h3>
 
 <ul>
-<li>最终一致性
-
-<ul>
-<li>DNS（Domain Name System）</li>
-<li>Gossip（ Cassandra的通信协议）</li>
-</ul></li>
-<li>强一致性
-
-<ul>
-<li>同步</li>
-<li>Paxos</li>
-<li>Raft（multi-paxos）</li>
-<li>ZAB（multi-paxos）</li>
-</ul></li>
+<li>信息加密（A写数据，发送给B，信息只允许B读)</li>
+<li>登录认证（客户端要登录连接服务器，向服务器请求个人数据）</li>
+<li>数字签名（表明信息没有受到伪造，确实是信息拥有者发出来的，附在信息原文的后面）</li>
 </ul>
+
+<p>RSA:用于非对称和数字签名
+明文,密钥,密文都是数字</p>
+
+<p>加密过程 密文 = 明文^E modN (<strong>E和N的组合就是公钥</strong>)</p>
 
 <blockquote>
-<p>分布式系统对容错性的解决方案是状态机复制</p>
+<p>将明文自己做E次乘法，然后将其结果除以N求余数，这个余数就是密文</p>
 </blockquote>
 
-<p>Paxos是一种<strong>共识</strong>算法 需要达成需要达成共识，还会取决于client的行为</p>
+<p>解密过程 明文 = 密文^D modN (D和N的组合就是私钥)</p>
 
-<h2 id="强一致算法">强一致算法</h2>
-
-<h3 id="同步-主从同步">同步(主从同步)</h3>
+<h3 id="特点">特点</h3>
 
 <ul>
-<li>Master接受写请求</li>
-<li>Master复制日志至 slave</li>
-<li>Master等待，直到<strong>所有的</strong>从库返回</li>
+<li><p>数据的机密性只能单方向保证</p></li>
+
+<li><p>加密效率低适合加密少量数据</p></li>
+
+<li><p>加密强度高相对于对称加密</p></li>
 </ul>
 
-<blockquote>
-<p>一个slave节点失败， 或者Master阻塞，导致整个集群不可用，保证了一致性，可用性却大大降低</p>
-</blockquote>
+<h3 id="密钥对生成流程">密钥对生成流程</h3>
 
-<h3 id="多数派">多数派</h3>
+<h4 id="私钥流程">私钥流程</h4>
 
-<p>要求写都保证写入<strong>大于N/2个</strong>节点，每次读保证从<strong>大于N/2个节点中读</strong> 但在并发环境中 难以保证系统正确性</p>
+<p>​        生成私钥
+​        序列化为字符串
+​        将私钥加入pem格式块中
+​        通过pem进行编码,加入磁盘</p>
 
-<h3 id="paxos">Paxos</h3>
+<h4 id="公钥流程">公钥流程</h4>
 
-<h4 id="basic-paxos">Basic Paxos</h4>
+<p>​        从得到的私钥对象取出公钥
+​        x509标准序列化rsa公钥
+​        将公钥设置到pem格式块
+​        通过pem进行编码 写入磁盘</p>
 
-<p><strong>角色</strong>：</p>
+<h3 id="加解密">加解密</h3>
 
-<ul>
-<li>Client：系统外部角色，请求发起者。像民众。</li>
-<li>Propser：接受 Client请求，向集群提出提议（ propose）。并在冲突发生时，起到冲突调节的作用。像议员，替民众提出议案。</li>
-<li>Accpetor（ Voter）：提议投票和接收者，只有在形成法定人数（ Quorum，一般即为majority<strong>多数派</strong>）时，提议会最终被接受。像国会。</li>
-<li>Learner：提议接受者， backup，备份，对集群一致性没什么影响。像记录员</li>
-</ul>
+<h4 id="rsa加密">rsa加密</h4>
 
-<p><strong>步骤</strong>：</p>
+<p>​        读公钥文件中的公钥
+​        解码pem
+​        使用x509解码公钥
+​        使用得到的公钥通过rsa进行数据加密</p>
+
+<h4 id="rsa解密">rsa解密</h4>
 
 <ol>
-<li>Prepare: 议员提出一个提案，编号为N，此N大于这个议员之前提出<strong>提案编号</strong>。请求 国会的 多数派接受</li>
-<li>Promise: 如果N大于此国会之前接受的任何提案编号则接受，否则拒绝</li>
-<li>Accpet: 达到了多数派，议员会发出 accept请求，此请求包含提案编号N，以及<strong>提案内容</strong></li>
-<li>Accpeted: 若此国会在此期间没有收到任何编号大于N的提案，则接受此提案内容，否则忽略</li>
+<li>将私钥文件中的私钥读出，得到使用pem编码的字符串</li>
+<li>将得到的字符串解码</li>
+<li>使用x509将编码之后的私钥解析出来</li>
+<li>使用得到的公钥通过rsa进行数据加密</li>
 </ol>
 
-<p><strong>流程</strong>：</p>
+<p><img src="https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/os/20190819151241.png" alt="" /></p>
 
-<p><img src="https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/os/20190818125233.png" alt="" /></p>
+<h2 id="对称加密">对称加密</h2>
 
-<p>可能出现</p>
+<h4 id="特点-1">特点</h4>
 
 <ul>
-<li>部分节点失败，但达到了 Quorums情况  即Acceptor 少了 一个</li>
-<li>Proposer失败 这时候会出现第二个Proposer 继续请求</li>
-<li>活锁/决斗: 即议员A提出方案1 其他议员还没接收 议员B提出方案2 议员A不爽 不换内容 就该编号方案3 B方案4</li>
+<li>双方向保证机密性</li>
+<li>加密效率高，适合加密大数据，大文件</li>
+<li>相对于非对称加密加密强度不高</li>
 </ul>
 
-<p><strong>小结</strong>:</p>
+<h4 id="流程">流程</h4>
 
-<p>Basic Paxos: 难实现、效率低（2轮RPC）、活锁</p>
+<p>Aice和Bob通信，Aice给bob发送数据，使用对称加密的方式</p>
 
-<h4 id="multi-paxos">Multi Paxos</h4>
+<ol>
+<li><p>bob生成一个非对称的秘钥对，</p></li>
 
-<p>相比Basic Paxos出现新概念， Leader：唯一的 propser，所有请求都需经过此 Leader</p>
+<li><p>bob将公钥发送给 alice</p></li>
 
-<p><img src="https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/os/20190818130356.png" alt="" /></p>
+<li><p>alice生成一个用于<strong>对称加密的秘钥</strong></p></li>
 
-<p>唯一一个议员 leader</p>
+<li><p>alice使用bob的公钥就对称加密的秘钥进行加密，并且发送给bob</p></li>
 
-<p>Accept！（N， I， Vm）:  第N任leader 提出第I个议案 内容为Vm</p>
+<li><p>bob使用私钥就数据解密，得到对称加密的秘钥</p></li>
 
-<p><strong>进一步简化</strong></p>
-
-<p><img src="https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/os/20190818130649.png" alt="" /></p>
-
-<p>Servers中的第一个server想成为N任master 其他集群同意 则第一个成为master</p>
-
-<h3 id="raft">Raft</h3>
-
-<ul>
-<li><p>划分成三个子问题：</p>
-
-<ul>
-<li>Leader election</li>
-<li>Log Replication</li>
-<li>Safety</li>
-</ul></li>
-
-<li><p>重定义角色：</p>
-
-<ul>
-<li>Leader</li>
-<li>Follower</li>
-<li>Candidate</li>
-</ul></li>
-</ul>
+<li><p>通信的双方便用写好的秘钥进行对称加密数据加密</p></li>
+</ol>
 
 <blockquote>
-<p>Raft中一个结点可能有3个角色  但整个集群有一个Leader Leader确定了大多数follower设置好了值 自己才会提交 将日志写入文件系统</p>
+<p>数据对谁更重要谁就拥有私钥</p>
 </blockquote>
 
-<p>刚开始的时候 没有leader 每个节点有个timeout 当timeout走完还没有leader 则自己会将自己作为cand请求其他节点希望同意自己成为leader  成为了leader 会进行发送心跳包 <strong>心跳包包含心跳和数据</strong><img src="https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/os/20190818131134.png" alt="" /></p>
+<h4 id="弊端">弊端</h4>
 
-<p>上图是进行了分区 分区了的话 就在分区的地方进行leader的竞选 但下半部的分区是无法写入日志的 因为没有满足<strong>多数派</strong>条件 分区恢复则<strong>少数服从多数</strong></p>
+<p>秘钥分发困难</p>
+
+<h4 id="des">DES</h4>
+
+<p>将64bit的明文加密成64Bit密文的对称密码算法</p>
+
+<p><strong>密钥</strong>长度<strong>实际</strong>为56bit <strong>每隔7bit会设置一个用于错误检查的bit</strong></p>
+
+<p><strong>实质</strong>上密钥长度64（56 + 8bit校验错误）bit  且des每次只能加密64bit的数据 要想加密长的明文 则需要对DES加密进行迭代</p>
 
 <blockquote>
-<p>一致性并不一定代表完全正确性！ 三个可能结果：成功，失败， unknown</p>
+<p>迭代的具体方式就叫做<strong>模式</strong></p>
 </blockquote>
 
-<h3 id="zab">ZAB</h3>
+<p><img src="https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/os/20190819135129.png" alt="" /></p>
 
-<p>基本与raft相同。
-在一些名词的叫法上有些区别：如ZAB将某一个 eader的周期称为epoh，而raft则称之为term</p>
+<h4 id="3des">3DES</h4>
 
-<p>实现上也有些许不同：如raft保证日志连续性，心跳方向为 leader至 follower.ZAB则相反</p>
+<p><strong>分组密码</strong> 安全  将des重复3次得到的密码算法</p>
+
+<p>明文-&gt;通过密钥1进行<strong>DES加密</strong>-&gt;密钥2<strong>进行解密</strong>-&gt;密钥3<strong>进行加密</strong></p>
+
+<p>加密-&gt;解密-&gt;加密的目的是什么?为了兼容des</p>
+
+<p>密钥 24字节 会被平分为3个</p>
+
+<p>3des分组的长度 8字节</p>
+
+<h4 id="aes">AES</h4>
+
+<p><strong>分组密码</strong> 安全 取代des成为新标准的对称密码算法
+密钥长度128 192 256 bit3种
+aes分组128bit</p>
+
+<h3 id="分组密码模式">分组密码模式</h3>
+
+<h4 id="ecb-电子密码本">ECB 电子密码本</h4>
+
+<p>8的整数倍</p>
+
+<p>安全性较差</p>
+
+<p>要进行<strong>明文填充</strong> 达到块大小的整倍数</p>
+
+<p><img src="https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/os/20190819141719.png" alt="" /></p>
+
+<h4 id="cbc-密码块链模式">CBC 密码块链模式</h4>
+
+<p><img src="https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/os/20190819142147.png" alt="" /></p>
+
+<h4 id="cfb-密码反馈模式">CFB 密码反馈模式</h4>
+
+<p><img src="https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/os/20190819143030.png" alt="" /></p>
+
+<h4 id="ofb-输出反馈模式">OFB 输出反馈模式</h4>
+
+<p><img src="https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/os/20190819143103.png" alt="" /></p>
+
+<h4 id="ctr-计数器模式">CTR 计数器模式</h4>
+
+<p><img src="https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/os/20190819143153.png" alt="" /></p>
+
+<blockquote>
+<p>每次加密时都会生成一个不同的值（ nonce）来作为计数器的初始值</p>
+
+<p>小结:
+​    ECB: 容易破解                CBC:安全系数高
+​    不需要初始化向量                    需要初始化向量
+​    明文分组需要填充                    明文分组需要填充
+​    CFB                       OFB                           CTR
+​    需要初始化向量             需要初始化向量                 不需要
+​    明文都不需要填充
+​<br />
+​    明文填充是和加密模式相关 而不是和加密算法相关</p>
+</blockquote>
+
+<h2 id="单向散列函数">单向散列函数</h2>
+
+<blockquote>
+<p>也叫(消息摘要函数/hash函数)</p>
+</blockquote>
+
+<h3 id="单向散列函数的性质">单向散列函数的性质</h3>
+
+<ol>
+<li>根据任意长度的消息计算出<strong>固定的散列值</strong>  即无论输入(原像)多少 输出(消息摘要 指纹)都是固定长度的值</li>
+<li>能够快速计算出散列值</li>
+<li>消息不同散列值也不同</li>
+<li>抗碰撞性</li>
+<li>具备单向性</li>
+</ol>
+
+<h3 id="单向散列函数的应用">单向散列函数的应用</h3>
+
+<ol>
+<li>消息认证码</li>
+<li>数字签名； 就是按个手印 进行hash散列 进行非对称加密 然后进行解密校验</li>
+<li>伪随机数生成器</li>
+<li>一次性口令</li>
+</ol>
+
+<h3 id="常用的单向散列函数">常用的单向散列函数</h3>
+
+<p><img src="https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/os/20190819141001.png" alt="" /></p>
               
             </div>
           </div>
@@ -442,7 +525,7 @@
                   <div class="post-footer-tags">
                     <span class="text-color-light text-small">标签</span><br/>
                     
-  <a class="tag tag--primary tag--small" href="https://mybigdaxin.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
+  <a class="tag tag--primary tag--small" href="https://mybigdaxin.github.io/tags/%E6%9D%82%E8%AE%B0/">杂记</a>
 
                   </div>
                 
@@ -455,7 +538,7 @@
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/08/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E6%AD%BB%E9%94%81%E5%9B%9B/" data-tooltip="操作系统之死锁(四)">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/08/%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95-paxos/" data-tooltip="一致性算法  Paxos">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -463,7 +546,7 @@
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/08/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%E4%B8%8E%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86/" data-tooltip="对称加密与非对称加密">
+                <a class="post-action-btn btn btn--disabled">
               
                   <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -481,19 +564,19 @@
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/08/%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95-paxos/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/08/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%E4%B8%8E%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/08/%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95-paxos/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/08/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%E4%B8%8E%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/08/%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95-paxos/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/08/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%E4%B8%8E%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -541,7 +624,7 @@
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/08/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B9%8B%E6%AD%BB%E9%94%81%E5%9B%9B/" data-tooltip="操作系统之死锁(四)">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/08/%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95-paxos/" data-tooltip="一致性算法  Paxos">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -549,7 +632,7 @@
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/08/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%E4%B8%8E%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86/" data-tooltip="对称加密与非对称加密">
+                <a class="post-action-btn btn btn--disabled">
               
                   <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -567,19 +650,19 @@
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/08/%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95-paxos/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/08/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%E4%B8%8E%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/08/%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95-paxos/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/08/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%E4%B8%8E%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/08/%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95-paxos/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/08/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%E4%B8%8E%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -609,19 +692,19 @@
   <ul class="share-options">
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F08%2F%25E4%25B8%2580%25E8%2587%25B4%25E6%2580%25A7%25E7%25AE%2597%25E6%25B3%2595-paxos%2F">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F08%2F%25E5%25AF%25B9%25E7%25A7%25B0%25E5%258A%25A0%25E5%25AF%2586%25E4%25B8%258E%25E9%259D%259E%25E5%25AF%25B9%25E7%25A7%25B0%25E5%258A%25A0%25E5%25AF%2586%2F">
           <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F08%2F%25E4%25B8%2580%25E8%2587%25B4%25E6%2580%25A7%25E7%25AE%2597%25E6%25B3%2595-paxos%2F">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F08%2F%25E5%25AF%25B9%25E7%25A7%25B0%25E5%258A%25A0%25E5%25AF%2586%25E4%25B8%258E%25E9%259D%259E%25E5%25AF%25B9%25E7%25A7%25B0%25E5%258A%25A0%25E5%25AF%2586%2F">
           <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F08%2F%25E4%25B8%2580%25E8%2587%25B4%25E6%2580%25A7%25E7%25AE%2597%25E6%25B3%2595-paxos%2F">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F08%2F%25E5%25AF%25B9%25E7%25A7%25B0%25E5%258A%25A0%25E5%25AF%2586%25E4%25B8%258E%25E9%259D%259E%25E5%25AF%25B9%25E7%25A7%25B0%25E5%258A%25A0%25E5%25AF%2586%2F">
           <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
         </a>
       </li>
@@ -717,9 +800,9 @@ $(document).ready(function() {
     
       <script>
         var disqus_config = function () {
-          this.page.url = 'https:\/\/mybigdaxin.github.io\/2019\/08\/%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95-paxos\/';
+          this.page.url = 'https:\/\/mybigdaxin.github.io\/2019\/08\/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%E4%B8%8E%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86\/';
           
-            this.page.identifier = '\/2019\/08\/%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95-paxos\/'
+            this.page.identifier = '\/2019\/08\/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%E4%B8%8E%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86\/'
           
         };
         (function() {
