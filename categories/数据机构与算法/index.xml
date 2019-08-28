@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>数据机构与算法 on Just for</title>
+    <link>https://mybigdaxin.github.io/categories/%E6%95%B0%E6%8D%AE%E6%9C%BA%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/</link>
+    <description>Recent content in 数据机构与算法 on Just for</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 28 Aug 2019 13:01:38 +0800</lastBuildDate>
+    
+	<atom:link href="https://mybigdaxin.github.io/categories/%E6%95%B0%E6%8D%AE%E6%9C%BA%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>每日算法(四)   数组</title>
+      <link>https://mybigdaxin.github.io/2019/08/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E5%9B%9B-%E6%95%B0%E7%BB%84/</link>
+      <pubDate>Wed, 28 Aug 2019 13:01:38 +0800</pubDate>
+      
+      <guid>https://mybigdaxin.github.io/2019/08/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E5%9B%9B-%E6%95%B0%E7%BB%84/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
