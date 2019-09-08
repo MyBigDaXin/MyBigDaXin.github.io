@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.55.5 with theme Tranquilpeak 0.4.6-BETA">
+<meta name="author" content="Da Xin">
+<meta name="keywords" content="tech">
+<meta name="description" content="">
+
+
+<meta property="og:description" content="">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBoot整合shiro实现多用户表多Realm统一登录">
+<meta name="twitter:title" content="SpringBoot整合shiro实现多用户表多Realm统一登录">
+<meta property="og:url" content="https://mybigdaxin.github.io/2019/09/springboot%E6%95%B4%E5%90%88shiro%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%94%A8%E6%88%B7%E8%A1%A8%E5%A4%9Arealm%E7%BB%9F%E4%B8%80%E7%99%BB%E5%BD%95/">
+<meta property="twitter:url" content="https://mybigdaxin.github.io/2019/09/springboot%E6%95%B4%E5%90%88shiro%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%94%A8%E6%88%B7%E8%A1%A8%E5%A4%9Arealm%E7%BB%9F%E4%B8%80%E7%99%BB%E5%BD%95/">
+<meta property="og:site_name" content="Just for">
+<meta property="og:description" content="">
+<meta name="twitter:description" content="">
+<meta property="og:locale" content="zh-cn">
+
+  
+    <meta property="article:published_time" content="2019-09-08T21:41:52">
+  
+  
+    <meta property="article:modified_time" content="2019-09-08T21:41:52">
+  
+  
+  
+    
+      <meta property="article:section" content="项目">
+    
+  
+  
+    
+      <meta property="article:tag" content="shiro">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://mybigdaxin.github.io/images/theme.png">
+  <meta property="twitter:image" content="https://mybigdaxin.github.io/images/theme.png">
+
+
+  <meta property="og:image" content="https://mybigdaxin.github.io/images/theme.png">
+  <meta property="twitter:image" content="https://mybigdaxin.github.io/images/theme.png">
+
+
+
+
+  <meta property="og:image" content="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=640">
+  <meta property="twitter:image" content="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=640">
+
+
+    <title>SpringBoot整合shiro实现多用户表多Realm统一登录</title>
+
+    <link rel="icon" href="https://mybigdaxin.github.io/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://mybigdaxin.github.io/2019/09/springboot%E6%95%B4%E5%90%88shiro%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%94%A8%E6%88%B7%E8%A1%A8%E5%A4%9Arealm%E7%BB%9F%E4%B8%80%E7%99%BB%E5%BD%95/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://mybigdaxin.github.io/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="5">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://mybigdaxin.github.io/">Just for</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://mybigdaxin.github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=90" alt="作者的图片" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="5">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://mybigdaxin.github.io/#about">
+          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=110" alt="作者的图片" />
+        </a>
+        <h4 class="sidebar-profile-name">Da Xin</h4>
+        
+          <h5 class="sidebar-profile-bio">Just for</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">首页</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">分类</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">标签</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">关于</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/MyBigDaXin" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+  <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=240 height=52 src="//music.163.com/outchain/player?type=0&id=2905300990&auto=1&height=32"></iframe>
+</nav>
+
+      
+  <div class="post-header-cover
+              text-center
+              post-header-cover--full"
+       style="background-image:url('/images/theme.png')"
+       data-behavior="5">
+    
+      <div class="post-header main-content-wrap text-center">
+  
+    <h1 class="post-title" itemprop="headline">
+      SpringBoot整合shiro实现多用户表多Realm统一登录
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-09-08T21:41:52&#43;08:00">
+        
+  九月 8, 2019
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://mybigdaxin.github.io/categories/%e9%a1%b9%e7%9b%ae">项目</a>
+    
+  
+
+  </div>
+
+</div>
+    
+  </div>
+
+
+      <div id="main" data-behavior="5"
+        class="hasCover
+               hasCoverMetaIn
+               hasCoverCaption">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+            <span class="post-header-cover-caption caption">有关shiro的一个需求</span>
+          
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <h1 id="table-of-contents">目录</h1><nav id="TableOfContents">
+<ul>
+<li><a href="#springboot整合shiro实现多用户表多realm统一登录">SpringBoot整合shiro实现多用户表多Realm统一登录</a>
+<ul>
+<li>
+<ul>
+<li><a href="#待参考文章">待参考文章</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="springboot整合shiro实现多用户表多realm统一登录">SpringBoot整合shiro实现多用户表多Realm统一登录</h1>
+
+<blockquote>
+<p>前言: 一个需求 有学生和老师两个用户表 用springboot和shiro框架实现统一登录 即根据不用用户登录去查询自己的数据库</p>
+</blockquote>
+
+<p>借鉴:<a href="https://blog.csdn.net/visket2008/article/details/78539334">https://blog.csdn.net/visket2008/article/details/78539334</a></p>
+
+<p>一般的shiro登录就是通过前端传来用户的账号和密码 通过Controller里创建<strong>UsernamePasswordToken</strong>对象，然后绑定上前端访问过来的账号密码，之后由<strong>Subject.login(UsernamePasswordToken)</strong>完成登录，自己实现AuthorizingRealm完成登录认证，里面插入操作Service、DAO代码</p>
+
+<pre><code class="language-java"> @RequestMapping(value = &quot;/login&quot;, method = RequestMethod.POST)
+    public Result login(@RequestBody UserDO teacherDO) {
+        // 使用shiro框架进行认证
+        // 获取当前用户对象，状态为“未认证”
+        Subject subject = SecurityUtils.getSubject();
+        AuthenticationToken token = new UsernamePasswordToken(teacherDO.getTeacherUsername(), Md5Utils.toMD5(teacherDO.getTeacherPassword()));
+        try {
+            subject.login(token);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.build(ResultEnum.ERROR.getCode(), &quot;用户名或密码错误！&quot;);
+        }
+        // 查询登录成功的数据，放到redis中
+       UserDO teacher = (UserDO) subject.getPrincipal();
+        Serializable sessionId = subject.getSession().getId();
+        Map&lt;String, Object&gt; dataMap = Maps.newHashMap();
+        dataMap.put(&quot;token&quot;, sessionId);
+        dataMap.put(&quot;teacher&quot;, teacher);
+        redisTemplate.opsForValue().set(teacher.getUsername(), sessionId);
+        return Result.ok(&quot;登陆成功！&quot;, dataMap);
+    }
+</code></pre>
+
+<p>而有多个用户表时 比如 学生 老师时 因为查询的是不同的数据库  所以可以创建一个枚举或静态类去标记要求查哪个表</p>
+
+<pre><code class="language-java">public class UserType {
+
+    /** 老师 */
+    public static final String TEACHER = &quot;teacher&quot;;
+
+    /** 学生 */
+    public static final String STUDENT = &quot;student&quot;;
+
+   //..
+
+}
+</code></pre>
+
+<pre><code class="language-java">@Getter
+public enum UserType {
+    /**
+     * 学生
+     */
+    STUDENT(&quot;student&quot;,&quot;学生&quot;),
+    TEACHER(&quot;teacher&quot;,&quot;老师&quot;);
+
+    private String code;
+    private String msg;
+
+    UserType(String code, String msg) {
+        this.code = code;
+        this.msg = msg;
+    }
+
+}
+</code></pre>
+
+<p>然后就要扩展UsernamePasswordToken 用来接收上面的参数</p>
+
+<pre><code class="language-java">/**
+ * Description:自定义shiro-token重写类,用于多类型用户校验
+ */
+public class CustomLoginToken extends UsernamePasswordToken {
+
+    private static final long serialVersionUID = 2020457391511655213L;
+
+    private String loginType;
+
+    public CustomLoginToken() {}
+
+    public CustomLoginToken(final String username, final String password, 
+            final String loginType) {
+        super(username, password);
+        this.loginType = loginType;
+    }
+
+    public String getLoginType() {
+        return loginType;
+    }
+
+    public void setLoginType(String loginType) {
+        this.loginType = loginType;
+    }
+
+}
+</code></pre>
+
+<p>而后实现多个Realm</p>
+
+<pre><code class="language-java">public class ExamRealm extends AuthorizingRealm {
+
+    @Autowired
+    private TeacherService teacherService;
+    @Autowired
+    private RoleService roleService;
+    @Autowired
+    private TeacherRoleService teacherRoleService;
+    @Autowired
+    private RoleAuthService roleAuthService;
+    /**
+     * 授权方法
+     * @param principalCollection
+     * @return
+     */
+    @Override
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
+
+        // 获取登录中的用户
+        TeacherDO teacher = (TeacherDO) principalCollection.getPrimaryPrincipal();
+        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+
+        // 查询角色， 封装成集合
+        List&lt;TeacherRoleDO&gt; roleList = teacherRoleService.getByTeacher(teacher);
+        // Lambda表达式取出集合中指定元素封装成另一个集合
+        List&lt;String&gt; roleIds = roleList.stream().map(TeacherRoleDO::getTrRole).collect(Collectors.toList());
+        // 使用roleIds查询所有的角色，将角色名封装成集合
+        List&lt;String&gt; roleNames = roleService.listByIds(roleIds).stream().map(RoleDO::getRoleName).collect(Collectors.toList());
+        info.addRoles(roleNames);
+
+        // 根据roles查询权限
+        List&lt;AuthDO&gt; authList = roleAuthService.getByRoleIds(roleIds);
+        List&lt;String&gt; authCodes = authList.stream().map(AuthDO::getAuthCode).collect(Collectors.toList());
+        info.addStringPermissions(authCodes);
+        return info;
+    }
+
+    /**
+     * 认证
+     * @param token
+     * @return
+     * @throws AuthenticationException
+     */
+    @Override
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+        // 根据用户名查询数据库中的密码
+        UsernamePasswordToken passwordToken = (UsernamePasswordToken) token;
+        String username = passwordToken.getUsername();
+
+        QueryWrapper&lt;TeacherDO&gt; wrapper = new QueryWrapper&lt;&gt;();
+        wrapper.eq(&quot;teacher_username&quot;, username);
+        TeacherDO teacherDO = teacherService.getOne(wrapper);
+        if(teacherDO == null) {
+            // 用户名不存在
+            return null;
+        }
+
+        // 框架负责比对数据库中的密码和页面输入的密码是否一致
+        AuthenticationInfo info = new SimpleAuthenticationInfo(teacherDO, teacherDO.getTeacherPassword(), this.getName());
+        return info;
+    }
+}
+</code></pre>
+
+<pre><code class="language-java">public class StudentRealm extends AuthorizingRealm {
+
+    @Autowired
+    private StudentService studentService;
+
+    @Override
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
+       return null;
+
+    }
+
+    /**
+     * 认证
+     * @param token
+     * @return
+     * @throws AuthenticationException
+     */
+    @Override
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+        UsernamePasswordToken passwordToken = (UsernamePasswordToken) token;
+        String username = passwordToken.getUsername();
+
+        QueryWrapper&lt;StudentDO&gt; wrapper = new QueryWrapper&lt;&gt;();
+        wrapper.eq(&quot;stu_number&quot;, username);
+        StudentDO studentDO = studentService.getOne(wrapper);
+        if(studentDO == null) {
+            // 用户名不存在
+            throw new UnknownAccountException();
+        }
+
+        // 框架负责比对数据库中的密码和页面输入的密码是否一致
+        AuthenticationInfo info = new SimpleAuthenticationInfo(studentDO, studentDO.getStuPassword(), this.getName());
+        return info;
+    }
+}
+
+</code></pre>
+
+<p>然后在shiroConfig中进行添加配置</p>
+
+<ol>
+<li>自定义的session管理器</li>
+</ol>
+
+<pre><code class="language-java">/**
+ * 自定义shiro的session管理器 
+ * @version 1.0
+ */
+public class MySessionManager extends DefaultWebSessionManager {
+
+    private static final String AUTHORIZATION = &quot;Authorization&quot;;
+
+    private static final String REFERENCED_SESSION_ID_SOURCE = &quot;Stateless request&quot;;
+
+    public MySessionManager() {
+        super();
+    }
+
+    @Override
+    protected Serializable getSessionId(ServletRequest request, ServletResponse response) {
+        String id = WebUtils.toHttp(request).getHeader(AUTHORIZATION);
+        //如果请求头中有 Authorization 则其值为sessionId
+        if (!StringUtils.isBlank(id)) {
+            request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID_SOURCE, REFERENCED_SESSION_ID_SOURCE);
+            request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID, id);
+            request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID_IS_VALID, Boolean.TRUE);
+            return id;
+        } else {
+            //否则按默认规则从cookie取sessionId
+            return super.getSessionId(request, response);
+        }
+    }
+
+}
+
+</code></pre>
+
+<ol>
+<li><p>自定义的shiro过滤器 放行options方法</p>
+
+<pre><code>/**
+* 重写shiro过滤器，自动放行OPTIONS请求
+*
+* @version 1.0
+* @date: 2019/3/31 0031 下午 7:39
+*/
+public class OptionsAuthenticationFilter extends PassThruAuthenticationFilter {
+
+@Override
+public boolean onPreHandle(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
+    HttpServletRequest req = (HttpServletRequest) request;
+    if (req.getMethod().equals(RequestMethod.OPTIONS.name())) {
+        return true;
+    }
+    return super.onPreHandle(request, response, mappedValue);
+}
+}
+</code></pre></li>
+
+<li><p>用户登录后，shiro首先去访问安全管理器<code>securityManager</code>   一般web项目都用这个安全管理器做认证使用的，那么用户需要将自己实现的Realm写入，若只有一个Realm，则设置属性绑定realm，若有多个，则用realms<strong>而设置只是让Shiro知道你的这个项目有几个Realm，它管理认证校验时，一定会将多个Realm都参与认证</strong> 即 shiro会把你所添加的所有Realm全部去校验 所以要有自己的代码 只校验对应的Realm</p></li>
+</ol>
+
+<blockquote>
+<p>org.apache.shiro.web.mgt.DefaultWebSecurityManager</p>
+</blockquote>
+
+<p>按照shiro的源码，若安全管理器只配置一个Realm，则使用<code>doSingleRealmAuthentication</code>方法进入Realm做单独认证；若有多个Realm时，则使用<code>doMultiRealmAuthentication</code>方法，加载Collection<Realm>进行所有的Realm认证</p>
+
+<p>添加了多个Realm则 Shiro会进入这个方法<code>org.apache.shiro.authc.pam.ModularRealmAuthenticator</code>，将多个Realm都读取到，并加载这些认证信息</p>
+
+<p>所以步骤是</p>
+
+<ol>
+<li>重写<code>ModularRealmAuthenticator</code></li>
+<li>针对多Realm，找到指定待认证的Realm信息</li>
+
+<li><p>手工调用<code>doSingleRealmAuthentication</code>让其只认证指定需要认证的那个，可通过loginType；</p>
+
+<pre><code>import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Map;
+
+import org.apache.shiro.ShiroException;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationInfo;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.pam.ModularRealmAuthenticator;
+import org.apache.shiro.realm.Realm;
+import org.apache.shiro.util.CollectionUtils;
+
+import com.fg.cloud.common.shiro.CustomLoginToken;
+
+/**
+* Description:全局shiro拦截分发realm
+*/
+public class CustomModularRealmAuthenticator extends ModularRealmAuthenticator {
+
+private Map&lt;String, Object&gt; definedRealms;
+
+@Override
+protected AuthenticationInfo doAuthenticate(AuthenticationToken authenticationToken)
+        throws AuthenticationException {
+    // 判断getRealms()是否返回为空
+    assertRealmsConfigured();
+    // 强制转换回自定义的CustomizedToken
+    CustomLoginToken token = (CustomLoginToken) authenticationToken;
+    // 找到当前登录人的登录类型
+    String loginType = token.getLoginType();
+    // 所有Realm
+    Collection&lt;Realm&gt; realms = getRealms();
+    // 找到登录类型对应的指定Realm
+    Collection&lt;Realm&gt; typeRealms = new ArrayList&lt;Realm&gt;();
+    for (Realm realm : realms) {
+        if (realm.getName().toLowerCase().contains(loginType))
+            typeRealms.add(realm);
+    }
+
+    // 判断是单Realm还是多Realm
+    if (typeRealms.size() == 1)
+        return doSingleRealmAuthentication(typeRealms.iterator().next(), token);
+    else
+        return doMultiRealmAuthentication(typeRealms, token);
+}
+
+
+/** 
+ * 判断realm是否为空 
+ */  
+@Override  
+protected void assertRealmsConfigured() throws IllegalStateException {  
+    this.definedRealms = this.getDefinedRealms();  
+    if (CollectionUtils.isEmpty(this.definedRealms)) {  
+        throw new ShiroException(&quot;值传递错误!&quot;);  
+    }  
+}  
+
+public Map&lt;String, Object&gt; getDefinedRealms() {  
+    return this.definedRealms;  
+}  
+
+public void setDefinedRealms(Map&lt;String, Object&gt; definedRealms) {  
+    this.definedRealms = definedRealms;  
+}  
+}
+</code></pre></li>
+</ol>
+
+<p>自定义修改了<code>ModularRealmAuthenticator</code>后 则要去ShiroConfig中配置 否则shiro仍会按照默认的来执行</p>
+
+<pre><code class="language-java">/**
+ * shiro配置类
+ *
+ * @author
+ */
+@Configuration
+public class ShiroConfig {
+
+    /**
+     * 创建ShiroFilterFactoryBean
+     */
+    @Bean(&quot;shiroFilterFactoryBean&quot;)
+    public ShiroFilterFactoryBean shiroFilterFactoryBean(@Qualifier(&quot;securityManager&quot;) SecurityManager securityManager) {
+        System.out.println(&quot;==================ShiroFilterFactoryBean====================&quot;);
+        // 设置安全管理器
+        ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
+
+        shiroFilterFactoryBean.setSecurityManager(securityManager);
+
+        // 配置自定义shiro过滤器
+        Map&lt;String, Filter&gt; optionsFilter = Maps.newHashMap();
+        OptionsAuthenticationFilter authenticationFilter = new OptionsAuthenticationFilter();
+        optionsFilter.put(&quot;authc&quot;, authenticationFilter);
+        shiroFilterFactoryBean.setFilters(optionsFilter);
+
+        /**
+         * 常用过滤器
+         *  anon：无需认证可以访问
+         *  authc：必须认证才能访问
+         *  user：如果使用rememberMe的功能可以直接访问
+         *  perms：该资源必须得到权限才可以访问
+         *  role：该资源必须得到角色权限才可以访问
+         */
+        Map&lt;String, String&gt; filterMap = Maps.newHashMap();
+        filterMap.put(&quot;/teacher/login&quot;, &quot;anon&quot;);
+        filterMap.put(&quot;/student/login&quot;, &quot;anon&quot;);
+        filterMap.put(&quot;/studentPaperDO&quot;, &quot;anon&quot;);
+        filterMap.put(&quot;/logout&quot;, &quot;logout&quot;);
+        filterMap.put(&quot;/upload/**&quot;, &quot;anon&quot;);
+        filterMap.put(&quot;/upload&quot;, &quot;anon&quot;);
+        filterMap.put(&quot;/file/**&quot;, &quot;anon&quot;);
+        filterMap.put(&quot;/export/paper&quot;, &quot;anon&quot;);
+        filterMap.put(&quot;/**&quot;, &quot;authc&quot;);
+
+        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);
+        return shiroFilterFactoryBean;
+    }
+
+    /**
+     * 创建DefaultSecurityManager 并进行ModularRealmAuthenticator的添加
+     */
+    @Bean(&quot;securityManager&quot;)
+    public SecurityManager securityManager(@Qualifier(&quot;examReam&quot;) ExamRealm examRealm,@Qualifier(&quot;studentReam&quot;) StudentRealm studentRealm
+    ,@Qualifier(&quot;modularRealmAuthenticator&quot;) ModularRealmAuthenticator modularRealmAuthenticator) {
+        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+        // 自定义session管理 使用redis
+        securityManager.setSessionManager(sessionManager());
+        // 加入认证器
+        securityManager.setAuthenticator(modularRealmAuthenticator);
+
+        // 关联realm
+        securityManager.setRealm(examRealm);
+        securityManager.setRealm(studentRealm);
+
+        return securityManager;
+    }
+    /**
+     * 自定义modularRealmAuthenticator
+     */
+    @Bean(&quot;modularRealmAuthenticator&quot;)
+    public ModularRealmAuthenticator modularRealmAuthenticator(){
+        CustomModularRealmAuthenticator authenticator = new CustomModularRealmAuthenticator();
+        HashMap&lt;String,Object&gt; hashMap = new HashMap&lt;&gt;();
+      // 添加自定义的Realm key,value形式
+        hashMap.put(&quot;teacher&quot;,examRealm());
+        hashMap.put(&quot;student&quot;,studentRealm());
+        authenticator.setDefinedRealms(hashMap);
+        // 配置策略,只要有一个Realam认证成功即可 并且返回认证信息
+        FirstSuccessfulStrategy strategy = new FirstSuccessfulStrategy();
+        authenticator.setAuthenticationStrategy(strategy);
+        return authenticator;
+    }
+    /**
+     * 自定义sessionManager
+     */
+    @Bean(&quot;sessionManager&quot;)
+    public SessionManager sessionManager() {
+        MySessionManager mySessionManager = new MySessionManager();
+        mySessionManager.setGlobalSessionTimeout(CoreConstant.REDIS_TIMEOUT);
+        return mySessionManager;
+    }
+
+
+    /**
+     * 创建Realm 要加上@Bean
+     */
+    @Bean(&quot;examReam&quot;)
+    public ExamRealm examRealm() {
+        return new ExamRealm();
+    }
+
+    @Bean(&quot;studentReam&quot;)
+    public StudentRealm studentRealm(){
+        return new StudentRealm();
+    }
+    @Bean
+    public static LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
+        return new LifecycleBeanPostProcessor();
+    }
+
+    @Bean
+    @DependsOn(&quot;lifecycleBeanPostProcessor&quot;)
+    public static DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
+        DefaultAdvisorAutoProxyCreator advisorAutoProxyCreator = new DefaultAdvisorAutoProxyCreator();
+        advisorAutoProxyCreator.setProxyTargetClass(true);
+        return advisorAutoProxyCreator;
+    }
+
+    @Bean
+    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
+        AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
+        authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
+        return authorizationAttributeSourceAdvisor;
+    }
+
+}
+</code></pre>
+
+<p>改写完后 就可以根据自己指定认证的去处理</p>
+
+<h3 id="待参考文章">待参考文章</h3>
+
+<ol>
+<li><p><a href="https://juejin.im/post/5ac78b31f265da237411387e">https://juejin.im/post/5ac78b31f265da237411387e</a></p></li>
+
+<li><p><a href="https://www.cnblogs.com/sunshine-2015/p/5515429.html">https://www.cnblogs.com/sunshine-2015/p/5515429.html</a></p></li>
+</ol>
+
+<p>​</p>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">标签</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://mybigdaxin.github.io/tags/shiro/">shiro</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/08/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E5%9B%9B-%E6%95%B0%E7%BB%84/" data-tooltip="每日算法(四)   数组">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/09/springboot%E6%95%B4%E5%90%88shiro%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%94%A8%E6%88%B7%E8%A1%A8%E5%A4%9Arealm%E7%BB%9F%E4%B8%80%E7%99%BB%E5%BD%95/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/09/springboot%E6%95%B4%E5%90%88shiro%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%94%A8%E6%88%B7%E8%A1%A8%E5%A4%9Arealm%E7%BB%9F%E4%B8%80%E7%99%BB%E5%BD%95/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/09/springboot%E6%95%B4%E5%90%88shiro%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%94%A8%E6%88%B7%E8%A1%A8%E5%A4%9Arealm%E7%BB%9F%E4%B8%80%E7%99%BB%E5%BD%95/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 Da Xin. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/08/%E6%AF%8F%E6%97%A5%E7%AE%97%E6%B3%95%E5%9B%9B-%E6%95%B0%E7%BB%84/" data-tooltip="每日算法(四)   数组">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/09/springboot%E6%95%B4%E5%90%88shiro%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%94%A8%E6%88%B7%E8%A1%A8%E5%A4%9Arealm%E7%BB%9F%E4%B8%80%E7%99%BB%E5%BD%95/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/09/springboot%E6%95%B4%E5%90%88shiro%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%94%A8%E6%88%B7%E8%A1%A8%E5%A4%9Arealm%E7%BB%9F%E4%B8%80%E7%99%BB%E5%BD%95/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/09/springboot%E6%95%B4%E5%90%88shiro%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%94%A8%E6%88%B7%E8%A1%A8%E5%A4%9Arealm%E7%BB%9F%E4%B8%80%E7%99%BB%E5%BD%95/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F09%2Fspringboot%25E6%2595%25B4%25E5%2590%2588shiro%25E5%25AE%259E%25E7%258E%25B0%25E5%25A4%259A%25E7%2594%25A8%25E6%2588%25B7%25E8%25A1%25A8%25E5%25A4%259Arealm%25E7%25BB%259F%25E4%25B8%2580%25E7%2599%25BB%25E5%25BD%2595%2F">
+          <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F09%2Fspringboot%25E6%2595%25B4%25E5%2590%2588shiro%25E5%25AE%259E%25E7%258E%25B0%25E5%25A4%259A%25E7%2594%25A8%25E6%2588%25B7%25E8%25A1%25A8%25E5%25A4%259Arealm%25E7%25BB%259F%25E4%25B8%2580%25E7%2599%25BB%25E5%25BD%2595%2F">
+          <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F09%2Fspringboot%25E6%2595%25B4%25E5%2590%2588shiro%25E5%25AE%259E%25E7%258E%25B0%25E5%25A4%259A%25E7%2594%25A8%25E6%2588%25B7%25E8%25A1%25A8%25E5%25A4%259Arealm%25E7%25BB%259F%25E4%25B8%2580%25E7%2599%25BB%25E5%25BD%2595%2F">
+          <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=110" alt="作者的图片" />
+    
+    <h4 id="about-card-name">Da Xin</h4>
+    
+      <div id="about-card-bio">Just for</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        Javaer
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        China
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('https://mybigdaxin.github.io/images/cover.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://mybigdaxin.github.io/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+  
+    <script src="https://mybigdaxin.github.io/js/clicklove.js"></script>
+  
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/mybigdaxin.github.io\/2019\/09\/springboot%E6%95%B4%E5%90%88shiro%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%94%A8%E6%88%B7%E8%A1%A8%E5%A4%9Arealm%E7%BB%9F%E4%B8%80%E7%99%BB%E5%BD%95\/';
+          
+            this.page.identifier = '\/2019\/09\/springboot%E6%95%B4%E5%90%88shiro%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%94%A8%E6%88%B7%E8%A1%A8%E5%A4%9Arealm%E7%BB%9F%E4%B8%80%E7%99%BB%E5%BD%95\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'tranquilpeak';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+
