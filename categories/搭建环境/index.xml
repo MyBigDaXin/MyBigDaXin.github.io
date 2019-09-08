@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>搭建环境 on Just for</title>
+    <link>https://mybigdaxin.github.io/categories/%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/</link>
+    <description>Recent content in 搭建环境 on Just for</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 08 Sep 2019 22:15:15 +0800</lastBuildDate>
+    
+	<atom:link href="https://mybigdaxin.github.io/categories/%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>阿里云centos搭建jdk&#43;tomcat&#43;mysql</title>
+      <link>https://mybigdaxin.github.io/2019/09/%E9%98%BF%E9%87%8C%E4%BA%91centos%E6%90%AD%E5%BB%BAjdk-tomcat-mysql/</link>
+      <pubDate>Sun, 08 Sep 2019 22:15:15 +0800</pubDate>
+      
+      <guid>https://mybigdaxin.github.io/2019/09/%E9%98%BF%E9%87%8C%E4%BA%91centos%E6%90%AD%E5%BB%BAjdk-tomcat-mysql/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
