@@ -13,30 +13,30 @@
 
 <meta property="og:description" content="">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Maven小记">
-<meta name="twitter:title" content="Maven小记">
-<meta property="og:url" content="https://mybigdaxin.github.io/2019/09/maven%E5%B0%8F%E8%AE%B0/">
-<meta property="twitter:url" content="https://mybigdaxin.github.io/2019/09/maven%E5%B0%8F%E8%AE%B0/">
+<meta property="og:title" content="代理">
+<meta name="twitter:title" content="代理">
+<meta property="og:url" content="https://mybigdaxin.github.io/2019/09/%E4%BB%A3%E7%90%86/">
+<meta property="twitter:url" content="https://mybigdaxin.github.io/2019/09/%E4%BB%A3%E7%90%86/">
 <meta property="og:site_name" content="Just for">
 <meta property="og:description" content="">
 <meta name="twitter:description" content="">
 <meta property="og:locale" content="zh-cn">
 
   
-    <meta property="article:published_time" content="2019-09-09T12:40:53">
+    <meta property="article:published_time" content="2019-09-09T12:45:31">
   
   
-    <meta property="article:modified_time" content="2019-09-09T12:40:53">
+    <meta property="article:modified_time" content="2019-09-09T12:45:31">
   
-  
-  
-    
-      <meta property="article:section" content="项目">
-    
   
   
     
-      <meta property="article:tag" content="maven">
+      <meta property="article:section" content="se">
+    
+  
+  
+    
+      <meta property="article:tag" content="jdk代理">
     
   
 
@@ -49,12 +49,12 @@
 
 
 
-  <meta property="og:image" content="https://mybigdaxin.github.io/images/maven.png">
-  <meta property="twitter:image" content="https://mybigdaxin.github.io/images/maven.png">
+  <meta property="og:image" content="https://mybigdaxin.github.io/images/se.png">
+  <meta property="twitter:image" content="https://mybigdaxin.github.io/images/se.png">
 
 
-  <meta property="og:image" content="https://mybigdaxin.github.io/images/maven.png">
-  <meta property="twitter:image" content="https://mybigdaxin.github.io/images/maven.png">
+  <meta property="og:image" content="https://mybigdaxin.github.io/images/se.png">
+  <meta property="twitter:image" content="https://mybigdaxin.github.io/images/se.png">
 
 
 
@@ -63,14 +63,14 @@
   <meta property="twitter:image" content="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=640">
 
 
-    <title>Maven小记</title>
+    <title>代理</title>
 
     <link rel="icon" href="https://mybigdaxin.github.io/favicon.png">
     
 
     
 
-    <link rel="canonical" href="https://mybigdaxin.github.io/2019/09/maven%E5%B0%8F%E8%AE%B0/">
+    <link rel="canonical" href="https://mybigdaxin.github.io/2019/09/%E4%BB%A3%E7%90%86/">
 
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
@@ -213,19 +213,19 @@
   <div class="post-header-cover
               text-center
               post-header-cover--full"
-       style="background-image:url('/images/maven.png')"
+       style="background-image:url('/images/se.png')"
        data-behavior="5">
     
       <div class="post-header main-content-wrap text-center">
   
     <h1 class="post-title" itemprop="headline">
-      Maven小记
+      代理
     </h1>
   
   
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2019-09-09T12:40:53&#43;08:00">
+      <time itemprop="datePublished" datetime="2019-09-09T12:45:31&#43;08:00">
         
   九月 9, 2019
 
@@ -236,7 +236,7 @@
   
     <span>发布在</span>
     
-      <a class="category-link" href="https://mybigdaxin.github.io/categories/%e9%a1%b9%e7%9b%ae">项目</a>
+      <a class="category-link" href="https://mybigdaxin.github.io/categories/se">se</a>
     
   
 
@@ -253,204 +253,168 @@
                hasCoverCaption">
         <article class="post" itemscope itemType="http://schema.org/BlogPosting">
           
-            <span class="post-header-cover-caption caption">maven小记</span>
+            <span class="post-header-cover-caption caption">jdk代理</span>
           
           
           <div class="post-content markdown" itemprop="articleBody">
             <div class="main-content-wrap">
               <h1 id="table-of-contents">目录</h1><nav id="TableOfContents">
 <ul>
-<li><a href="#maven小记">Maven小记</a>
+<li><a href="#代理">代理</a>
 <ul>
-<li><a href="#命令">命令</a></li>
-<li><a href="#生命周期">生命周期</a></li>
-<li><a href="#依赖范围">依赖范围</a></li>
-<li><a href="#依赖版本冲突解决">依赖版本冲突解决</a>
+<li><a href="#jdk静态代理">JDK静态代理</a></li>
+<li><a href="#jdk动态代理">JDK动态代理</a>
 <ul>
-<li>
-<ul>
-<li><a href="#第一声明优先原则">第一声明优先原则</a></li>
-<li><a href="#路径近者优先">路径近者优先</a></li>
-<li><a href="#排除原则">排除原则</a></li>
-<li><a href="#版本锁定原则">版本锁定原则</a></li>
+<li><a href="#对比">对比</a></li>
 </ul></li>
-</ul></li>
-<li><a href="#分模块开发-父子工程">分模块开发(父子工程)</a></li>
-<li><a href="#问题">问题</a></li>
+<li><a href="#cglib代理">CGLIB代理</a></li>
 </ul></li>
 </ul>
 </nav>
 
-<h1 id="maven小记">Maven小记</h1>
+<h1 id="代理">代理</h1>
 
-<h2 id="命令">命令</h2>
+<h2 id="jdk静态代理">JDK静态代理</h2>
 
-<ul>
-<li>Clean 清理编译的文件 将<code>target</code>目录清除</li>
-<li>Compile 编译主目录的文件</li>
-<li>Test 编译并运行<code>src/test/java</code>目录的代码</li>
-<li>Package 进行打包 <code>jar</code> or <code>war</code> or <code>pom</code></li>
-<li>install 将项目发布到本地仓库</li>
-<li>Tomcat：run  一键启动</li>
-</ul>
+<p>就是两个类A ,B实现同一接口C,然后一个类B里面创建另一个类A的成员属性,调用方法C中调用前后进行出处理</p>
 
-<h2 id="生命周期">生命周期</h2>
+<pre><code class="language-java">// 被代理类 
+public class Hello implements HelloInterface {
 
-<ol>
-<li>Clean生命周期</li>
-</ol>
 
-<p>Clean</p>
+    @Override
+    public void sayHello() {
+        System.out.println(&quot;hello&quot;);
+    }
+}
+</code></pre>
 
-<ol>
-<li>Default生命周期</li>
-</ol>
-
-<p>Compile   test  package install  deploy</p>
-
-<ol>
-<li>Site生命周期</li>
-</ol>
-
-<p>Site</p>
-
-<blockquote>
-<p>不同的生命周期的命令可以同时执行 如: mvn clean package 并且运行某个生命周期阶段 会运行它及之前所有的前期阶段</p>
-</blockquote>
-
-<h2 id="依赖范围">依赖范围</h2>
-
-<ul>
-<li>Compile struts2-core</li>
-</ul>
-
-<p>编译（compile）时需要 测试时需要，运行时需要，打包时需要</p>
-
-<ul>
-<li>Provided   jsp-api.jar   servlet-api.jar</li>
-</ul>
-
-<p>编译（compile）时需要，测试（test）时也需要 ，运行时不需要，打包时不需要</p>
-
-<ul>
-<li>Runtime   数据库驱动包</li>
-</ul>
-
-<p>编译时不需要，测试时需要，运行时需要，打包时需要</p>
-
-<ul>
-<li>Test junit.jar</li>
-</ul>
-
-<p>编译时不需要，测试时需要，运行时不需要，打包也不需要</p>
-
-<h2 id="依赖版本冲突解决">依赖版本冲突解决</h2>
-
-<h4 id="第一声明优先原则">第一声明优先原则</h4>
-
-<p>用的是spring-bean-4.2.4</p>
-
-<pre><code class="language-xml">&lt;dependencies&gt;
-  &lt;!--   spring-beans-4.2.4 --&gt;
-  	&lt;dependency&gt;
-  		&lt;groupId&gt;org.springframework&lt;/groupId&gt;
-  		&lt;artifactId&gt;spring-context&lt;/artifactId&gt;
-  		&lt;version&gt;4.2.4.RELEASE&lt;/version&gt;
-  	&lt;/dependency&gt;
-  
-  
-&lt;!--   spring-beans-3.0.5 --&gt;
-  	&lt;dependency&gt;
-  		&lt;groupId&gt;org.apache.struts&lt;/groupId&gt;
-  		&lt;artifactId&gt;struts2-spring-plugin&lt;/artifactId&gt;
-  		&lt;version&gt;2.3.24&lt;/version&gt;
-  	&lt;/dependency&gt;
+<pre><code class="language-java">// 接口
+public interface HelloInterface {
+    void sayHello();
+}
 
 </code></pre>
 
-<h4 id="路径近者优先">路径近者优先</h4>
+<pre><code class="language-java">// 代理类
+public class HelloProxy implements HelloInterface {
 
-<p>自己添加jar包</p>
+    private HelloInterface helloInterface = new Hello();
 
-<h4 id="排除原则">排除原则</h4>
+    @Override
+    public void sayHello() {
+        System.out.println(&quot;before invoke sayHello&quot;);
+        helloInterface.sayHello();
+        System.out.println(&quot;after invoke sayHello&quot;);
+    }
 
-<pre><code class="language-xml">	&lt;dependency&gt;
-  		&lt;groupId&gt;org.apache.struts&lt;/groupId&gt;
-  		&lt;artifactId&gt;struts2-spring-plugin&lt;/artifactId&gt;
-  		&lt;version&gt;2.3.24&lt;/version&gt;
-  		&lt;exclusions&gt;
-  		  &lt;exclusion&gt;
-  		    &lt;groupId&gt;org.springframework&lt;/groupId&gt;
-  		    &lt;artifactId&gt;spring-beans&lt;/artifactId&gt;
-  		  &lt;/exclusion&gt;
-  		&lt;/exclusions&gt;
-  	&lt;/dependency&gt;
+    public static void main(String[] args) {
+        HelloProxy s = new HelloProxy();
+        s.sayHello();
+    }
+}
+
 </code></pre>
 
-<h4 id="版本锁定原则">版本锁定原则</h4>
+<h2 id="jdk动态代理">JDK动态代理</h2>
 
-<pre><code class="language-xml">&lt;properties&gt;
-		&lt;spring.version&gt;4.2.4.RELEASE&lt;/spring.version&gt;
-		&lt;hibernate.version&gt;5.0.7.Final&lt;/hibernate.version&gt;
-		&lt;struts.version&gt;2.3.24&lt;/struts.version&gt;
-	&lt;/properties&gt;
+<pre><code class="language-java">// 被代理类
+public class Hello implements HelloInterface {
 
-	&lt;!-- 锁定版本，struts2-2.3.24、spring4.2.4、hibernate5.0.7 --&gt;
-	&lt;dependencyManagement&gt;
-		&lt;dependencies&gt;
-			&lt;dependency&gt;
-				&lt;groupId&gt;org.springframework&lt;/groupId&gt;
-				&lt;artifactId&gt;spring-context&lt;/artifactId&gt;
-				&lt;version&gt;${spring.version}&lt;/version&gt;
-			&lt;/dependency&gt;
-&lt;/dependencies&gt;
-&lt;/dependencyManagement&gt;
+
+    @Override
+    public void sayHello() {
+        System.out.println(&quot;hello&quot;);
+    }
+}
 </code></pre>
 
-<h2 id="分模块开发-父子工程">分模块开发(父子工程)</h2>
+<pre><code class="language-java">// 接口
+public interface HelloInterface {
+    void sayHello();
+}
+</code></pre>
+
+<pre><code class="language-java">// 代理类
+public class HelloProxyDynaic implements InvocationHandler {
+
+    private Object object;
+
+    public HelloProxyDynaic(Object object) {
+        this.object = object;
+    }
+
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        System.out.println(&quot;before invoke &quot; + method.getName());
+        method.invoke(object,args);
+        System.out.println(&quot;before invoke &quot; + method.getName());
+        return null;
+    }
+}
+
+</code></pre>
+
+<h3 id="对比">对比</h3>
 
 <ol>
-<li>父工程的<code>pom</code>中的<code>package</code>必须是<code>pom</code></li>
-<li>父工程通常通过定义<code>dependencyManagement</code>来控制子模块的依赖的版本号统一</li>
-<li>父工程可在<code>dependency</code>中定义各子模块都可能用到的依赖，这些依赖会自动被子模块继承，也即子模块可省略在其<code>pom</code>中对这些依赖的引入</li>
-<li>各子模块虽然继承同一父工程，但彼此之间没有任何直接关联关系，如果模块A需要用到模块B的功能，则需现将模块B<code>mvn install</code>到本地仓库，然后在模块A的<code>pom</code>中引入模块B的坐标</li>
+<li>二者都要创建代理类，以及代理类都要实现接口</li>
+<li>静态代理要在编译前就需要代理类实现与被代理类相同的接口，并且直接在实现的方法中调用被代理类相应的方法</li>
+<li>动态代理我们不知道要针对哪个接口、哪个被代理类创建代理类，因为它是在运行时被创建的</li>
 </ol>
 
 <blockquote>
-<p>对于任何maven工程，无论是父工程还是子模块，要想其编译成功，其所有依赖必须要能在本地仓库或远程仓库中找得到</p>
+<p>JDK静态代理是通过直接编码创建的，而JDK动态代理是利用反射机制在运行时创建代理</p>
 </blockquote>
 
-<p>创建子模块的方法：右键父工程，选择<code>new module</code>。子模块可以在父工程的目录下，也可以和父工程同一目录，这没有任何影响。是否是父子工程需要看父工程<code>pom</code>中的<code>module</code>定义和子模块<code>pom</code>中的<code>parent</code>定义，子模块的<code>parent</code>中写父工程的<code>groupId、artifactId、version</code>，自己的<code>groupId</code>和<code>version</code>都将继承父工程的，只需自定义<code>artifactId</code></p>
-
-<blockquote>
-<p><code>dependencyManager</code>用来统一管理版本号，让子项目中引用一个依赖而不用显示的列出版本号。Maven会沿着父子层次向上走，直到找到一个拥有<code>dependencyManagement</code>元素的项目，然后它就会使用在这个<code>dependencyManagement</code>元素中指定的版本号</p>
-</blockquote>
-
-<h2 id="问题">问题</h2>
+<h2 id="cglib代理">CGLIB代理</h2>
 
 <ul>
-<li>MojoFailureException</li>
-</ul>
-
-<p>遇见这个是执行命令时遇到了的错误是由插件生成的。一般来说，插件使用这个错误来表示构建失败，因为项目的依赖项或源代码有问题，例如<code>编译</code>或<code>测试失败</code> 根据具体执行的结果报告去解决错误</p>
+<li>生成代理类的二进制字节码文件；
 
 <ul>
-<li>NoGoalSpecified Exception</li>
+<li>加载二进制字节码，生成Class对象( 例如使用Class.forName()方法 )；</li>
+</ul></li>
+<li>通过反射机制获得实例构造，并创建代理类对象</li>
 </ul>
 
-<p>Maven不知道做什么 你可以调用生命周期 或者调用一个插件  亦或者无版本的插件坐标 总之要至少指定一个阶段以让Maven继续运行</p>
+<pre><code class="language-java">public class Client {
+    public static void main(String[] args) {
+        Enhancer enhancer = new Enhancer();
+        enhancer.setSuperclass(Hello.class); // 继承被代理类
+        enhancer.setCallback(new HelloMethodInterceptor()); // 生成代理类对象
+        Hello hello = (Hello) enhancer.create();  // 调用代理类中方法时会被我们实现的方法拦截器进行拦截
+        hello.sayHello();
+    }
 
-<pre><code class="language-xml">&lt;project&gt;
-  ...
-  &lt;build&gt;
-    &lt;defaultGoal&gt;install&lt;/defaultGoal&gt;
-    ...
-  &lt;/build&gt;
-  ...
-&lt;/project&gt;
+}
 </code></pre>
 
-<p>Link:<a href="https://cwiki.apache.org/confluence/display/MAVEN/NoGoalSpecifiedException">https://cwiki.apache.org/confluence/display/MAVEN/NoGoalSpecifiedException</a></p>
+<pre><code class="language-java">public class Hello {
+
+    public void sayHello() {
+        System.out.println(&quot;hello&quot;);
+    }
+}
+
+</code></pre>
+
+<pre><code class="language-java">public class HelloMethodInterceptor implements MethodInterceptor {
+
+
+    @Override
+    public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
+        System.out.println(&quot;before &quot; + method.getName()); 
+        Object object = methodProxy.invokeSuper(o, objects);
+        System.out.println(&quot;after &quot; + method.getName());
+        return object;
+    }
+}
+</code></pre>
+
+<p>代理类会为委托方法生成两个方法，一个是重写的 sayHello方法，另一个是CGLB$sayHello方法，我们可以看到它是直接调用父类的 sayHello方法</p>
+
+<p><img src="https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/os20190828164621.png" alt="" /></p>
               
             </div>
           </div>
@@ -462,7 +426,7 @@
                   <div class="post-footer-tags">
                     <span class="text-color-light text-small">标签</span><br/>
                     
-  <a class="tag tag--primary tag--small" href="https://mybigdaxin.github.io/tags/maven/">maven</a>
+  <a class="tag tag--primary tag--small" href="https://mybigdaxin.github.io/tags/jdk%E4%BB%A3%E7%90%86/">jdk代理</a>
 
                   </div>
                 
@@ -475,7 +439,7 @@
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/09/%E9%98%BF%E9%87%8C%E4%BA%91centos%E6%90%AD%E5%BB%BAjdk-tomcat-mysql/" data-tooltip="阿里云centos搭建jdk&#43;tomcat&#43;mysql">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/09/maven%E5%B0%8F%E8%AE%B0/" data-tooltip="Maven小记">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -483,7 +447,7 @@
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/09/%E4%BB%A3%E7%90%86/" data-tooltip="代理">
+                <a class="post-action-btn btn btn--disabled">
               
                   <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -501,19 +465,19 @@
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/09/maven%E5%B0%8F%E8%AE%B0/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/09/%E4%BB%A3%E7%90%86/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/09/maven%E5%B0%8F%E8%AE%B0/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/09/%E4%BB%A3%E7%90%86/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/09/maven%E5%B0%8F%E8%AE%B0/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/09/%E4%BB%A3%E7%90%86/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -561,7 +525,7 @@
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/09/%E9%98%BF%E9%87%8C%E4%BA%91centos%E6%90%AD%E5%BB%BAjdk-tomcat-mysql/" data-tooltip="阿里云centos搭建jdk&#43;tomcat&#43;mysql">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/09/maven%E5%B0%8F%E8%AE%B0/" data-tooltip="Maven小记">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -569,7 +533,7 @@
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/09/%E4%BB%A3%E7%90%86/" data-tooltip="代理">
+                <a class="post-action-btn btn btn--disabled">
               
                   <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -587,19 +551,19 @@
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/09/maven%E5%B0%8F%E8%AE%B0/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/09/%E4%BB%A3%E7%90%86/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/09/maven%E5%B0%8F%E8%AE%B0/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/09/%E4%BB%A3%E7%90%86/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/09/maven%E5%B0%8F%E8%AE%B0/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/09/%E4%BB%A3%E7%90%86/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -629,19 +593,19 @@
   <ul class="share-options">
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F09%2Fmaven%25E5%25B0%258F%25E8%25AE%25B0%2F">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F09%2F%25E4%25BB%25A3%25E7%2590%2586%2F">
           <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F09%2Fmaven%25E5%25B0%258F%25E8%25AE%25B0%2F">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F09%2F%25E4%25BB%25A3%25E7%2590%2586%2F">
           <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F09%2Fmaven%25E5%25B0%258F%25E8%25AE%25B0%2F">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F09%2F%25E4%25BB%25A3%25E7%2590%2586%2F">
           <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
         </a>
       </li>
@@ -737,9 +701,9 @@ $(document).ready(function() {
     
       <script>
         var disqus_config = function () {
-          this.page.url = 'https:\/\/mybigdaxin.github.io\/2019\/09\/maven%E5%B0%8F%E8%AE%B0\/';
+          this.page.url = 'https:\/\/mybigdaxin.github.io\/2019\/09\/%E4%BB%A3%E7%90%86\/';
           
-            this.page.identifier = '\/2019\/09\/maven%E5%B0%8F%E8%AE%B0\/'
+            this.page.identifier = '\/2019\/09\/%E4%BB%A3%E7%90%86\/'
           
         };
         (function() {
