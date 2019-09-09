@@ -13,27 +13,31 @@
 
 <meta property="og:description" content="">
 <meta property="og:type" content="article">
-<meta property="og:title" content="阿里云centos搭建jdk&#43;tomcat&#43;mysql">
-<meta name="twitter:title" content="阿里云centos搭建jdk&#43;tomcat&#43;mysql">
-<meta property="og:url" content="https://mybigdaxin.github.io/2019/09/%E9%98%BF%E9%87%8C%E4%BA%91centos%E6%90%AD%E5%BB%BAjdk-tomcat-mysql/">
-<meta property="twitter:url" content="https://mybigdaxin.github.io/2019/09/%E9%98%BF%E9%87%8C%E4%BA%91centos%E6%90%AD%E5%BB%BAjdk-tomcat-mysql/">
+<meta property="og:title" content="Maven小记">
+<meta name="twitter:title" content="Maven小记">
+<meta property="og:url" content="https://mybigdaxin.github.io/2019/09/maven%E5%B0%8F%E8%AE%B0/">
+<meta property="twitter:url" content="https://mybigdaxin.github.io/2019/09/maven%E5%B0%8F%E8%AE%B0/">
 <meta property="og:site_name" content="Just for">
 <meta property="og:description" content="">
 <meta name="twitter:description" content="">
 <meta property="og:locale" content="zh-cn">
 
   
-    <meta property="article:published_time" content="2019-09-08T22:15:15">
+    <meta property="article:published_time" content="2019-09-09T12:40:53">
   
   
-    <meta property="article:modified_time" content="2019-09-08T22:15:15">
+    <meta property="article:modified_time" content="2019-09-09T12:40:53">
   
   
   
     
-      <meta property="article:section" content="搭建环境">
+      <meta property="article:section" content="项目">
     
   
+  
+    
+      <meta property="article:tag" content="maven">
+    
   
 
 
@@ -45,12 +49,12 @@
 
 
 
-  <meta property="og:image" content="https://mybigdaxin.github.io/images/theme.png">
-  <meta property="twitter:image" content="https://mybigdaxin.github.io/images/theme.png">
+  <meta property="og:image" content="https://mybigdaxin.github.io/images/maven.png">
+  <meta property="twitter:image" content="https://mybigdaxin.github.io/images/maven.png">
 
 
-  <meta property="og:image" content="https://mybigdaxin.github.io/images/theme.png">
-  <meta property="twitter:image" content="https://mybigdaxin.github.io/images/theme.png">
+  <meta property="og:image" content="https://mybigdaxin.github.io/images/maven.png">
+  <meta property="twitter:image" content="https://mybigdaxin.github.io/images/maven.png">
 
 
 
@@ -59,14 +63,14 @@
   <meta property="twitter:image" content="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=640">
 
 
-    <title>阿里云centos搭建jdk&#43;tomcat&#43;mysql</title>
+    <title>Maven小记</title>
 
     <link rel="icon" href="https://mybigdaxin.github.io/favicon.png">
     
 
     
 
-    <link rel="canonical" href="https://mybigdaxin.github.io/2019/09/%E9%98%BF%E9%87%8C%E4%BA%91centos%E6%90%AD%E5%BB%BAjdk-tomcat-mysql/">
+    <link rel="canonical" href="https://mybigdaxin.github.io/2019/09/maven%E5%B0%8F%E8%AE%B0/">
 
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
@@ -209,21 +213,21 @@
   <div class="post-header-cover
               text-center
               post-header-cover--full"
-       style="background-image:url('/images/theme.png')"
+       style="background-image:url('/images/maven.png')"
        data-behavior="5">
     
       <div class="post-header main-content-wrap text-center">
   
     <h1 class="post-title" itemprop="headline">
-      阿里云centos搭建jdk&#43;tomcat&#43;mysql
+      Maven小记
     </h1>
   
   
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2019-09-08T22:15:15&#43;08:00">
+      <time itemprop="datePublished" datetime="2019-09-09T12:40:53&#43;08:00">
         
-  九月 8, 2019
+  九月 9, 2019
 
       </time>
     
@@ -232,7 +236,7 @@
   
     <span>发布在</span>
     
-      <a class="category-link" href="https://mybigdaxin.github.io/categories/%e6%90%ad%e5%bb%ba%e7%8e%af%e5%a2%83">搭建环境</a>
+      <a class="category-link" href="https://mybigdaxin.github.io/categories/%e9%a1%b9%e7%9b%ae">项目</a>
     
   
 
@@ -249,267 +253,219 @@
                hasCoverCaption">
         <article class="post" itemscope itemType="http://schema.org/BlogPosting">
           
-            <span class="post-header-cover-caption caption">搭建环境</span>
+            <span class="post-header-cover-caption caption">maven小记</span>
           
           
           <div class="post-content markdown" itemprop="articleBody">
             <div class="main-content-wrap">
               <h1 id="table-of-contents">目录</h1><nav id="TableOfContents">
 <ul>
-<li><a href="#阿里云centos开发搭建">阿里云centos开发搭建</a>
+<li><a href="#maven小记">Maven小记</a>
 <ul>
-<li><a href="#资源">资源</a></li>
-<li><a href="#jdk">JDK</a></li>
-<li><a href="#tomcat">Tomcat</a></li>
-<li><a href="#mysql">Mysql</a></li>
-<li><a href="#redis">Redis</a></li>
-<li><a href="#docker">Docker</a>
+<li><a href="#命令">命令</a></li>
+<li><a href="#生命周期">生命周期</a></li>
+<li><a href="#依赖范围">依赖范围</a></li>
+<li><a href="#依赖版本冲突解决">依赖版本冲突解决</a>
 <ul>
-<li><a href="#rabbitmq">RabbitMQ</a>
+<li>
 <ul>
-<li><a href="#参考">参考</a></li>
+<li><a href="#第一声明优先原则">第一声明优先原则</a></li>
+<li><a href="#路径近者优先">路径近者优先</a></li>
+<li><a href="#排除原则">排除原则</a></li>
+<li><a href="#版本锁定原则">版本锁定原则</a></li>
 </ul></li>
 </ul></li>
+<li><a href="#分模块开发-父子工程">分模块开发(父子工程)</a></li>
+<li><a href="#问题">问题</a></li>
 </ul></li>
 </ul>
 </nav>
 
-<h1 id="阿里云centos开发搭建">阿里云centos开发搭建</h1>
+<h1 id="maven小记">Maven小记</h1>
 
-<h2 id="资源">资源</h2>
+<h2 id="命令">命令</h2>
 
-<p>链接：<a href="https://pan.baidu.com/s/1nlcs9cR-Xy1lx3JT1teYLQ">https://pan.baidu.com/s/1nlcs9cR-Xy1lx3JT1teYLQ</a>
-提取码：ir6c</p>
+<ul>
+<li>Clean 清理编译的文件 将<code>target</code>目录清除</li>
+<li>Compile 编译主目录的文件</li>
+<li>Test 编译并运行<code>src/test/java</code>目录的代码</li>
+<li>Package 进行打包 <code>jar</code> or <code>war</code> or <code>pom</code></li>
+<li>install 将项目发布到本地仓库</li>
+<li>Tomcat：run  一键启动</li>
+</ul>
 
-<h2 id="jdk">JDK</h2>
+<h2 id="生命周期">生命周期</h2>
 
 <ol>
-<li>安装jdk运行需要的插件[yum install glibc.i686]()（选做）</li>
-<li>解压jdk到/usr/local下 tar –xvf jdk-7u71-linux-i586.tar.gz –C /usr/local</li>
-<li>配置jdk环境变量，打开[/etc/profile配置文件]()，将下面配置拷贝进去</li>
+<li>Clean生命周期</li>
 </ol>
 
-<pre><code class="language-shell">#set java environment
- # =两边不要有空格
-export JAVA_HOME=/usr/local/jdk1.7.0_71
- 
-export JRE_HOME=/usr/local/jdk1.7.0_71/jre
- 
-export CLASSPATH=.:$JAVA_HOME/lib:$JRE_HOME/lib:$CLASSPATH
- 
-export PATH=$JAVA_HOME/bin:$JRE_HOME/bin:$JAVA_HOME:$PATH
+<p>Clean</p>
+
+<ol>
+<li>Default生命周期</li>
+</ol>
+
+<p>Compile   test  package install  deploy</p>
+
+<ol>
+<li>Site生命周期</li>
+</ol>
+
+<p>Site</p>
+
+<blockquote>
+<p>不同的生命周期的命令可以同时执行 如: mvn clean package 并且运行某个生命周期阶段 会运行它及之前所有的前期阶段</p>
+</blockquote>
+
+<h2 id="依赖范围">依赖范围</h2>
+
+<ul>
+<li>Compile struts2-core</li>
+</ul>
+
+<p>编译（compile）时需要 测试时需要，运行时需要，打包时需要</p>
+
+<ul>
+<li>Provided   jsp-api.jar   servlet-api.jar</li>
+</ul>
+
+<p>编译（compile）时需要，测试（test）时也需要 ，运行时不需要，打包时不需要</p>
+
+<ul>
+<li>Runtime   数据库驱动包</li>
+</ul>
+
+<p>编译时不需要，测试时需要，运行时需要，打包时需要</p>
+
+<ul>
+<li>Test junit.jar</li>
+</ul>
+
+<p>编译时不需要，测试时需要，运行时不需要，打包也不需要</p>
+
+<h2 id="依赖版本冲突解决">依赖版本冲突解决</h2>
+
+<h4 id="第一声明优先原则">第一声明优先原则</h4>
+
+<p>用的是spring-bean-4.2.4</p>
+
+<pre><code class="language-xml">&lt;dependencies&gt;
+  &lt;!--   spring-beans-4.2.4 --&gt;
+  	&lt;dependency&gt;
+  		&lt;groupId&gt;org.springframework&lt;/groupId&gt;
+  		&lt;artifactId&gt;spring-context&lt;/artifactId&gt;
+  		&lt;version&gt;4.2.4.RELEASE&lt;/version&gt;
+  	&lt;/dependency&gt;
+  
+  
+&lt;!--   spring-beans-3.0.5 --&gt;
+  	&lt;dependency&gt;
+  		&lt;groupId&gt;org.apache.struts&lt;/groupId&gt;
+  		&lt;artifactId&gt;struts2-spring-plugin&lt;/artifactId&gt;
+  		&lt;version&gt;2.3.24&lt;/version&gt;
+  	&lt;/dependency&gt;
 
 </code></pre>
 
-<ol>
-<li>重新加载[/etc/profile]()配置文件[source /etc/profile]()</li>
-<li>输入java -version</li>
-</ol>
+<h4 id="路径近者优先">路径近者优先</h4>
 
-<h2 id="tomcat">Tomcat</h2>
+<p>自己添加jar包</p>
 
-<ol>
-<li>解压tomcat</li>
-</ol>
+<h4 id="排除原则">排除原则</h4>
 
-<pre><code class="language-sh"> tar –xvf apache-tomcat-7.0.68.tar.gz –C /usr/local
+<pre><code class="language-xml">	&lt;dependency&gt;
+  		&lt;groupId&gt;org.apache.struts&lt;/groupId&gt;
+  		&lt;artifactId&gt;struts2-spring-plugin&lt;/artifactId&gt;
+  		&lt;version&gt;2.3.24&lt;/version&gt;
+  		&lt;exclusions&gt;
+  		  &lt;exclusion&gt;
+  		    &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+  		    &lt;artifactId&gt;spring-beans&lt;/artifactId&gt;
+  		  &lt;/exclusion&gt;
+  		&lt;/exclusions&gt;
+  	&lt;/dependency&gt;
 </code></pre>
 
-<ol>
-<li>输入vi setclasspath.sh  进入到该文件后，键盘按i,进入编辑模式</li>
-</ol>
+<h4 id="版本锁定原则">版本锁定原则</h4>
 
-<p>按住shirt + G跳到最后一行</p>
+<pre><code class="language-xml">&lt;properties&gt;
+		&lt;spring.version&gt;4.2.4.RELEASE&lt;/spring.version&gt;
+		&lt;hibernate.version&gt;5.0.7.Final&lt;/hibernate.version&gt;
+		&lt;struts.version&gt;2.3.24&lt;/struts.version&gt;
+	&lt;/properties&gt;
 
-<pre><code class="language-shell">   export JAVA_HOME=/usr/local/jdk1.7.0_71
-
-   export JRE_HOME=/usr/local/jdk1.7.0_71/jre
+	&lt;!-- 锁定版本，struts2-2.3.24、spring4.2.4、hibernate5.0.7 --&gt;
+	&lt;dependencyManagement&gt;
+		&lt;dependencies&gt;
+			&lt;dependency&gt;
+				&lt;groupId&gt;org.springframework&lt;/groupId&gt;
+				&lt;artifactId&gt;spring-context&lt;/artifactId&gt;
+				&lt;version&gt;${spring.version}&lt;/version&gt;
+			&lt;/dependency&gt;
+&lt;/dependencies&gt;
+&lt;/dependencyManagement&gt;
 </code></pre>
 
+<h2 id="分模块开发-父子工程">分模块开发(父子工程)</h2>
+
 <ol>
-<li>./start.sh</li>
+<li>父工程的<code>pom</code>中的<code>package</code>必须是<code>pom</code></li>
+<li>父工程通常通过定义<code>dependencyManagement</code>来控制子模块的依赖的版本号统一</li>
+<li>父工程可在<code>dependency</code>中定义各子模块都可能用到的依赖，这些依赖会自动被子模块继承，也即子模块可省略在其<code>pom</code>中对这些依赖的引入</li>
+<li>各子模块虽然继承同一父工程，但彼此之间没有任何直接关联关系，如果模块A需要用到模块B的功能，则需现将模块B<code>mvn install</code>到本地仓库，然后在模块A的<code>pom</code>中引入模块B的坐标</li>
 </ol>
 
 <blockquote>
-<p>记得要关闭防火墙</p>
+<p>对于任何maven工程，无论是父工程还是子模块，要想其编译成功，其所有依赖必须要能在本地仓库或远程仓库中找得到</p>
 </blockquote>
 
-<pre><code class="language-shell"># 关闭firewall
-systemctl stop firewalld.service #停止firewall
-systemctl disable firewalld.service #禁止firewall开机启动
-firewall-cmd --state #查看默认防火墙状态（关闭后显示notrunning，开启后显示running）
-</code></pre>
-
-<ol>
-<li>输入ip:8080</li>
-</ol>
-
-<h2 id="mysql">Mysql</h2>
-
-<p>现在mysql使用的是mariadb了</p>
-
-<p>可以直接通过yum 安装mariadb mariadb-server后设置一个初始密码</p>
-
-<pre><code class="language-sql">&gt; mysql
-&gt; use mysql
-&gt; update user set password=password(&quot;123&quot;)where user='root';
-&gt; flush privileges;
-&gt; exit
-&gt;  GRANT ALL PRIVILEGES ON *.* TO 'root'@'%'IDENTIFIED BY '123456' WITH GRANT OPTION;
-// root : 数据库用户 123456 密码 * 任何来源的主机
-&gt; flush privileges;
-</code></pre>
+<p>创建子模块的方法：右键父工程，选择<code>new module</code>。子模块可以在父工程的目录下，也可以和父工程同一目录，这没有任何影响。是否是父子工程需要看父工程<code>pom</code>中的<code>module</code>定义和子模块<code>pom</code>中的<code>parent</code>定义，子模块的<code>parent</code>中写父工程的<code>groupId、artifactId、version</code>，自己的<code>groupId</code>和<code>version</code>都将继承父工程的，只需自定义<code>artifactId</code></p>
 
 <blockquote>
-<p>还要去安全组配置中 添加映射</p>
+<p><code>dependencyManager</code>用来统一管理版本号，让子项目中引用一个依赖而不用显示的列出版本号。Maven会沿着父子层次向上走，直到找到一个拥有<code>dependencyManagement</code>元素的项目，然后它就会使用在这个<code>dependencyManagement</code>元素中指定的版本号</p>
 </blockquote>
 
-<p><img src="https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/os20190908220911.png" alt="" /></p>
+<h2 id="问题">问题</h2>
 
-<p><img src="https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/os20190908221100.png" alt="" /></p>
+<ul>
+<li>MojoFailureException</li>
+</ul>
 
-<h2 id="redis">Redis</h2>
+<p>遇见这个是执行命令时遇到了的错误是由插件生成的。一般来说，插件使用这个错误来表示构建失败，因为项目的依赖项或源代码有问题，例如<code>编译</code>或<code>测试失败</code> 根据具体执行的结果报告去解决错误</p>
 
-<pre><code class="language-shell"># 安装编译redis的c环境
-yum install gcc-c++
-# 解压redis
-tar -xvf redis-3.0.0.tar.gz -C /usr/local
-# 进入redis中编译
-make
-# 安装redis
-make PREFIX=/usr/local/redis install
-# 拷贝redis目录中的redis.conf到bin目录中 同时将bin目录下的redis.conf中的daemonize更改为yes 允许后台启动
-./redis-server redis.conf
-# 允许远程连接
-/sbin/iptables -I INPUT -p tcp --dport 6379 -j ACCEPT
+<ul>
+<li>NoGoalSpecified Exception</li>
+</ul>
+
+<p>Maven不知道做什么 你可以调用生命周期 或者调用一个插件  亦或者无版本的插件坐标 总之要至少指定一个阶段以让Maven继续运行</p>
+
+<pre><code class="language-xml">&lt;project&gt;
+  ...
+  &lt;build&gt;
+    &lt;defaultGoal&gt;install&lt;/defaultGoal&gt;
+    ...
+  &lt;/build&gt;
+  ...
+&lt;/project&gt;
 </code></pre>
 
-<blockquote>
-<p>需要在安全规则中配置</p>
-</blockquote>
-
-<h2 id="docker">Docker</h2>
-
-<p>参考:<a href="https://www.runoob.com/docker/centos-docker-install.html">https://www.runoob.com/docker/centos-docker-install.html</a></p>
-
-<blockquote>
-<p>Docker 要求 CentOS 系统的内核版本高于 3.10</p>
-</blockquote>
-
-<pre><code class="language-shell"># 查看内核版本是否满足要求
-uname -r 
-# 移除旧版本
-sudo yum remove docker \
-                  docker-client \
-                  docker-client-latest \
-                  docker-common \
-                  docker-latest \
-                  docker-latest-logrotate \
-                  docker-logrotate \
-                  docker-selinux \
-                  docker-engine-selinux \
-                  docker-engine
-#  安装必要的工具
-sudo yum install -y yum-utils device-mapper-persistent-data lvm2
-# 软件源信息
-sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
-# 更新yum缓存
-sudo yum makecache fast
-# 安装 Docker-ce
-sudo yum -y install docker-ce
-# 启动 Docker 后台服务
-sudo systemctl start docker
-# 镜像加速 /etc/docker/daemon.json
-{
-  &quot;registry-mirrors&quot;: [&quot;http://hub-mirror.c.163.com&quot;]
-}
-# 开机启动docker
-systemctl enable docker
-
-</code></pre>
-
-<table>
-<thead>
-<tr>
-<th>操作</th>
-<th>命令</th>
-<th>说明</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>检索</td>
-<td>docker search 关键字 eg：docker search redis</td>
-<td>我们经常去docker hub上检索镜像的详细信息，如镜像的TAG</td>
-</tr>
-
-<tr>
-<td>拉取</td>
-<td>docker pull 镜像名:tag</td>
-<td>:tag是可选的，tag表示标签，多为软件的版本，默认是latest</td>
-</tr>
-
-<tr>
-<td>列表</td>
-<td>docker images</td>
-<td>查看所有本地镜像</td>
-</tr>
-
-<tr>
-<td>删除</td>
-<td>docker rmi image-id</td>
-<td>删除指定的本地镜像</td>
-</tr>
-
-<tr>
-<td>查看</td>
-<td>docker ps</td>
-<td>查看正在运行的容器</td>
-</tr>
-
-<tr>
-<td>查看</td>
-<td>docker ps -l</td>
-<td>查看最后运行的容器</td>
-</tr>
-</tbody>
-</table>
-
-<p>其他命令</p>
-
-<pre><code class="language-shell"># 删除docker ce
-sudo yum remove docker-ce
-sudo rm -rf /var/lib/docker
-# 查看端口占用
-netstat -tnlp
-</code></pre>
-
-<h3 id="rabbitmq">RabbitMQ</h3>
-
-<blockquote>
-<p>同样要记得去安全规则中设置端口</p>
-</blockquote>
-
-<pre><code class="language-shell"># 拉取镜像
-docker pull rabbitmq:management
-# 创建容器并运行 
-# 15672：控制台端口号  5672：应用访问端口号 --hostname：指定容器主机名称  --name:指定容器名称  -d:后台运行   -p:将mq端口号映射到本地
-docker run -d --hostname my-rabbit --name rabbit -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=admin -p 15672:15672 -p 5672:5672 -p 25672:25672 -p 61613:61613 -p 1883:1883 rabbitmq:management
-# 查看运行日志
-docker logs rabbit
-</code></pre>
-
-<h4 id="参考">参考</h4>
-
-<p>jdk: <a href="https://blog.csdn.net/qq_38363506/article/details/100066929">https://blog.csdn.net/qq_38363506/article/details/100066929</a></p>
-
-<p>docker : <a href="https://blog.csdn.net/shanchahua123456/article/details/84312144">https://blog.csdn.net/shanchahua123456/article/details/84312144</a></p>
+<p>Link:<a href="https://cwiki.apache.org/confluence/display/MAVEN/NoGoalSpecifiedException">https://cwiki.apache.org/confluence/display/MAVEN/NoGoalSpecifiedException</a></p>
               
             </div>
           </div>
           <div id="post-footer" class="post-footer main-content-wrap">
             
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">标签</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://mybigdaxin.github.io/tags/maven/">maven</a>
+
+                  </div>
+                
               
             
             <div class="post-actions-wrap">
@@ -519,7 +475,7 @@ docker logs rabbit
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/09/springboot%E6%95%B4%E5%90%88shiro%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%94%A8%E6%88%B7%E8%A1%A8%E5%A4%9Arealm%E7%BB%9F%E4%B8%80%E7%99%BB%E5%BD%95/" data-tooltip="SpringBoot整合shiro实现多用户表多Realm统一登录">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/09/%E9%98%BF%E9%87%8C%E4%BA%91centos%E6%90%AD%E5%BB%BAjdk-tomcat-mysql/" data-tooltip="阿里云centos搭建jdk&#43;tomcat&#43;mysql">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -527,7 +483,7 @@ docker logs rabbit
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/09/maven%E5%B0%8F%E8%AE%B0/" data-tooltip="Maven小记">
+                <a class="post-action-btn btn btn--disabled">
               
                   <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -545,19 +501,19 @@ docker logs rabbit
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/09/%E9%98%BF%E9%87%8C%E4%BA%91centos%E6%90%AD%E5%BB%BAjdk-tomcat-mysql/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/09/maven%E5%B0%8F%E8%AE%B0/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/09/%E9%98%BF%E9%87%8C%E4%BA%91centos%E6%90%AD%E5%BB%BAjdk-tomcat-mysql/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/09/maven%E5%B0%8F%E8%AE%B0/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/09/%E9%98%BF%E9%87%8C%E4%BA%91centos%E6%90%AD%E5%BB%BAjdk-tomcat-mysql/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/09/maven%E5%B0%8F%E8%AE%B0/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -605,7 +561,7 @@ docker logs rabbit
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/09/springboot%E6%95%B4%E5%90%88shiro%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%94%A8%E6%88%B7%E8%A1%A8%E5%A4%9Arealm%E7%BB%9F%E4%B8%80%E7%99%BB%E5%BD%95/" data-tooltip="SpringBoot整合shiro实现多用户表多Realm统一登录">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/09/%E9%98%BF%E9%87%8C%E4%BA%91centos%E6%90%AD%E5%BB%BAjdk-tomcat-mysql/" data-tooltip="阿里云centos搭建jdk&#43;tomcat&#43;mysql">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -613,7 +569,7 @@ docker logs rabbit
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/09/maven%E5%B0%8F%E8%AE%B0/" data-tooltip="Maven小记">
+                <a class="post-action-btn btn btn--disabled">
               
                   <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -631,19 +587,19 @@ docker logs rabbit
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/09/%E9%98%BF%E9%87%8C%E4%BA%91centos%E6%90%AD%E5%BB%BAjdk-tomcat-mysql/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/09/maven%E5%B0%8F%E8%AE%B0/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/09/%E9%98%BF%E9%87%8C%E4%BA%91centos%E6%90%AD%E5%BB%BAjdk-tomcat-mysql/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/09/maven%E5%B0%8F%E8%AE%B0/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/09/%E9%98%BF%E9%87%8C%E4%BA%91centos%E6%90%AD%E5%BB%BAjdk-tomcat-mysql/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/09/maven%E5%B0%8F%E8%AE%B0/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -673,19 +629,19 @@ docker logs rabbit
   <ul class="share-options">
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F09%2F%25E9%2598%25BF%25E9%2587%258C%25E4%25BA%2591centos%25E6%2590%25AD%25E5%25BB%25BAjdk-tomcat-mysql%2F">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F09%2Fmaven%25E5%25B0%258F%25E8%25AE%25B0%2F">
           <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F09%2F%25E9%2598%25BF%25E9%2587%258C%25E4%25BA%2591centos%25E6%2590%25AD%25E5%25BB%25BAjdk-tomcat-mysql%2F">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F09%2Fmaven%25E5%25B0%258F%25E8%25AE%25B0%2F">
           <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F09%2F%25E9%2598%25BF%25E9%2587%258C%25E4%25BA%2591centos%25E6%2590%25AD%25E5%25BB%25BAjdk-tomcat-mysql%2F">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F09%2Fmaven%25E5%25B0%258F%25E8%25AE%25B0%2F">
           <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
         </a>
       </li>
@@ -781,9 +737,9 @@ $(document).ready(function() {
     
       <script>
         var disqus_config = function () {
-          this.page.url = 'https:\/\/mybigdaxin.github.io\/2019\/09\/%E9%98%BF%E9%87%8C%E4%BA%91centos%E6%90%AD%E5%BB%BAjdk-tomcat-mysql\/';
+          this.page.url = 'https:\/\/mybigdaxin.github.io\/2019\/09\/maven%E5%B0%8F%E8%AE%B0\/';
           
-            this.page.identifier = '\/2019\/09\/%E9%98%BF%E9%87%8C%E4%BA%91centos%E6%90%AD%E5%BB%BAjdk-tomcat-mysql\/'
+            this.page.identifier = '\/2019\/09\/maven%E5%B0%8F%E8%AE%B0\/'
           
         };
         (function() {

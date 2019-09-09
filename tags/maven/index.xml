@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>maven on Just for</title>
+    <link>https://mybigdaxin.github.io/tags/maven/</link>
+    <description>Recent content in maven on Just for</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 09 Sep 2019 12:40:53 +0800</lastBuildDate>
+    
+	<atom:link href="https://mybigdaxin.github.io/tags/maven/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Maven小记</title>
+      <link>https://mybigdaxin.github.io/2019/09/maven%E5%B0%8F%E8%AE%B0/</link>
+      <pubDate>Mon, 09 Sep 2019 12:40:53 +0800</pubDate>
+      
+      <guid>https://mybigdaxin.github.io/2019/09/maven%E5%B0%8F%E8%AE%B0/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

@@ -4,19 +4,42 @@
   
   <url>
     <loc>https://mybigdaxin.github.io/categories/</loc>
-    <lastmod>2019-09-08T22:15:15+08:00</lastmod>
+    <lastmod>2019-09-09T12:40:53+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://mybigdaxin.github.io/</loc>
-    <lastmod>2019-09-08T22:15:15+08:00</lastmod>
+    <lastmod>2019-09-09T12:40:53+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
+    <loc>https://mybigdaxin.github.io/2019/09/maven%E5%B0%8F%E8%AE%B0/</loc>
+    <lastmod>2019-09-09T12:40:53+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://mybigdaxin.github.io/post/</loc>
-    <lastmod>2019-09-08T22:15:15+08:00</lastmod>
+    <lastmod>2019-09-09T12:40:53+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://mybigdaxin.github.io/tags/</loc>
+    <lastmod>2019-09-09T12:40:53+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://mybigdaxin.github.io/tags/maven/</loc>
+    <lastmod>2019-09-09T12:40:53+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://mybigdaxin.github.io/categories/%E9%A1%B9%E7%9B%AE/</loc>
+    <lastmod>2019-09-09T12:40:53+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -37,19 +60,7 @@
   </url>
   
   <url>
-    <loc>https://mybigdaxin.github.io/tags/</loc>
-    <lastmod>2019-09-08T21:41:52+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://mybigdaxin.github.io/tags/shiro/</loc>
-    <lastmod>2019-09-08T21:41:52+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://mybigdaxin.github.io/categories/%E9%A1%B9%E7%9B%AE/</loc>
     <lastmod>2019-09-08T21:41:52+08:00</lastmod>
     <priority>0</priority>
   </url>
