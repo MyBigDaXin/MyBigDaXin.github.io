@@ -256,24 +256,29 @@
             <div class="main-content-wrap">
               <h1 id="table-of-contents">目录</h1><nav id="TableOfContents">
 <ul>
-<li><a href="#阿里云centos搭建jdk-tomcat-mysql">阿里云centos搭建jdk + tomcat + mysql</a>
+<li><a href="#阿里云centos开发搭建">阿里云centos开发搭建</a>
 <ul>
 <li><a href="#资源">资源</a></li>
-<li><a href="#jdk">jdk</a></li>
-<li><a href="#tomcat">tomcat</a></li>
-<li><a href="#mysql">mysql</a></li>
+<li><a href="#jdk">JDK</a></li>
+<li><a href="#tomcat">Tomcat</a></li>
+<li><a href="#mysql">Mysql</a></li>
+<li><a href="#redis">Redis</a></li>
+<li><a href="#docker">Docker</a>
+<ul>
+<li><a href="#rabbitmq">RabbitMQ</a></li>
+</ul></li>
 </ul></li>
 </ul>
 </nav>
 
-<h1 id="阿里云centos搭建jdk-tomcat-mysql">阿里云centos搭建jdk + tomcat + mysql</h1>
+<h1 id="阿里云centos开发搭建">阿里云centos开发搭建</h1>
 
 <h2 id="资源">资源</h2>
 
 <p>链接：<a href="https://pan.baidu.com/s/1nlcs9cR-Xy1lx3JT1teYLQ">https://pan.baidu.com/s/1nlcs9cR-Xy1lx3JT1teYLQ</a>
 提取码：ir6c</p>
 
-<h2 id="jdk">jdk</h2>
+<h2 id="jdk">JDK</h2>
 
 <ol>
 <li>安装jdk运行需要的插件[yum install glibc.i686]()（选做）</li>
@@ -298,7 +303,7 @@ export PATH=$JAVA_HOME/bin:$JRE_HOME/bin:$JAVA_HOME:$PATH
 <li>输入java -version</li>
 </ol>
 
-<h2 id="tomcat">tomcat</h2>
+<h2 id="tomcat">Tomcat</h2>
 
 <ol>
 <li>解压tomcat</li>
@@ -336,7 +341,7 @@ firewall-cmd --state #查看默认防火墙状态（关闭后显示notrunning，
 <li>输入ip:8080</li>
 </ol>
 
-<h2 id="mysql">mysql</h2>
+<h2 id="mysql">Mysql</h2>
 
 <p>现在mysql使用的是mariadb了</p>
 
@@ -359,6 +364,138 @@ firewall-cmd --state #查看默认防火墙状态（关闭后显示notrunning，
 <p><img src="https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/os20190908220911.png" alt="" /></p>
 
 <p><img src="https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/os20190908221100.png" alt="" /></p>
+
+<h2 id="redis">Redis</h2>
+
+<pre><code class="language-shell"># 安装编译redis的c环境
+yum install gcc-c++
+# 解压redis
+tar -xvf redis-3.0.0.tar.gz -C /usr/local
+# 进入redis中编译
+make
+# 安装redis
+make PREFIX=/usr/local/redis install
+# 拷贝redis目录中的redis.conf到bin目录中 同时将bin目录下的redis.conf中的daemonize更改为yes 允许后台启动
+./redis-server redis.conf
+# 允许远程连接
+/sbin/iptables -I INPUT -p tcp --dport 6379 -j ACCEPT
+</code></pre>
+
+<blockquote>
+<p>需要在安全规则中配置</p>
+</blockquote>
+
+<h2 id="docker">Docker</h2>
+
+<p>参考:<a href="https://www.runoob.com/docker/centos-docker-install.html">https://www.runoob.com/docker/centos-docker-install.html</a></p>
+
+<blockquote>
+<p>Docker 要求 CentOS 系统的内核版本高于 3.10</p>
+</blockquote>
+
+<pre><code class="language-shell"># 查看内核版本是否满足要求
+uname -r 
+# 移除旧版本
+sudo yum remove docker \
+                  docker-client \
+                  docker-client-latest \
+                  docker-common \
+                  docker-latest \
+                  docker-latest-logrotate \
+                  docker-logrotate \
+                  docker-selinux \
+                  docker-engine-selinux \
+                  docker-engine
+#  安装必要的工具
+sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+# 软件源信息
+sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+# 更新yum缓存
+sudo yum makecache fast
+# 安装 Docker-ce
+sudo yum -y install docker-ce
+# 启动 Docker 后台服务
+sudo systemctl start docker
+# 镜像加速 /etc/docker/daemon.json
+{
+  &quot;registry-mirrors&quot;: [&quot;http://hub-mirror.c.163.com&quot;]
+}
+# 开机启动docker
+systemctl enable docker
+
+</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>检索</td>
+<td>docker search 关键字 eg：docker search redis</td>
+<td>我们经常去docker hub上检索镜像的详细信息，如镜像的TAG</td>
+</tr>
+
+<tr>
+<td>拉取</td>
+<td>docker pull 镜像名:tag</td>
+<td>:tag是可选的，tag表示标签，多为软件的版本，默认是latest</td>
+</tr>
+
+<tr>
+<td>列表</td>
+<td>docker images</td>
+<td>查看所有本地镜像</td>
+</tr>
+
+<tr>
+<td>删除</td>
+<td>docker rmi image-id</td>
+<td>删除指定的本地镜像</td>
+</tr>
+
+<tr>
+<td>查看</td>
+<td>docker ps</td>
+<td>查看正在运行的容器</td>
+</tr>
+
+<tr>
+<td>查看</td>
+<td>docker ps -l</td>
+<td>查看最后运行的容器</td>
+</tr>
+</tbody>
+</table>
+
+<p>其他命令</p>
+
+<pre><code class="language-shell"># 删除docker ce
+sudo yum remove docker-ce
+sudo rm -rf /var/lib/docker
+# 查看端口占用
+netstat -tnlp
+</code></pre>
+
+<h3 id="rabbitmq">RabbitMQ</h3>
+
+<blockquote>
+<p>同样要记得去安全规则中设置端口</p>
+</blockquote>
+
+<pre><code class="language-shell"># 拉取镜像
+docker pull rabbitmq:management
+# 创建容器并运行 
+# 15672：控制台端口号  5672：应用访问端口号 --hostname：指定容器主机名称  --name:指定容器名称  -d:后台运行   -p:将mq端口号映射到本地
+docker run -d --hostname my-rabbit --name rabbit -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=admin -p 15672:15672 -p 5672:5672 -p 25672:25672 -p 61613:61613 -p 1883:1883 rabbitmq:management
+# 查看运行日志
+docker logs rabbit
+</code></pre>
               
             </div>
           </div>
