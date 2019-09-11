@@ -13,30 +13,30 @@
 
 <meta property="og:description" content="">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Shiro">
-<meta name="twitter:title" content="Shiro">
-<meta property="og:url" content="https://mybigdaxin.github.io/2019/09/shiro/">
-<meta property="twitter:url" content="https://mybigdaxin.github.io/2019/09/shiro/">
+<meta property="og:title" content="遗传算法">
+<meta name="twitter:title" content="遗传算法">
+<meta property="og:url" content="https://mybigdaxin.github.io/2019/09/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/">
+<meta property="twitter:url" content="https://mybigdaxin.github.io/2019/09/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/">
 <meta property="og:site_name" content="Just for">
 <meta property="og:description" content="">
 <meta name="twitter:description" content="">
 <meta property="og:locale" content="zh-cn">
 
   
-    <meta property="article:published_time" content="2019-09-10T09:45:14">
+    <meta property="article:published_time" content="2019-09-11T09:58:15">
   
   
-    <meta property="article:modified_time" content="2019-09-10T09:45:14">
+    <meta property="article:modified_time" content="2019-09-11T09:58:15">
   
-  
-  
-    
-      <meta property="article:section" content="bug">
-    
   
   
     
-      <meta property="article:tag" content="shiro">
+      <meta property="article:section" content="算法">
+    
+  
+  
+    
+      <meta property="article:tag" content="智能算法">
     
   
 
@@ -49,12 +49,12 @@
 
 
 
-  <meta property="og:image" content="https://mybigdaxin.github.io/images/theme.png">
-  <meta property="twitter:image" content="https://mybigdaxin.github.io/images/theme.png">
+  <meta property="og:image" content="https://mybigdaxin.github.io/images/algo.jpg">
+  <meta property="twitter:image" content="https://mybigdaxin.github.io/images/algo.jpg">
 
 
-  <meta property="og:image" content="https://mybigdaxin.github.io/images/theme.png">
-  <meta property="twitter:image" content="https://mybigdaxin.github.io/images/theme.png">
+  <meta property="og:image" content="https://mybigdaxin.github.io/images/algo.jpg">
+  <meta property="twitter:image" content="https://mybigdaxin.github.io/images/algo.jpg">
 
 
 
@@ -63,14 +63,14 @@
   <meta property="twitter:image" content="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=640">
 
 
-    <title>Shiro</title>
+    <title>遗传算法</title>
 
     <link rel="icon" href="https://mybigdaxin.github.io/favicon.png">
     
 
     
 
-    <link rel="canonical" href="https://mybigdaxin.github.io/2019/09/shiro/">
+    <link rel="canonical" href="https://mybigdaxin.github.io/2019/09/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/">
 
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
@@ -213,21 +213,21 @@
   <div class="post-header-cover
               text-center
               post-header-cover--full"
-       style="background-image:url('/images/theme.png')"
+       style="background-image:url('/images/algo.jpg')"
        data-behavior="5">
     
       <div class="post-header main-content-wrap text-center">
   
     <h1 class="post-title" itemprop="headline">
-      Shiro
+      遗传算法
     </h1>
   
   
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2019-09-10T09:45:14&#43;08:00">
+      <time itemprop="datePublished" datetime="2019-09-11T09:58:15&#43;08:00">
         
-  九月 10, 2019
+  九月 11, 2019
 
       </time>
     
@@ -236,7 +236,7 @@
   
     <span>发布在</span>
     
-      <a class="category-link" href="https://mybigdaxin.github.io/categories/bug">bug</a>
+      <a class="category-link" href="https://mybigdaxin.github.io/categories/%e7%ae%97%e6%b3%95">算法</a>
     
   
 
@@ -253,31 +253,192 @@
                hasCoverCaption">
         <article class="post" itemscope itemType="http://schema.org/BlogPosting">
           
-            <span class="post-header-cover-caption caption">shiro_bug</span>
+            <span class="post-header-cover-caption caption">遗传算法简介</span>
           
           
           <div class="post-content markdown" itemprop="articleBody">
             <div class="main-content-wrap">
-              <h1 id="table-of-contents">目录</h1>
+              <h1 id="table-of-contents">目录</h1><nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#问题特征">问题特征</a></li>
+<li><a href="#基本术语">基本术语</a></li>
+<li><a href="#基本遗传算法的实现的参数">基本遗传算法的实现的参数</a>
+<ul>
+<li><a href="#变异率">变异率</a></li>
+<li><a href="#种群规模">种群规模</a></li>
+<li><a href="#交叉率">交叉率</a></li>
+<li><a href="#基因表示">基因表示</a></li>
+</ul></li>
+<li><a href="#实现遗传算法">实现遗传算法</a></li>
+<li><a href="#锦标赛">锦标赛</a></li>
+</ul></li>
+<li><a href="#项目">项目</a>
+<ul>
+<li><a href="#排课">排课</a>
+<ul>
+<li><a href="#约束">约束</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#优化">优化</a>
+<ul>
+<li>
+<ul>
+<li><a href="#自适应">自适应</a></li>
+<li><a href="#多次启发">多次启发</a></li>
+<li><a href="#优化适应度函数">优化适应度函数</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
 
-<pre><code class="language-java">org.apache.shiro.authc.AuthenticationException: No account information found for authentication token [com.exam.core.realm.CustomLoginToken - admin, rememberMe=false] by this Authenticator instance.  Please check that it is configured correctly.
+<p>蚁群优化</p>
+
+<p>欺诈检测系统</p>
+
+<p>进化算法等于搜索算法</p>
+
+<p>模拟退火 禁忌搜索 用以避免局部最优</p>
+
+<p>基于领域的启发式搜索</p>
+
+<h3 id="问题特征">问题特征</h3>
+
+<ol>
+<li>问题足够困难 难以写代码来解决</li>
+<li>人不知道如何解决这个问题</li>
+<li>问题是不断变化</li>
+<li>搜索每个解是不可行</li>
+<li>可以接受&rdquo;足够好&rdquo;的解</li>
+</ol>
+
+<h3 id="基本术语">基本术语</h3>
+
+<ol>
+<li>种群 候选解集合 可以有变异和交叉这样的遗传操作应用于他们</li>
+<li>候选解: 给定问题的一个可能的解 染色体</li>
+<li>基因: 组成染色体的不可分割的构建块 经典的基因包含0 1</li>
+<li>染色体： 一串基因 定义了一个特定的候选解 01101011</li>
+<li>变异: 一个过程 候选解中的基因被随机改变 以创建新的性状</li>
+<li>交叉: 染色体被组合以创建新的候选解决方案的方法</li>
+<li>选择: 选择的候选解 繁殖下一代解的技术</li>
+<li>适应度: 一个评分 衡量候选解适合给定问题的程度</li>
+</ol>
+
+<blockquote>
+<p>遗传算法: 发现可行的 接近最佳的解</p>
+</blockquote>
+
+<p>两个不错的解可以进行组合 形成更适应的后代</p>
+
+<p>遗传算法中的变异算子搜索特定候选解的近邻 变异算子也起到了一定的逃离局部最优的作用</p>
+
+<h3 id="基本遗传算法的实现的参数">基本遗传算法的实现的参数</h3>
+
+<h4 id="变异率">变异率</h4>
+
+<p>特定基因变异的概率 过高导致延长找到一个可接受的解 过低在搜索空间中移动的过于缓慢 所以要设置以恶值 允许足够的多样性 防止算法停滞不前</p>
+
+<h4 id="种群规模">种群规模</h4>
+
+<p>较大规模 可以在搜索空间中取样更多 较小规模 则取样较少4</p>
+
+<h4 id="交叉率">交叉率</h4>
+
+<p>高交叉率在交叉阶段会产生新的 潜在优越的解 较低的交叉率有助于保持较适应个体的基因信息在下一代不受破坏</p>
+
+<h4 id="基因表示">基因表示</h4>
+
+<p>2进制 对象  整数 浮点数 树的表示</p>
+
+<p>停止</p>
+
+<ul>
+<li>达到世代的最大数目</li>
+<li>超过分配给它的时间</li>
+<li>发现一个满足所需条件的解</li>
+<li>该算法已经达到一个稳定阶段</li>
+</ul>
+
+<h3 id="实现遗传算法">实现遗传算法</h3>
+
+<blockquote>
+<p>使用遗传算法之前 先不妨考虑是否有更好的启发式搜索算法 同时需要考虑采用的弱方法的类型</p>
+</blockquote>
+
+<h3 id="锦标赛">锦标赛</h3>
+
+<p>通过适应度去进行竞争</p>
+
+<p>规模大: 选择会丧失遗传多样性</p>
+
+<p>规模小: 减慢算法的进展</p>
+
+<p>单点交叉比较受欢迎,因为它有优越的遗传特性(保持连续的基因)</p>
+
+<h2 id="项目">项目</h2>
+
+<h3 id="排课">排课</h3>
+
+<h4 id="约束">约束</h4>
+
+<ul>
+<li>硬约束(必须遵守)</li>
+</ul>
+
+<ol>
+<li>教授在任何时间只能上一门课</li>
+<li>教室要足够大 容纳该班的学生</li>
+<li>教室在任何给定的时间只能上一门课</li>
+<li>教室必须包含所有需要的设备</li>
+</ol>
+
+<ul>
+<li>软约束(尽量满足)</li>
+</ul>
+
+<ol>
+<li>教室的容量是适合班级的规模</li>
+<li>教室喜欢的教室</li>
+<li>教授喜欢的上课时间</li>
+</ol>
+
+<h2 id="优化">优化</h2>
+
+<h4 id="自适应">自适应</h4>
+
+<p>自适应遗传算法能够自动调整交叉率 突变率这些参数 在算法运行的过程中 会调整这些参数</p>
+
+<p>评估个体表现 和整个种群作为一个整体的表现并依此更新变异率的算法公式</p>
+
+<pre><code>pm = (f max - fi) / (f max - f avg) * m  f i &gt; f avg
+p m = m, f i &lt;= f avg
 </code></pre>
 
-<p>利用<code>debug</code></p>
+<ul>
+<li>f max : 种群中适应度最佳的个体</li>
+<li>f i : 当前个体适应度</li>
+<li>f avg: 种群平均适应度</li>
+</ul>
 
-<p><img src="https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/item20190910093753.png" alt="" /></p>
+<h4 id="多次启发">多次启发</h4>
 
-<p><img src="https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/item20190910093847.png" alt="" /></p>
+<ul>
+<li>模拟退火: 仿照冶金退火的搜索启发方法 简单说是一种爬山方法 旨在<strong>逐步减少较差解的接受率</strong> 在遗传算法上下文中 模拟退火将随时间降低变异率 和 交叉率</li>
+<li>禁忌搜索: 保持一个&rdquo;禁忌&rdquo;解的列表  防止算法回到搜索空间中以前访问过的 已经是差的区域 有助于避免算法反复考虑它以前发现的 ，已经是差的解</li>
+</ul>
 
-<p>doAuthenticate(token)是我自己实现的方法 继续更进</p>
+<h4 id="优化适应度函数">优化适应度函数</h4>
 
-<p><img src="https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/item20190910094013.png" alt="" /></p>
-
-<p>发现是空 于是找到原因</p>
-
-<p><img src="https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/item20190910094052.png" alt="" /></p>
-
-<p>分发的时候 Realm命名为<code>xxxRealm</code> 但loginType没有对应上 修改即可</p>
+<ol>
+<li>并行计算</li>
+<li>适应度值散列 缓存的概念</li>
+<li>改进基因编码方法</li>
+</ol>
               
             </div>
           </div>
@@ -289,7 +450,7 @@
                   <div class="post-footer-tags">
                     <span class="text-color-light text-small">标签</span><br/>
                     
-  <a class="tag tag--primary tag--small" href="https://mybigdaxin.github.io/tags/shiro/">shiro</a>
+  <a class="tag tag--primary tag--small" href="https://mybigdaxin.github.io/tags/%E6%99%BA%E8%83%BD%E7%AE%97%E6%B3%95/">智能算法</a>
 
                   </div>
                 
@@ -302,7 +463,7 @@
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/09/%E4%BB%A3%E7%90%86/" data-tooltip="代理">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/09/shiro/" data-tooltip="Shiro">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -310,7 +471,7 @@
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/09/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/" data-tooltip="遗传算法">
+                <a class="post-action-btn btn btn--disabled">
               
                   <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -328,19 +489,19 @@
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/09/shiro/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/09/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/09/shiro/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/09/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/09/shiro/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/09/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -388,7 +549,7 @@
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/09/%E4%BB%A3%E7%90%86/" data-tooltip="代理">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/09/shiro/" data-tooltip="Shiro">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -396,7 +557,7 @@
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/09/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/" data-tooltip="遗传算法">
+                <a class="post-action-btn btn btn--disabled">
               
                   <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -414,19 +575,19 @@
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/09/shiro/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/09/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/09/shiro/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/09/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/09/shiro/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/09/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -456,19 +617,19 @@
   <ul class="share-options">
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F09%2Fshiro%2F">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F09%2F%25E9%2581%2597%25E4%25BC%25A0%25E7%25AE%2597%25E6%25B3%2595%2F">
           <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F09%2Fshiro%2F">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F09%2F%25E9%2581%2597%25E4%25BC%25A0%25E7%25AE%2597%25E6%25B3%2595%2F">
           <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F09%2Fshiro%2F">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F09%2F%25E9%2581%2597%25E4%25BC%25A0%25E7%25AE%2597%25E6%25B3%2595%2F">
           <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
         </a>
       </li>
@@ -564,9 +725,9 @@ $(document).ready(function() {
     
       <script>
         var disqus_config = function () {
-          this.page.url = 'https:\/\/mybigdaxin.github.io\/2019\/09\/shiro\/';
+          this.page.url = 'https:\/\/mybigdaxin.github.io\/2019\/09\/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95\/';
           
-            this.page.identifier = '\/2019\/09\/shiro\/'
+            this.page.identifier = '\/2019\/09\/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95\/'
           
         };
         (function() {

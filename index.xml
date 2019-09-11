@@ -6,10 +6,19 @@
     <description>Recent content on Just for</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 10 Sep 2019 09:45:14 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 11 Sep 2019 09:58:15 +0800</lastBuildDate>
     
 	<atom:link href="https://mybigdaxin.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>遗传算法</title>
+      <link>https://mybigdaxin.github.io/2019/09/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/</link>
+      <pubDate>Wed, 11 Sep 2019 09:58:15 +0800</pubDate>
+      
+      <guid>https://mybigdaxin.github.io/2019/09/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Shiro</title>
