@@ -265,7 +265,11 @@
 <li><a href="#redis">Redis</a></li>
 <li><a href="#docker">Docker</a>
 <ul>
-<li><a href="#rabbitmq">RabbitMQ</a>
+<li><a href="#rabbitmq">RabbitMQ</a></li>
+</ul></li>
+<li><a href="#部署项目到tomcat">部署项目到Tomcat</a>
+<ul>
+<li>
 <ul>
 <li><a href="#参考">参考</a></li>
 </ul></li>
@@ -499,6 +503,70 @@ docker run -d --hostname my-rabbit --name rabbit -e RABBITMQ_DEFAULT_USER=admin 
 # 查看运行日志
 docker logs rabbit
 </code></pre>
+
+<h2 id="部署项目到tomcat">部署项目到Tomcat</h2>
+
+<blockquote>
+<p>扩展<code>SpringBootServletInitializer</code></p>
+
+<p>根据提供标记嵌入式servlet容器</p>
+
+<p>更新包为 <code>War</code></p>
+</blockquote>
+
+<ol>
+<li>​</li>
+</ol>
+
+<p><img src="https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/item20190909125420.png" alt="" /></p>
+
+<ol>
+<li>​</li>
+</ol>
+
+<pre><code class="language-xml">&lt;packaging&gt;war&lt;/packaging&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+    &lt;!-- 移除嵌入式tomcat插件 --&gt;
+    &lt;exclusions&gt;
+        &lt;exclusion&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-tomcat&lt;/artifactId&gt;
+        &lt;/exclusion&gt;
+    &lt;/exclusions&gt;
+&lt;/dependency&gt;
+ &lt;!-- 或者添加下面的 --&gt;
+&lt;dependency&gt;
+   &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+   &lt;artifactId&gt;spring-boot-starter-tomcat&lt;/artifactId&gt;
+   &lt;scope&gt;provided&lt;/scope&gt;
+&lt;/dependency&gt;
+
+&lt;!-- ................... --&gt;
+&lt;build&gt;
+        &lt;!--打包后的名字--&gt;
+        &lt;finalName&gt;exam&lt;/finalName&gt;
+        &lt;plugins&gt;
+            &lt;plugin&gt;
+                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
+            &lt;/plugin&gt;
+        &lt;/plugins&gt;
+    &lt;/build&gt;
+</code></pre>
+
+<ol>
+<li>​</li>
+</ol>
+
+<pre><code class="language-xml">mvn clean package
+</code></pre>
+
+<ol>
+<li>停止tomcat 放入webapps目录下</li>
+<li>重新启动</li>
+</ol>
 
 <h4 id="参考">参考</h4>
 
