@@ -1,0 +1,2115 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.55.5 with theme Tranquilpeak 0.4.6-BETA">
+<meta name="author" content="Da Xin">
+<meta name="keywords" content="tech">
+<meta name="description" content="">
+
+
+<meta property="og:description" content="">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Es">
+<meta name="twitter:title" content="Es">
+<meta property="og:url" content="https://mybigdaxin.github.io/2019/09/es/">
+<meta property="twitter:url" content="https://mybigdaxin.github.io/2019/09/es/">
+<meta property="og:site_name" content="Just for">
+<meta property="og:description" content="">
+<meta name="twitter:description" content="">
+<meta property="og:locale" content="zh-cn">
+
+  
+    <meta property="article:published_time" content="2019-09-26T17:01:59">
+  
+  
+    <meta property="article:modified_time" content="2019-09-26T17:01:59">
+  
+  
+  
+    
+      <meta property="article:section" content="Es">
+    
+  
+  
+    
+      <meta property="article:tag" content="中间件">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://mybigdaxin.github.io/images/es.png">
+  <meta property="twitter:image" content="https://mybigdaxin.github.io/images/es.png">
+
+
+  <meta property="og:image" content="https://mybigdaxin.github.io/images/es.png">
+  <meta property="twitter:image" content="https://mybigdaxin.github.io/images/es.png">
+
+
+
+
+  <meta property="og:image" content="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=640">
+  <meta property="twitter:image" content="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=640">
+
+
+    <title>Es</title>
+
+    <link rel="icon" href="https://mybigdaxin.github.io/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://mybigdaxin.github.io/2019/09/es/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://mybigdaxin.github.io/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="5">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://mybigdaxin.github.io/">Just for</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://mybigdaxin.github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=90" alt="作者的图片" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="5">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://mybigdaxin.github.io/#about">
+          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=110" alt="作者的图片" />
+        </a>
+        <h4 class="sidebar-profile-name">Da Xin</h4>
+        
+          <h5 class="sidebar-profile-bio">Just for</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">首页</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">分类</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">标签</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">关于</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/MyBigDaXin" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+  <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=240 height=52 src="//music.163.com/outchain/player?type=0&id=2905300990&auto=1&height=32"></iframe>
+</nav>
+
+      
+  <div class="post-header-cover
+              text-center
+              post-header-cover--full"
+       style="background-image:url('/images/es.png')"
+       data-behavior="5">
+    
+      <div class="post-header main-content-wrap text-center">
+  
+    <h1 class="post-title" itemprop="headline">
+      Es
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-09-26T17:01:59&#43;08:00">
+        
+  九月 26, 2019
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://mybigdaxin.github.io/categories/es">Es</a>
+    
+  
+
+  </div>
+
+</div>
+    
+  </div>
+
+
+      <div id="main" data-behavior="5"
+        class="hasCover
+               hasCoverMetaIn
+               hasCoverCaption">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+            <span class="post-header-cover-caption caption">es学习笔记</span>
+          
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <h1 id="table-of-contents">目录</h1><nav id="TableOfContents">
+<ul>
+<li><a href="#elasticsearch">ElasticSearch</a>
+<ul>
+<li>
+<ul>
+<li><a href="#概念">概念</a>
+<ul>
+<li><a href="#什么是搜索">什么是搜索</a></li>
+<li><a href="#为什么数据库做搜索不好">为什么数据库做搜索不好</a></li>
+<li><a href="#什么是全文检索和lucene">什么是全文检索和Lucene</a></li>
+<li><a href="#什么是elasticsearch">什么是ElasticSearch</a></li>
+<li><a href="#elasticsearch概念">ElasticSearch概念</a></li>
+</ul></li>
+<li><a href="#windows启动">Windows启动</a></li>
+<li><a href="#基本操作">基本操作</a>
+<ul>
+<li><a href="#检查集群健康状况">检查集群健康状况</a></li>
+<li><a href="#crud">CRUD</a></li>
+<li><a href="#批量crud">批量CRUD</a></li>
+<li><a href="#搜索方式">搜索方式</a></li>
+<li><a href="#嵌套聚合-下钻分析">嵌套聚合 下钻分析</a></li>
+</ul></li>
+<li><a href="#es架构">ES架构</a>
+<ul>
+<li><a href="#shard-replica机制梳理">shard&amp;replica机制梳理</a></li>
+<li><a href="#2个node下的replica-shard分配">2个Node下的replica shard分配</a></li>
+<li><a href="#横向扩容">横向扩容</a></li>
+<li><a href="#es容错机制">es容错机制</a></li>
+</ul></li>
+<li><a href="#document">document</a>
+<ul>
+<li><a href="#index">_index</a></li>
+<li><a href="#type">_type</a></li>
+<li><a href="#id">_id</a></li>
+<li><a href="#source">_source</a>
+<ul>
+<li><a href="#返回所有">返回所有</a></li>
+<li><a href="#定制返回">定制返回</a></li>
+</ul></li>
+<li><a href="#替换与删除">替换与删除</a></li>
+<li><a href="#document原理">document原理</a>
+<ul>
+<li><a href="#数据路由管理">数据路由管理</a></li>
+<li><a href="#路由算法">路由算法</a></li>
+<li><a href="#doc查询">doc查询</a></li>
+<li><a href="#doc删除">doc删除</a></li>
+</ul></li>
+<li><a href="#一致性原理">一致性原理</a></li>
+<li><a href="#doc写入原理">doc写入原理</a>
+<ul>
+<li><a href="#删除">删除</a></li>
+<li><a href="#更新">更新</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#并发">并发</a>
+<ul>
+<li><a href="#悲观锁">悲观锁</a></li>
+<li><a href="#乐观锁">乐观锁</a></li>
+<li><a href="#external-version">external version</a></li>
+</ul></li>
+<li><a href="#脚本">脚本</a>
+<ul>
+<li><a href="#内置脚本">内置脚本</a></li>
+<li><a href="#外部脚本">外部脚本</a></li>
+<li><a href="#用脚本删除文档">用脚本删除文档</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#搜索引擎">搜索引擎</a>
+<ul>
+<li>
+<ul>
+<li><a href="#timeout">timeout</a></li>
+<li><a href="#multi-index和multi-type搜索模式">multi-index和multi-type搜索模式</a></li>
+<li><a href="#搜索原理">搜索原理</a></li>
+<li><a href="#分页搜索">分页搜索</a></li>
+<li><a href="#deep-paging">deep paging</a></li>
+<li><a href="#搜索的相关参数">搜索的相关参数</a></li>
+<li><a href="#scoll">scoll</a></li>
+<li><a href="#query-string用法">query string用法</a></li>
+</ul></li>
+<li><a href="#mapping">Mapping</a>
+<ul>
+<li><a href="#数据类型">数据类型</a></li>
+<li><a href="#query-dsl">Query DSL</a></li>
+<li><a href="#精确匹配与全文检索">精确匹配与全文检索</a>
+<ul>
+<li><a href="#精确匹配">精确匹配</a></li>
+<li><a href="#全文-正常化-匹配">全文(正常化)匹配</a></li>
+</ul></li>
+<li><a href="#内置分词器">内置分词器</a></li>
+<li><a href="#默认的分词器">默认的分词器</a></li>
+<li><a href="#定制分词器">定制分词器</a></li>
+<li><a href="#query-string分词">query string分词</a></li>
+<li><a href="#filter-与-query">Filter 与 Query</a></li>
+<li><a href="#validate">Validate</a></li>
+<li><a href="#string-fileld排序">string fileld排序</a></li>
+</ul></li>
+<li><a href="#相关度评分算法">相关度评分算法</a>
+<ul>
+<li><a href="#doc-value">doc value</a></li>
+<li><a href="#query-phase">query phase</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#索引">索引</a>
+<ul>
+<li>
+<ul>
+<li><a href="#创建">创建</a></li>
+<li><a href="#修改">修改</a></li>
+<li><a href="#删除-1">删除</a></li>
+<li><a href="#重建索引">重建索引</a></li>
+<li><a href="#倒排索引">倒排索引</a>
+<ul>
+<li><a href="#优点">优点</a></li>
+<li><a href="#缺点">缺点</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><a href="#type的数据结构">Type的数据结构</a>
+<ul>
+<li><a href="#root-object">Root Object</a>
+<ul>
+<li><a href="#properties">properties</a></li>
+<li><a href="#source-1">_source</a></li>
+<li><a href="#all">_all</a></li>
+</ul></li>
+<li><a href="#dynamic-mapping">Dynamic mapping</a>
+<ul>
+<li><a href="#定制策略">定制策略</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="elasticsearch">ElasticSearch</h1>
+
+<h3 id="概念">概念</h3>
+
+<h4 id="什么是搜索">什么是搜索</h4>
+
+<p>输入信息(关键字)，期望找到这个关键字相关的有些信息</p>
+
+<h4 id="为什么数据库做搜索不好">为什么数据库做搜索不好</h4>
+
+<p>某些信息会很长，比如商品的描述，可能长达数千，且数据库的关键字是不能拆分的，比如输入“生化机”，就搜索不出来“生化危机”，再有就是搜寻代价大</p>
+
+<h4 id="什么是全文检索和lucene">什么是全文检索和Lucene</h4>
+
+<ul>
+<li><p>全文检索：对数据进行拆分，放入一张映射表中 拆分的词对应出现的行号</p></li>
+
+<li><p>Lucene，就是一个jar包，里面包含了封装好的各种建立倒排索引，以及进行搜索的代码，包括各种算法</p></li>
+</ul>
+
+<h4 id="什么是elasticsearch">什么是ElasticSearch</h4>
+
+<p>基于Lucene，隐藏复杂性，提供简单易用的restful api接口</p>
+
+<ol>
+<li>分布式的文档存储引擎</li>
+<li>分布式的搜索引擎和分析引擎</li>
+<li>分布式，支持PB级数据</li>
+<li>海量数据进行近实时的处理</li>
+</ol>
+
+<blockquote>
+<p>自动维护数据的分布到多个结点的索引的建立</p>
+
+<p>自动维护数据的冗余副本</p>
+
+<p>封装了更多的高级功能</p>
+</blockquote>
+
+<h4 id="elasticsearch概念">ElasticSearch概念</h4>
+
+<ol>
+<li><code>NRT</code>(Near Realtime) ：近实时</li>
+<li><code>Cluster</code>: 集群 包含多个节点，每个节点属于哪个集群是通过一个配置（集群名称，默认是elasticsearch）来决定的</li>
+<li><code>Node</code>: 节点，节点的名称默认是随机分配，默认节点会去加入一个名称为“elasticsearch”的集群</li>
+</ol>
+
+<blockquote>
+<p>如果直接启动一堆节点，那么它们会自动组成一个elasticsearch集群，当然一个节点也可以组成一个elasticsearch集群</p>
+</blockquote>
+
+<ol>
+<li><code>Document&amp;field</code>：文档，es中的最小数据单元，一个document可以是一条客户数据 用<code>JSON</code>进行表示,每个index下的type中，都可以去存储多个document。一个document里面有多个field</li>
+<li><code>Index</code>: 索引,一个index包含很多document，一个index就代表了一类类似的或者相同的document。一个商品索引就存放了所有商品数据</li>
+<li><code>Type</code>: Type是index中的一个逻辑数据分类，一个type下的document，都有相同的field</li>
+<li><code>Shard</code>: 也叫<code>Primary Shard</code>一个<code>Index</code>中的数据切分为多个shard，每个shard都是一个lucene index</li>
+<li><code>Replica</code>: shard的副本，可以有一个或多个，primary shard（建立索引时一次设置，不能修改，默认5个），replica shard（随时修改数量，默认1个），默认每个索引10个shard，5个primary shard，5个replica shard</li>
+</ol>
+
+<blockquote>
+<p>最小的高可用配置，是2台服务器</p>
+
+<p>Document          行
+Type              表
+Index             库</p>
+</blockquote>
+
+<h3 id="windows启动">Windows启动</h3>
+
+<h3 id="基本操作">基本操作</h3>
+
+<h4 id="检查集群健康状况">检查集群健康状况</h4>
+
+<pre><code class="language-sql">GET /_cat/health?v
+
+-- green：每个索引的primary shard和replica shard都是active状态的
+-- yellow：每个索引的primary shard都是active状态的，但是部分replica shard不是active状态，处于不可用的状态
+-- red：不是所有索引的primary shard都是active状态的，部分索引有数据丢失了
+</code></pre>
+
+<h4 id="crud">CRUD</h4>
+
+<pre><code class="language-java">// 增加
+PUT /ecommerce/product/1
+{
+    &quot;name&quot; : &quot;gaolujie yagao&quot;,
+    &quot;desc&quot; :  &quot;gaoxiao meibai&quot;,
+    &quot;price&quot; :  30,
+    &quot;producer&quot; :      &quot;gaolujie producer&quot;,
+    &quot;tags&quot;: [ &quot;meibai&quot;, &quot;fangzhu&quot; ]
+}
+// 删除
+DELETE /ecommerce/product/1
+// 更改
+  
+// 更改对应的列 partial update 其内置了以乐观锁为基础的并发策略
+POST /ecommerce/product/1/_update
+{
+  &quot;doc&quot;: {
+    &quot;name&quot;: &quot;jiaqiangban gaolujie yagao&quot;
+  }
+}
+/**
+ * 先发起get请求，得到doc展示到前台界面
+  用户在前台发送修改数据，发送到后台
+  后台代码，将用户修改的数据放在内存进行执行，然后封装好修改的全量数据
+  发送PUT请求，进行全量替换
+  将老的doc进行标记为deleted，重新创建新的doc
+ */
+ 
+post /index/type/id/_update?retry_on_conflict=5&amp;version=6
+  
+/**retry策略
+1、再次获取 document数据和最新版本
+2、基于最新版本号再次去更新，如果成功那么就ok了
+3、如果失败，重复1和2两个步，最多重复几次呢？可以通过ret那个参数的值指定，比如5次 
+*/
+
+
+// 所有的查询、修改和写回操作，都发生在es中的一个 shard内部
+// 替换 也可以理解为覆盖
+PUT /ecommerce/product/1
+{
+    &quot;name&quot; : &quot;jiaqiangban gaolujie yagao&quot;,
+    &quot;desc&quot; :  &quot;gaoxiao meibai&quot;,
+    &quot;price&quot; :  30,
+    &quot;producer&quot; :      &quot;gaolujie producer&quot;,
+    &quot;tags&quot;: [ &quot;meibai&quot;, &quot;fangzhu&quot; ]
+}
+
+// 查看
+GET /index/type/id
+
+// 批量查询
+// 1. 查询不同index的doc
+GET /_mget
+{
+   &quot;docs&quot; : [
+      {
+         &quot;_index&quot; : &quot;test_index&quot;,
+         &quot;_type&quot; :  &quot;test_type&quot;,
+         &quot;_id&quot; :    1
+      },
+      {
+         &quot;_index&quot; : &quot;test_index&quot;,
+         &quot;_type&quot; :  &quot;test_type&quot;,
+         &quot;_id&quot; :    2
+      }
+   ]
+}
+// 2. 查询同一个index不同type
+GET /test_index/_mget
+{
+   &quot;docs&quot; : [
+      {
+         &quot;_type&quot; :  &quot;test_type&quot;,
+         &quot;_id&quot; :    1
+      },
+      {
+         &quot;_type&quot; :  &quot;test_type&quot;,
+         &quot;_id&quot; :    2
+      }
+   ]
+}
+
+</code></pre>
+
+<h4 id="批量crud">批量CRUD</h4>
+
+<blockquote>
+<p>bulk api对json的语法，有严格的要求，<code>每个json串不能换行，只能放一行</code>，同时<code>一个json串和一个json串之间，必须有一个换行</code>,可以进行下面的操作</p>
+</blockquote>
+
+<ol>
+<li>delete：删除一个文档，只要1个json串就可以了</li>
+<li>create：PUT /index/type/id/_create，强制创建</li>
+<li>index：普通的put操作，可以是创建文档，也可以是全量替换文档</li>
+<li>update：执行的partial update操作</li>
+</ol>
+
+<blockquote>
+<p>bulk操作中，任意一个操作失败，是不会影响其他的操作的，但是在返回结果里，会告诉你异常日志</p>
+</blockquote>
+
+<pre><code class="language-sql">POST /test_index/test_type/_bulk
+{ &quot;delete&quot;: { &quot;_id&quot;: &quot;3&quot; }} 
+{ &quot;create&quot;: { &quot;_id&quot;: &quot;12&quot; }}
+{ &quot;test_field&quot;:    &quot;test12&quot; }
+{ &quot;index&quot;:  { }}
+{ &quot;test_field&quot;:    &quot;auto-generate id test&quot; }
+{ &quot;index&quot;:  { &quot;_id&quot;: &quot;2&quot; }}
+{ &quot;test_field&quot;:    &quot;replaced test2&quot; }
+{ &quot;update&quot;: { &quot;_id&quot;: &quot;1&quot;, &quot;_retry_on_conflict&quot; : 3} }
+{ &quot;doc&quot; : {&quot;test_field2&quot; : &quot;bulk test1&quot;} }
+</code></pre>
+
+<blockquote>
+<p>关于bulk的奇葩格式要求:它能够节省内存开销，直接按换行符切割Json，对每两个一组的json，读取meta，进行document路由，然后直接将对应的json发送到node上，这样和按照便于理解的格式对比，<code>不需要将json数组解析为一个JSONArray对象</code>，形成一份大数据的拷贝，浪费内存空间，尽可能地保证性能</p>
+</blockquote>
+
+<h4 id="搜索方式">搜索方式</h4>
+
+<ol>
+<li>query string search （不常用）</li>
+</ol>
+
+<pre><code class="language-java">GET /ecommerce/product/_search
+// hits.max_score: 匹配分数 越相关 越匹配
+// hits.hits：包含了匹配搜索的document的详细数据
+</code></pre>
+
+<ol>
+<li>query DSL</li>
+</ol>
+
+<blockquote>
+<p>用<code>JSON</code>构造查询语法</p>
+</blockquote>
+
+<pre><code class="language-java">// 查询所有
+GET /ecommerce/product/_search
+{
+  &quot;query&quot;: { &quot;match_all&quot;: {} }
+}
+// 查询名字为yagao 按照价格进行降序排序
+GET /ecommerce/product/_search
+{
+    &quot;query&quot; : {
+        &quot;match&quot; : {
+            &quot;name&quot; : &quot;yagao&quot;
+        }
+    },
+    &quot;sort&quot;: [
+        { &quot;price&quot;: &quot;desc&quot; }
+    ]
+}
+// 从第二个开始 每页显示1条数据
+GET /ecommerce/product/_search
+{
+  &quot;query&quot;: { &quot;match_all&quot;: {} },
+  &quot;from&quot;: 1,
+  &quot;size&quot;: 1
+}
+// 查询商品的名称和价格
+GET /ecommerce/product/_search
+{
+  &quot;query&quot;: { &quot;match_all&quot;: {} },
+  &quot;_source&quot;: [&quot;name&quot;, &quot;price&quot;]
+}
+</code></pre>
+
+<ol>
+<li>query filter</li>
+</ol>
+
+<pre><code class="language-java">// 搜索商品名称包含yagao，而且售价大于25元的商品
+GET /ecommerce/product/_search
+{
+    &quot;query&quot; : {
+        &quot;bool&quot; : {
+            &quot;must&quot; : {
+                &quot;match&quot; : {
+                    &quot;name&quot; : &quot;yagao&quot; 
+                }
+            },
+            &quot;filter&quot; : {
+                &quot;range&quot; : {
+                    &quot;price&quot; : { &quot;gt&quot; : 25 } 
+                }
+            }
+        }
+    }
+}
+</code></pre>
+
+<ol>
+<li>全文检索</li>
+</ol>
+
+<pre><code class="language-java">// 进行全文检索 只要能匹配上任意一个拆解后的单词，就可以作为结果返回
+GET /ecommerce/product/_search
+{
+    &quot;query&quot; : {
+        &quot;match&quot; : {
+            &quot;producer&quot; : &quot;yagao producer&quot;
+        }
+    }
+}
+</code></pre>
+
+<ol>
+<li>phrase Search</li>
+</ol>
+
+<pre><code class="language-java">// 必须与指定的字段文本 完全包含一模一样 才会返回
+GET /ecommerce/product/_search
+{
+    &quot;query&quot; : {
+        &quot;match_phrase&quot; : {
+            &quot;producer&quot; : &quot;yagao producer&quot;
+        }
+    }
+}
+</code></pre>
+
+<h4 id="嵌套聚合-下钻分析">嵌套聚合 下钻分析</h4>
+
+<pre><code class="language-java">// 计算每个tag下的商品数量
+GET /ecommerce/product/_search
+{
+  &quot;aggs&quot;: {
+    &quot;group_by_tags&quot;: {
+      &quot;terms&quot;: { &quot;field&quot;: &quot;tags&quot; }
+    }
+  }
+}
+
+// 将文本field的fielddata属性设置为true
+
+PUT /ecommerce/_mapping/product
+{
+  &quot;properties&quot;: {
+    &quot;tags&quot;: {
+      &quot;type&quot;: &quot;text&quot;,
+      &quot;fielddata&quot;: true
+    }
+  }
+}
+
+GET /ecommerce/product/_search
+{
+  &quot;size&quot;: 0,
+  &quot;aggs&quot;: {
+    &quot;all_tags&quot;: {
+      &quot;terms&quot;: { &quot;field&quot;: &quot;tags&quot; }
+    }
+  }
+}
+
+
+// 对名称中包含yagao的商品，计算每个tag下的商品数量
+
+GET /ecommerce/product/_search
+{
+  &quot;size&quot;: 0,
+  &quot;query&quot;: {
+    &quot;match&quot;: {
+      &quot;name&quot;: &quot;yagao&quot;
+    }
+  },
+  &quot;aggs&quot;: {
+    &quot;all_tags&quot;: {
+      &quot;terms&quot;: {
+        &quot;field&quot;: &quot;tags&quot;
+      }
+    }
+  }
+}
+
+// 先分组，再算每组的平均值，计算每个tag下的商品的平均价格
+
+GET /ecommerce/product/_search
+{
+    &quot;size&quot;: 0,
+    &quot;aggs&quot; : {
+        &quot;group_by_tags&quot; : {
+            &quot;terms&quot; : { &quot;field&quot; : &quot;tags&quot; },
+            &quot;aggs&quot; : {
+                &quot;avg_price&quot; : {
+                    &quot;avg&quot; : { &quot;field&quot; : &quot;price&quot; }
+                }
+            }
+        }
+    }
+}
+// 计算每个tag下的商品的平均价格，并且按照平均价格降序排序
+
+GET /ecommerce/product/_search
+{
+    &quot;size&quot;: 0,
+    &quot;aggs&quot; : {
+        &quot;all_tags&quot; : {
+            &quot;terms&quot; : { &quot;field&quot; : &quot;tags&quot;, &quot;order&quot;: { &quot;avg_price&quot;: &quot;desc&quot; } },
+            &quot;aggs&quot; : {
+                &quot;avg_price&quot; : {
+                    &quot;avg&quot; : { &quot;field&quot; : &quot;price&quot; }
+                }
+            }
+        }
+    }
+}
+// 按照指定的价格范围区间进行分组，然后在每组内再按照tag进行分组，最后再计算每组的平均价格
+
+GET /ecommerce/product/_search
+{
+  &quot;size&quot;: 0,
+  &quot;aggs&quot;: {
+    &quot;group_by_price&quot;: {
+      &quot;range&quot;: {
+        &quot;field&quot;: &quot;price&quot;,
+        &quot;ranges&quot;: [
+          {
+            &quot;from&quot;: 0,
+            &quot;to&quot;: 20
+          },
+          {
+            &quot;from&quot;: 20,
+            &quot;to&quot;: 40
+          },
+          {
+            &quot;from&quot;: 40,
+            &quot;to&quot;: 50
+          }
+        ]
+      },
+      &quot;aggs&quot;: {
+        &quot;group_by_tags&quot;: {
+          &quot;terms&quot;: {
+            &quot;field&quot;: &quot;tags&quot;
+          },
+          &quot;aggs&quot;: {
+            &quot;average_price&quot;: {
+              &quot;avg&quot;: {
+                &quot;field&quot;: &quot;price&quot;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+</code></pre>
+
+<h3 id="es架构">ES架构</h3>
+
+<ol>
+<li>对复杂的分布式机制的透明隐藏特性 隐藏了 分片，cluster discovery，shard负载均衡，shard副本</li>
+<li>垂直扩容: 总数不变，采用容量更大的服务器替换原来的去满足要求</li>
+<li>水平扩容：总数改变，采用相同容量的服务器去满足要求</li>
+<li>master节点:
+
+<ol>
+<li>创建/删除索引</li>
+<li>增加/删除节点</li>
+</ol></li>
+<li>节点平等的分布式架构
+
+<ol>
+<li>节点对等，每个节点接收所有的请求</li>
+<li>自动请求路由</li>
+<li>响应收集</li>
+</ol></li>
+<li>增减节点时的数据rebalance 保持负载均衡</li>
+</ol>
+
+<h4 id="shard-replica机制梳理">shard&amp;replica机制梳理</h4>
+
+<ol>
+<li>Index包含多个shard</li>
+<li>每个shard都是一个最小工作单元，承载部分数据，lucene实例，完整的建立索引和处理请求的能力</li>
+<li>增减节点时，shard会自动在nodes中负载均衡</li>
+<li>primary shard和replica shard，每个document肯定只存在于某一个primary shard以及其对应的replica shard中，不可能存在于多个primary shard</li>
+<li>replica shard是primary shard的副本，负责容错，以及承担读请求负载</li>
+<li>primary shard的数量在创建索引的时候就固定了，replica shard的数量可以随时修改</li>
+<li>primary shard的默认数量是5，replica默认是1，默认有10个shard，5个primary shard，5个replica shard</li>
+<li>primary shard不能和自己的replica shard放在同一个节点上（否则节点宕机，primary shard和副本都丢失，起不到容错的作用），但是可以和其他primary shard的replica shard放在同一个节点上</li>
+</ol>
+
+<h4 id="2个node下的replica-shard分配">2个Node下的replica shard分配</h4>
+
+<p>p(0，1，2) 放在第一个Node 其副本R(0，1，2)放在第二个Node，同步更新</p>
+
+<h4 id="横向扩容">横向扩容</h4>
+
+<p>primary&amp;replica自动负载均衡，A （6个shard，3 primary，3 replica），Node上的Shard越少，得到的CPU，I/O资源越多，A条件下，假如给3台机器，则能容忍1台机器宕机，A条件下，6台机器时的性能最好，但<code>超出扩容极限，就要动态修改replica数量</code></p>
+
+<h4 id="es容错机制">es容错机制</h4>
+
+<p>一个node故障，就会进行master选举，自动选举另一个node成为新的master,新的master会将原来的primary shard的副本提升为primary，之后重启故障的node,将缺失的副本copy一份到node上</p>
+
+<h3 id="document">document</h3>
+
+<h4 id="index">_index</h4>
+
+<p>类似的数据放在一个索引中，非类似的放不同索引</p>
+
+<h4 id="type">_type</h4>
+
+<p>代表document属于index中的哪个类别。例：商品，可能划分为电子商品，生鲜商品，日化商品</p>
+
+<h4 id="id">_id</h4>
+
+<p>document的唯一标识，与index和type一起，可以唯一标识和定位一个document</p>
+
+<ul>
+<li>手动指定</li>
+</ul>
+
+<p>可以使用系统中已有数据的唯一标识，作为es中document的id，比如将Mysql中的数据导入es，就使用Mysql中的主键</p>
+
+<ul>
+<li>自动创建</li>
+</ul>
+
+<p>自动生成的id，长度为20个字符，URL安全，base64编码，GUID，分布式系统并行生成时不可能会发生冲突</p>
+
+<h4 id="source">_source</h4>
+
+<h5 id="返回所有">返回所有</h5>
+
+<pre><code>GET index/type/id
+</code></pre>
+
+<h5 id="定制返回">定制返回</h5>
+
+<pre><code>GET index/type/id?_source=source_name1
+</code></pre>
+
+<h4 id="替换与删除">替换与删除</h4>
+
+<p>doc_id存在 就是替换，不存在就是创建，doc为不可变，要修改内容，就要进行全量替换，直接重新建立索引，替换里面所有的内容</p>
+
+<blockquote>
+<p>es会将老的doc标记为delete,之后对比较老的doc且已经标记了的去删除</p>
+</blockquote>
+
+<h4 id="document原理">document原理</h4>
+
+<h5 id="数据路由管理">数据路由管理</h5>
+
+<p>一个index的数据是放在shard上的，用于添加doc的时候，就要决定是放在Index的哪个Shard上</p>
+
+<h5 id="路由算法">路由算法</h5>
+
+<p>shard = hash(routing) % number_of_primary_shards</p>
+
+<p>routing: 默认为doc的_id,也可以在发送请求的时候，手动指定一个routing value，例</p>
+
+<pre><code class="language-sql">// 手动routing可以保证一定会被路由到某个shard
+put /index/type/id?routing=user_id
+</code></pre>
+
+<p>primary shard的 index建立，是不允许修改的。但是 replica Shard可以随时修改</p>
+
+<h5 id="doc查询">doc查询</h5>
+
+<p>client任意选择一个node发送read请求，之后这个node就用来对请求进行路由（<code>协调节点</code>），采用<code>round-robin</code>随机轮询算法，让P0和R0都有Read请求，实现<code>负载均衡</code>，可能doc还在建立索引过程，只在p0上存在，而R0没有，此时若请求路由给了R0，会返回找不到该文档</p>
+
+<h5 id="doc删除">doc删除</h5>
+
+<ol>
+<li>客户端选择一个Node发送请求，将其作为协调节点</li>
+<li>之后这个协调节点就对doc进行路由，将请求转给对应的node</li>
+<li>node的p0对请求进行处理，然后将数据同步到r0</li>
+<li>发现p0和r0都搞定后，返回结果</li>
+</ol>
+
+<h4 id="一致性原理">一致性原理</h4>
+
+<p>发送任何一个增删改的时候，可以带上<code>consistency</code>参数，指明想要的<code>一致性</code>是什么</p>
+
+<ul>
+<li><p>one：要求我们这个写操作，只要有一个primary shard是active活跃可用的，就可以执行</p></li>
+
+<li><p>all：要求我们这个写操作，必须所有的primary shard和replica shard都是活跃的，才可以执行这个写操作</p></li>
+
+<li><p>quorum：默认的值，要求所有的shard中，必须是大部分的shard都是活跃的，可用的，才可以执行这个写操作</p></li>
+</ul>
+
+<p>默认的要求写之前，大部分的shard都是活跃的，才可执行写操作</p>
+
+<h4 id="doc写入原理">doc写入原理</h4>
+
+<blockquote>
+<p>lucene底层的 index是分为多个segment的，每个segmen都会存放部分数据     和redo log好像</p>
+</blockquote>
+
+<p>写buffer,刷到index segment，然后index segment又被fsync到磁盘（<code>且被打开，供search使用</code>,buffer被清空）</p>
+
+<blockquote>
+<p>fsync是比较费时间的，但要想被搜索到就要等到fsync，可以进行改进</p>
+</blockquote>
+
+<p><code>每秒</code>写到index segment后,再刷到os cache，此时(<code>直接打开供search使用</code>) fresh: 数据写入os cache，并被打开可供搜索</p>
+
+<pre><code>-- 可以自己定义，但最好不要自己动，让es自动处理
+PUT /my_index
+{
+  &quot;settings&quot;: {
+    &quot;refresh_interval&quot;: &quot;30s&quot; 
+  }
+}
+</code></pre>
+
+<blockquote>
+<p>再次优化 实现数据恢复</p>
+</blockquote>
+
+<p>写入segment的时候，又写入translog中，translog达到一定程度，进行commit，然后buffer写入segment，commit写入磁盘，表明了之前所有写的segment，用fsync把cache写入磁盘上，写完后，清空translog，创建新的translog</p>
+
+<blockquote>
+<p>fsync+清空translog，就是flush，默认每隔30分钟flush一次，或者当translog过大的时候，也会flush</p>
+</blockquote>
+
+<p>translog，每隔5秒被fsync一次到磁盘上。在一次增删改操作之后，当fsync在<code>primary shard</code>和<code>replica shard</code>都成功之后，那次增删改操作才会成功,比较耗时，可以设置为<code>异步</code>的</p>
+
+<pre><code class="language-sql">PUT /my_index/_settings
+{
+    &quot;index.translog.durability&quot;: &quot;async&quot;,
+    &quot;index.translog.sync_interval&quot;: &quot;5s&quot;
+}
+</code></pre>
+
+<blockquote>
+<p>最终优化</p>
+</blockquote>
+
+<p>每1s刷到segment，文件多的时候，查询每次都要遍历，十分耗时，此时可以优化为merge</p>
+
+<p>（1）选择一些有<code>相似大小</code>的segment，merge成一个<code>大的segment</code>
+（2）将新的segment <code>flush到磁盘</code>上去
+（3）写一个新的commit point，包括了<code>新的segment</code>，并且排除旧的那些segment
+（4）将<code>新的segment打开供搜索</code>
+（5）将旧的segment删除</p>
+
+<blockquote>
+<p>POST /my_index/_optimize?max_num_segments=1 还是尽量不要自己设置</p>
+</blockquote>
+
+<h5 id="删除">删除</h5>
+
+<p>每次commit point时，会有一个.del文件，标记了哪些segment中的哪些document被标记为deleted了</p>
+
+<p>me弄到一定程度的index segment，就会进行一次commit point，会有个.del文件 判断哪些segment被标记为deleted</p>
+
+<h5 id="更新">更新</h5>
+
+<p>对于<code>更新</code>操作，是将现有的doc标记为deleted，写入新的index segment，下次search的时候，会排除deleted标记的版本，即找到最新的版本</p>
+
+<h3 id="并发">并发</h3>
+
+<p>多线程情况下，读取相同的数据，可能最终结果与理论上的结果的不一致</p>
+
+<p>解决方案：</p>
+
+<h4 id="悲观锁">悲观锁</h4>
+
+<p>每次拿到数据都进行加锁</p>
+
+<h4 id="乐观锁">乐观锁</h4>
+
+<p>利用version版本号字段进行修改，要求当前版本号与存的时候的版本号要相同，否则要先进行读取，拿到最新的值</p>
+
+<pre><code>PUT /test_index/test_type/7?version=1 
+{
+  &quot;test_field&quot;: &quot;test client 1&quot;
+}
+</code></pre>
+
+<blockquote>
+<p>es的P0同步到R0是多线程异步的，不保证顺序，为了保证数据一致性，是基于版本号字段进行修改的</p>
+</blockquote>
+
+<h4 id="external-version">external version</h4>
+
+<p>当然也可以不用es内置的_version，而使用自己维护的版本号</p>
+
+<pre><code>?version=1&amp;version_type=external
+</code></pre>
+
+<p>和内置的区别在于，version，只有当<code>你提供的version和es中的，_version一样</code>时，才能进行修改，而version_type = external的时候，只有比<code>es_version大</code>才能完成修改</p>
+
+<pre><code>PUT /test_index/test_type/8?version=2&amp;version_type=external
+{
+  &quot;test_field&quot;: &quot;test client 1&quot;
+}
+</code></pre>
+
+<h3 id="脚本">脚本</h3>
+
+<blockquote>
+<p>内置的脚本支持的，可以基于groovy脚本实现各种各样的复杂操作</p>
+</blockquote>
+
+<h4 id="内置脚本">内置脚本</h4>
+
+<pre><code class="language-sql">POST /test_index/test_type/11/_update
+{
+   &quot;script&quot; : &quot;ctx._source.num+=1&quot;
+   // D:\...\elasticsearch-5.2.0\config\scripts下进行编写
+}
+</code></pre>
+
+<h4 id="外部脚本">外部脚本</h4>
+
+<pre><code>ctx._source.tags+=new_tag
+
+POST /test_index/test_type/11/_update
+{
+  &quot;script&quot;: {
+    &quot;lang&quot;: &quot;groovy&quot;, 
+    &quot;file&quot;: &quot;test-add-tags&quot;,
+    &quot;params&quot;: {
+      &quot;new_tag&quot;: &quot;tag1&quot;
+    }
+  }
+}
+</code></pre>
+
+<h4 id="用脚本删除文档">用脚本删除文档</h4>
+
+<pre><code>ctx.op = ctx._source.num == count ? 'delete' : 'none'
+
+POST /test_index/test_type/11/_update
+{
+  &quot;script&quot;: {
+    &quot;lang&quot;: &quot;groovy&quot;,
+    &quot;file&quot;: &quot;test-delete-document&quot;,
+    &quot;params&quot;: {
+      &quot;count&quot;: 1
+    }
+  }
+}
+</code></pre>
+
+<h2 id="搜索引擎">搜索引擎</h2>
+
+<h4 id="timeout">timeout</h4>
+
+<p>默认无timeout，latency平衡completeness，手动指定timeout,达到timeout时间，在 timeout时间范围内，将搜索到的部分数据（也可能全都搜索到了），直接理解返回给 client程序</p>
+
+<pre><code class="language-sql">GET /_search?timeout=10m
+</code></pre>
+
+<h4 id="multi-index和multi-type搜索模式">multi-index和multi-type搜索模式</h4>
+
+<pre><code class="language-shell">/_search：所有索引，所有type下的所有数据都搜索出来
+/index1/_search：指定一个index，搜索其下所有type的数据
+/index1,index2/_search：同时搜索两个index下的数据
+/*1,*2/_search：按照通配符去匹配多个索引
+/index1/type1/_search：搜索一个index下指定的type的数据
+/index1/type1,type2/_search：可以搜索一个index下多个type的数据
+/index1,index2/type1,type2/_search：搜索多个index下的多个type的数据
+/_all/type1,type2/_search：_all，可以代表搜索所有index下的指定type的数据
+</code></pre>
+
+<h4 id="搜索原理">搜索原理</h4>
+
+<p>client发送一个搜索请求，会把请求打到所有的primary shard上去执行，因为每个shard都包含部分数据，所以每个shard上都可能会包含搜索请求的结果</p>
+
+<h4 id="分页搜索">分页搜索</h4>
+
+<pre><code class="language-sql">size，from
+
+GET /_search?size=10
+GET /_search?size=10&amp;from=0
+GET /_search?size=10&amp;from=20
+
+GET /test_index/test_type/_search
+
+&quot;hits&quot;: {
+    &quot;total&quot;: 9,
+    &quot;max_score&quot;: 1,
+}
+</code></pre>
+
+<h4 id="deep-paging">deep paging</h4>
+
+<p>简单来说，就是搜索的特别深，200000条数据，每页10条，你搜1000页，实际就拿到10000~10010的数据，就要从其他的node将数据发给<code>协调节点</code>,然后进行统筹并排序，再根据分数_source进行返回，极其耗费内存，I/O，网络带宽</p>
+
+<h4 id="搜索的相关参数">搜索的相关参数</h4>
+
+<ol>
+<li>preference：两个doc的field值相同，但不同的shard上，可能排序不同，轮询到不同replica shard看到的搜索结果的排序都不一样，要查询的结果都是一样，可以设置preference的值</li>
+<li>timeout：限定在一定时间内，将部分获取到的数据直接返回</li>
+<li>routing：document文档路由，_id路由，routing=user_id，这样的话可以让<code>同一个user对应的数据到一个shard上去</code></li>
+</ol>
+
+<h4 id="scoll">scoll</h4>
+
+<p>一<code>批批</code>检索数据，不是分页</p>
+
+<blockquote>
+<p>先搜索一批数据，然后下次再搜索一批数据，以此类推，直到搜索出全部的数据来,第一次搜索的时候，保存一个当时的视图快照，之后基于这个快照进行搜索</p>
+</blockquote>
+
+<pre><code class="language-sql">GET /test_index/test_type/_search?scroll=1m
+{
+  &quot;query&quot;: {
+    &quot;match_all&quot;: {}
+  },
+  &quot;sort&quot;: [ &quot;_doc&quot; ],
+  &quot;size&quot;: 3
+}
+
+GET /_search/scroll
+{
+    &quot;scroll&quot;: &quot;1m&quot;, 
+    &quot;scroll_id&quot; : &quot;DnF1ZXJ5VGhlbkZldGNoBQAAAAAAACxeFjRvbnNUWVZaVGpHdklqOV9zcFd6MncAAAAAAAAsYBY0b25zVFlWWlRqR3ZJajlfc3BXejJ3AAAAAAAALF8WNG9uc1RZVlpUakd2SWo5X3NwV3oydwAAAAAAACxhFjRvbnNUWVZaVGpHdklqOV9zcFd6MncAAAAAAAAsYhY0b25zVFlWWlRqR3ZJajlfc3BXejJ3&quot;
+}
+</code></pre>
+
+<h4 id="query-string用法">query string用法</h4>
+
+<pre><code class="language-sql">GET /test_index/test_type/_search?q=test_field:test
+GET /test_index/test_type/_search?q=+test_field:test
+GET /test_index/test_type/_search?q=-test_field:test
+-- + ： 包含tes 词  - : 不保存 test 词
+</code></pre>
+
+<h3 id="mapping">Mapping</h3>
+
+<p>就是index的type的<code>元数据</code>，每个type都有一个自己的mapping，决定了数据类型，建立倒排索引的行为，还有进行搜索的行为</p>
+
+<pre><code class="language-sql">GET /website/article/_search?q=2017			3条结果             
+
+GET /website/article/_search?q=2017-01-01        	3条结果
+
+GET /website/article/_search?q=post_date:2017-01-01   	1条结果
+
+GET /website/article/_search?q=post_date:2017         	1条结果
+
+</code></pre>
+
+<blockquote>
+<p>搜索结果为什么不一致，因为es自动建立mapping的时候，设置了不同的field不同的data type。不同的data type的分词、搜索等行为是不一样的。所以出现了_all field和post_date field的搜索表现完全不一样</p>
+
+<p>es里面直接插入数据，es会自动建立索引，同时建立type以及对应的mapping</p>
+
+<p>mapping中<code>自动定义</code>了每个field的数据类型</p>
+
+<p>不同的数据类型（比如说text和date），可能有的是<code>exact value</code>，有的是<code>full text</code> 所以搜索方式就不同</p>
+
+<p>可以用es的dynamic mapping，让其自动建立mapping，包括自动设置数据类型</p>
+</blockquote>
+
+<h4 id="数据类型">数据类型</h4>
+
+<p>string</p>
+
+<p>byte，short，integer，long</p>
+
+<p>float，double</p>
+
+<p>boolean</p>
+
+<p>date</p>
+
+<blockquote>
+<p>dynamic mapping就是对给定的文本进行数据类型的判断</p>
+</blockquote>
+
+<p>empty: null，[]，[null]</p>
+
+<h4 id="query-dsl">Query DSL</h4>
+
+<pre><code class="language-sql">-- 基本语法
+{
+    QUERY_NAME: {
+        ARGUMENT: VALUE,
+        ARGUMENT: VALUE,...
+    }
+}
+</code></pre>
+
+<pre><code class="language-sql">-- 组合多个搜索条件 title必须包含elasticsearch，content可以包含elasticsearch也可以不包含，author_id必须不为111
+query
+  bool
+    [must,should,must_not,filter]
+GET /website/article/_search
+{
+  &quot;query&quot;: {
+    &quot;bool&quot;: {
+      &quot;must&quot;: [
+        {
+          &quot;match&quot;: {
+            &quot;title&quot;: &quot;elasticsearch&quot;
+          }
+        }
+      ],
+      &quot;should&quot;: [
+        {
+          &quot;match&quot;: {
+            &quot;content&quot;: &quot;elasticsearch&quot;
+          }
+        }
+      ],
+      &quot;must_not&quot;: [
+        {
+          &quot;match&quot;: {
+            &quot;author_id&quot;: 111
+          }
+        }
+      ]
+    }
+  }
+}
+-- 单纯的过滤
+query
+  constant_score
+    filter
+      range
+</code></pre>
+
+<blockquote>
+<p>关于分数的计算，子查询去计算一个doc针对它的相关度分数，然后bool去综合所有的分数</p>
+</blockquote>
+
+<h4 id="精确匹配与全文检索">精确匹配与全文检索</h4>
+
+<h5 id="精确匹配">精确匹配</h5>
+
+<p>必须完全一样</p>
+
+<h5 id="全文-正常化-匹配">全文(正常化)匹配</h5>
+
+<p>可以<code>缩写</code>，<code>格式转换</code>，<code>大小写</code>，<code>同义词</code></p>
+
+<h4 id="内置分词器">内置分词器</h4>
+
+<p>正常化可以提升召回率，进行一些character filter,预处理，去除html标签啊，特殊符号</p>
+
+<blockquote>
+<p>召回率: 搜索的时候，增加搜索到结果的数量</p>
+
+<ul>
+<li>standard analyzer：set, the, shape, to, semi, transparent, by, calling, set_trans, 5（默认的是standard）</li>
+<li>simple analyzer：set, the, shape, to, semi, transparent, by, calling, set, trans</li>
+<li>whitespace analyzer：Set, the, shape, to, semi-transparent, by, calling, set_trans(5)</li>
+<li>language analyzer（特定的语言的分词器，比如说，english，英语分词器）：set, shape, semi, transpar, call, set_tran, 5</li>
+</ul>
+</blockquote>
+
+<h4 id="默认的分词器">默认的分词器</h4>
+
+<p>standard tokenizer：以单词边界进行切分
+standard token filter：什么都不做
+lowercase token filter：将所有字母转换为小写
+stop token filer（默认被禁用）：移除停用词，比如a the it等等</p>
+
+<pre><code class="language-sql">-- 启动english停用token filter
+PUT /my_index
+{
+  &quot;settings&quot;: {
+    &quot;analysis&quot;: {
+      &quot;analyzer&quot;: {
+        &quot;es_std&quot;: {
+          &quot;type&quot;: &quot;standard&quot;,
+          &quot;stopwords&quot;: &quot;_english_&quot;
+        }
+      }
+    }
+  }
+}
+-- 对text使用standard分词器
+GET /my_index/_analyze
+{
+ &quot;analyzer&quot;: &quot;standard&quot;, 
+  &quot;text&quot;: &quot;a dog is in the house&quot;
+}
+-- 对某个字段使用分词器
+PUT /my_index/_mapping/my_type
+{
+&quot;properties&quot;: {
+    &quot;content&quot;: {
+      &quot;type&quot;: &quot;text&quot;,
+      &quot;analyzer&quot;: &quot;my_analyzer&quot;
+    }
+  }
+}
+</code></pre>
+
+<h4 id="定制分词器">定制分词器</h4>
+
+<pre><code class="language-sql">PUT /my_index
+{
+  &quot;settings&quot;: {
+    &quot;analysis&quot;: {
+      &quot;char_filter&quot;: {
+        &quot;&amp;_to_and&quot;: {
+          &quot;type&quot;: &quot;mapping&quot;,
+          &quot;mappings&quot;: [&quot;&amp;=&gt; and&quot;]
+        }
+      },
+      &quot;filter&quot;: {
+        &quot;my_stopwords&quot;: {
+          &quot;type&quot;: &quot;stop&quot;,
+          &quot;stopwords&quot;: [&quot;the&quot;, &quot;a&quot;]
+        }
+      },
+      &quot;analyzer&quot;: {
+        &quot;my_analyzer&quot;: {
+          &quot;type&quot;: &quot;custom&quot;,
+          &quot;char_filter&quot;: [&quot;html_strip&quot;, &quot;&amp;_to_and&quot;],
+          &quot;tokenizer&quot;: &quot;standard&quot;,
+          &quot;filter&quot;: [&quot;lowercase&quot;, &quot;my_stopwords&quot;]
+        }
+      }
+    }
+  } 
+}
+</code></pre>
+
+<h4 id="query-string分词">query string分词</h4>
+
+<p>分为</p>
+
+<ul>
+<li>post_date,date：exact value</li>
+<li>_all：full text document所有的field都会拼接成一个大串，进行分词</li>
+</ul>
+
+<blockquote>
+<p>不同类型的field，可能有的就是full text，有的就是exact value</p>
+</blockquote>
+
+<p>测试分词器</p>
+
+<pre><code class="language-sql">GET /_analyze
+{
+  &quot;analyzer&quot;: &quot;standard&quot;,
+  &quot;text&quot;: &quot;Text to analyze&quot;
+}
+</code></pre>
+
+<h4 id="filter-与-query">Filter 与 Query</h4>
+
+<ul>
+<li>filter：仅仅只是按照搜索条件过滤出需要的数据而已，不计算任何<code>相关度分数</code>，对相关度没有任何影响,内置的<code>自动cache</code>最常使用filter的数据</li>
+<li>query：会去计算每个document相对于搜索条件的相关度，并按照<code>相关度进行排序</code>,<code>无法cache结果</code></li>
+</ul>
+
+<h4 id="validate">Validate</h4>
+
+<p>验证<code>复杂搜索</code>的时候是否合法</p>
+
+<pre><code>GET
+
+</code></pre>
+
+<h4 id="string-fileld排序">string fileld排序</h4>
+
+<p>创建文档的时候 在field的时候，指定新的</p>
+
+<pre><code class="language-sql">&quot;article&quot;: {
+      &quot;properties&quot;: {
+        &quot;title&quot;: {
+          &quot;type&quot;: &quot;text&quot;,
+          &quot;fields&quot;: {
+            &quot;raw&quot;: {
+              &quot;type&quot;: &quot;string&quot;,
+              &quot;index&quot;: &quot;not_analyzed&quot;
+            }
+          },
+          &quot;fielddata&quot;: true
+        },
+         &quot;content&quot;: {
+          &quot;type&quot;: &quot;text&quot;
+        }
+     }
+   }
+</code></pre>
+
+<h3 id="相关度评分算法">相关度评分算法</h3>
+
+<ul>
+<li>relevance score算法：计算出，一个索引中的文本，与搜索文本，他们之间的关联匹配程度</li>
+</ul>
+
+<blockquote>
+<p>ES使用的是term frequency/inverse document frequency算法，简称为TF/IDF算法</p>
+</blockquote>
+
+<p>Term frequency： 搜索文本中的各个词条在<code>field文本</code>中出现了多少次，<code>出现次数越多，就越相关</code></p>
+
+<p>Inverse document frequency：文本中的各个词条在<code>整个索引的所有文档</code>中出现了多少次，出现的次数越多，就越不相关</p>
+
+<p>Field-length norm：field长度，<code>field越长，相关度越弱</code></p>
+
+<h4 id="doc-value">doc value</h4>
+
+<p>搜索的时候，是使用<code>倒排索引</code>，排序的时候，使用的是<code>正排索引</code>(doc value) ，其是被保存于磁盘，若内存足够，啧会缓存于内存</p>
+
+<h4 id="query-phase">query phase</h4>
+
+<ol>
+<li>多个node，还是选一个node作为coordinate node，构建一个priority queue，长度以paging操作from和size，默认为10</li>
+<li>然后coordinate node 将所有的请求<code>转发到所有shard</code> 每个Shard本地搜索，并构建一个本地的priority queue</li>
+<li>各个shard将自己的priority queue返回给coordinate node，并构建一个全局的priority queue</li>
+</ol>
+
+<h2 id="索引">索引</h2>
+
+<h4 id="创建">创建</h4>
+
+<pre><code class="language-sql">PUT /my_index
+{
+    &quot;settings&quot;: { ... any settings ... },
+    &quot;mappings&quot;: {
+        &quot;type_one&quot;: { ... any mappings ... },
+        &quot;type_two&quot;: { ... any mappings ... },
+        ...
+    }
+}
+</code></pre>
+
+<h4 id="修改">修改</h4>
+
+<pre><code class="language-sql">PUT /my_index/_settings
+{
+    &quot;number_of_replicas&quot;: 1
+}
+</code></pre>
+
+<h4 id="删除-1">删除</h4>
+
+<pre><code>DELETE /my_index
+DELETE /index_one,index_two
+DELETE /_all
+
+</code></pre>
+
+<blockquote>
+<p>为了避免手滑删除数据，可以去elasticsearch.yml中设置 <code>action.destructive_requires_name: true</code>,必须指定名称</p>
+</blockquote>
+
+<h4 id="重建索引">重建索引</h4>
+
+<p>一个field的设置是<code>不能被修改</code>的，如果要修改一个Field，那么应该<code>重新按照新的mapping</code>，<code>建立一个index</code>，然后将数据<code>批量查询</code>出来，重新用bulk api写入index中</p>
+
+<p>比如想把一个type的title field从date类型改为text，则需要进行reindex，重新建立一个索引将旧索引的数据查询出来，再导入新索引</p>
+
+<ol>
+<li><p>一开始的时候就给Java应用起一个别名，让Java使用别名</p>
+
+<pre><code>PUT /my_index/_alias/goods_index
+
+</code></pre></li>
+
+<li><p>创建一个新的index及原来名字的type</p>
+
+<pre><code>PUT /my_index_new
+{
+&quot;mappings&quot;: {
+&quot;my_type&quot;: {
+  &quot;properties&quot;: {
+    &quot;title&quot;: {
+      &quot;type&quot;: &quot;text&quot;
+    }
+  }
+}
+}
+}
+
+</code></pre></li>
+
+<li><p>使用scroll api将数据批量查出来并批量写入新索引，循环执行，直到全部写入</p></li>
+</ol>
+
+<pre><code class="language-sql">-- 查询
+GET /my_index/_search?scroll=1m
+{
+    &quot;query&quot;: {
+        &quot;match_all&quot;: {}
+    },
+    &quot;sort&quot;: [&quot;_doc&quot;],
+    &quot;size&quot;:  1
+}
+-- 写入
+POST /_bulk
+{ &quot;index&quot;:  { &quot;_index&quot;: &quot;my_index_new&quot;, &quot;_type&quot;: &quot;my_type&quot;, &quot;_id&quot;: &quot;2&quot; }}
+{ &quot;title&quot;:    &quot;2017-01-02&quot; }
+</code></pre>
+
+<ol>
+<li>切换之前的别名并检查是否切换成功</li>
+</ol>
+
+<pre><code class="language-sql">POST /_aliases
+{
+    &quot;actions&quot;: [
+        { &quot;remove&quot;: { &quot;index&quot;: &quot;my_index&quot;, &quot;alias&quot;: &quot;goods_index&quot; }},
+        { &quot;add&quot;:    { &quot;index&quot;: &quot;my_index_new&quot;, &quot;alias&quot;: &quot;goods_index&quot; }}
+    ]
+}
+
+GET /goods_index/my_type/_search
+</code></pre>
+
+<h4 id="倒排索引">倒排索引</h4>
+
+<blockquote>
+<p>最简单的来说就是一个关键词对应着doc 1  doc 2 是否出现过</p>
+</blockquote>
+
+<p>但实际上有许多结构</p>
+
+<ol>
+<li>包含这个关键词的<code>document list</code></li>
+<li>包含这个关键词的所有document的<code>数量</code></li>
+<li>这个关键词在每个document中出现的<code>次数</code></li>
+<li>这个关键词在这个document中的<code>次序</code></li>
+<li>每个document的<code>长度</code>：length norm</li>
+<li>包含这个关键词的所有document的<code>平均长度</code></li>
+</ol>
+
+<h5 id="优点">优点</h5>
+
+<ol>
+<li>不需要锁，提升并发能力，避免锁的问题</li>
+<li>数据不变，一直保存在os cache中，只要cache内存足够</li>
+<li>filter cache一直驻留在内存，因为数据不变</li>
+<li>可以压缩，节省cpu和io开销</li>
+</ol>
+
+<h5 id="缺点">缺点</h5>
+
+<p>有更改的时候，需要进行重新构建</p>
+
+<h2 id="type的数据结构">Type的数据结构</h2>
+
+<p>index中用来区分类似的数据，而在lucene是没有type的概念，在document中，实际上<code>将type作为一个document的field来存储</code> 例如</p>
+
+<pre><code class="language-sql">{
+   &quot;ecommerce&quot;: {
+      &quot;mappings&quot;: {
+         &quot;elactronic_goods&quot;: {
+            &quot;properties&quot;: {
+               &quot;name&quot;: {
+                  &quot;type&quot;: &quot;string&quot;,
+               },
+               &quot;price&quot;: {
+                  &quot;type&quot;: &quot;double&quot;
+               },
+	       &quot;service_period&quot;: {
+		  &quot;type&quot;: &quot;string&quot;
+	       }			
+            }
+         },
+         &quot;fresh_goods&quot;: {
+            &quot;properties&quot;: {
+               &quot;name&quot;: {
+                  &quot;type&quot;: &quot;string&quot;,
+               },
+               &quot;price&quot;: {
+                  &quot;type&quot;: &quot;double&quot;
+               },
+	       &quot;eat_period&quot;: {
+		  &quot;type&quot;: &quot;string&quot;
+	       }
+            }
+         }
+      }
+   }
+}
+
+
+{
+  &quot;name&quot;: &quot;geli kongtiao&quot;,
+  &quot;price&quot;: 1999.0,
+  &quot;service_period&quot;: &quot;one year&quot;
+}
+</code></pre>
+
+<p>实际的存储是这样的</p>
+
+<pre><code class="language-sql">{
+  &quot;_type&quot;: &quot;elactronic_goods&quot;,
+  &quot;name&quot;: &quot;geli kongtiao&quot;,
+  &quot;price&quot;: 1999.0,
+  &quot;service_period&quot;: &quot;one year&quot;,
+  &quot;eat_period&quot;: &quot;&quot;
+}
+</code></pre>
+
+<blockquote>
+<p>所以是将类似的type放在一个index下，type应该是有多个field是相同的，若将两个type的field完全不同，每条数据会像上面那样产生很多的空值</p>
+</blockquote>
+
+<h3 id="root-object">Root Object</h3>
+
+<p>某个type对应的mapping json，包括了properties，metadata（_id，_source，_type），settings（analyzer），其他settings（比如include_in_all）</p>
+
+<h4 id="properties">properties</h4>
+
+<pre><code class="language-sql">PUT /my_index/_mapping/my_type
+{
+  &quot;properties&quot;: {
+    &quot;title&quot;: {
+      &quot;type&quot;: &quot;text&quot;
+    }
+  }
+}
+</code></pre>
+
+<h4 id="source-1">_source</h4>
+
+<ol>
+<li>查询的时候，直接可以拿到完整的document，不需要先拿document id，再发送一次请求拿document</li>
+<li>partial update基于_source实现</li>
+<li>reindex时，直接基于_source实现，不需要从数据库（或者其他外部存储）查询数据再修改</li>
+<li>可以基于_source定制返回field</li>
+<li>debug query更容易，因为可以直接看到_source</li>
+</ol>
+
+<pre><code class="language-sql">-- 禁用_source
+PUT /my_index/_mapping/my_type2
+{
+  &quot;_source&quot;: {&quot;enabled&quot;: false}
+}
+</code></pre>
+
+<h4 id="all">_all</h4>
+
+<p>将<code>所有field打包在一起</code>，作为一个all field，建立索引，没指定任何field进行搜索时，就是使用_all field在搜索</p>
+
+<h3 id="dynamic-mapping">Dynamic mapping</h3>
+
+<p>true：遇到陌生字段，就进行dynamic mapping
+false：遇到陌生字段，就忽略
+strict：遇到陌生字段，就报错</p>
+
+<pre><code class="language-sql">PUT /my_index
+{
+  &quot;mappings&quot;: {
+    &quot;my_type&quot;:{
+      &quot;dynamic&quot;:&quot;strict&quot;,
+      &quot;properties&quot;: {
+        &quot;title&quot;:{
+          &quot;type&quot;: &quot;text&quot;
+        },
+        &quot;address&quot;:{
+          &quot;type&quot;: &quot;object&quot;,
+          &quot;dynamic&quot;:&quot;true&quot;
+        }
+      }
+    }
+  }
+}
+</code></pre>
+
+<h4 id="定制策略">定制策略</h4>
+
+<ol>
+<li>date_detection</li>
+</ol>
+
+<p>默认按照一定格式识别date，可以手动关闭某个type的date_detection，如果有需要，自己手动指定某个field为date类型</p>
+
+<pre><code class="language-sql">PUT /my_index/_mapping/my_type
+{
+    &quot;date_detection&quot;: false
+}
+</code></pre>
+
+<ol>
+<li>dynamic mapping template (<code>type level</code>)</li>
+</ol>
+
+<pre><code class="language-sql">PUT /my_index
+{
+  &quot;mappings&quot;: {
+    &quot;my_type&quot;:{
+      &quot;dynamic_templates&quot;:[
+        {
+          &quot;en&quot;:{
+            &quot;match&quot;:&quot;*_en&quot;,
+            &quot;match_mapping_type&quot;:&quot;string&quot;,
+            &quot;mapping&quot;:{
+              &quot;type&quot;:&quot;string&quot;,
+              &quot;analyzer&quot;:&quot;english&quot;
+            }
+          }
+        }
+        ]
+    }
+  }
+}
+</code></pre>
+
+<blockquote>
+<ul>
+<li>title没有匹配到任何的dynamic模板，默认就是standard分词器，不会过滤停用词，is会进入倒排索引，用is来搜索是可以搜索到的</li>
+<li>title_en匹配到了dynamic模板，就是english分词器，会过滤停用词，is这种停用词就会被过滤掉，用is来搜索就搜索不到</li>
+</ul>
+</blockquote>
+
+<ol>
+<li>定制自己的default mapping template（<code>index level</code>）</li>
+</ol>
+
+<pre><code class="language-sql">PUT /my_index
+{
+    &quot;mappings&quot;: {
+        &quot;_default_&quot;: {
+            &quot;_all&quot;: { &quot;enabled&quot;:  false }
+        },
+        &quot;blog&quot;: {
+            &quot;_all&quot;: { &quot;enabled&quot;:  true  }
+        }
+    }
+}
+</code></pre>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">标签</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://mybigdaxin.github.io/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/09/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/" data-tooltip="遗传算法">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/09/es/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/09/es/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/09/es/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 Da Xin. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/09/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/" data-tooltip="遗传算法">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/09/es/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/09/es/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/09/es/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F09%2Fes%2F">
+          <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F09%2Fes%2F">
+          <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F09%2Fes%2F">
+          <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=110" alt="作者的图片" />
+    
+    <h4 id="about-card-name">Da Xin</h4>
+    
+      <div id="about-card-bio">Just for</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        Javaer
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        China
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('https://mybigdaxin.github.io/images/cover.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://mybigdaxin.github.io/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+  
+    <script src="https://mybigdaxin.github.io/js/clicklove.js"></script>
+  
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/mybigdaxin.github.io\/2019\/09\/es\/';
+          
+            this.page.identifier = '\/2019\/09\/es\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'tranquilpeak';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+
