@@ -4,7 +4,42 @@
   
   <url>
     <loc>https://mybigdaxin.github.io/categories/</loc>
-    <lastmod>2019-09-26T17:01:59+08:00</lastmod>
+    <lastmod>2019-10-16T21:49:58+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://mybigdaxin.github.io/</loc>
+    <lastmod>2019-10-16T21:49:58+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://mybigdaxin.github.io/post/</loc>
+    <lastmod>2019-10-16T21:49:58+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://mybigdaxin.github.io/2019/10/springmvc%E4%BC%98%E9%9B%85%E6%8E%A5%E6%94%B6%E6%95%B0%E6%8D%AE/</loc>
+    <lastmod>2019-10-16T21:49:58+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mybigdaxin.github.io/tags/springmvc/</loc>
+    <lastmod>2019-10-16T21:49:58+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://mybigdaxin.github.io/tags/</loc>
+    <lastmod>2019-10-16T21:49:58+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://mybigdaxin.github.io/categories/%E6%A1%86%E6%9E%B6/</loc>
+    <lastmod>2019-10-16T21:49:58+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -17,24 +52,6 @@
   <url>
     <loc>https://mybigdaxin.github.io/2019/09/es/</loc>
     <lastmod>2019-09-26T17:01:59+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mybigdaxin.github.io/</loc>
-    <lastmod>2019-09-26T17:01:59+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://mybigdaxin.github.io/post/</loc>
-    <lastmod>2019-09-26T17:01:59+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://mybigdaxin.github.io/tags/</loc>
-    <lastmod>2019-09-26T17:01:59+08:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>

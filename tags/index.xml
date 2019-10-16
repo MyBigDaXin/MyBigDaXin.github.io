@@ -6,10 +6,19 @@
     <description>Recent content in Tags on Just for</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 26 Sep 2019 17:01:59 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 16 Oct 2019 21:49:58 +0800</lastBuildDate>
     
 	<atom:link href="https://mybigdaxin.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Springmvc</title>
+      <link>https://mybigdaxin.github.io/tags/springmvc/</link>
+      <pubDate>Wed, 16 Oct 2019 21:49:58 +0800</pubDate>
+      
+      <guid>https://mybigdaxin.github.io/tags/springmvc/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>中间件</title>
