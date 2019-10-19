@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Just for</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 16 Oct 2019 21:49:58 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 19 Oct 2019 14:52:30 +0800</lastBuildDate>
     
 	<atom:link href="https://mybigdaxin.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>秒杀设计</title>
+      <link>https://mybigdaxin.github.io/2019/10/%E7%A7%92%E6%9D%80%E8%AE%BE%E8%AE%A1/</link>
+      <pubDate>Sat, 19 Oct 2019 14:52:30 +0800</pubDate>
+      
+      <guid>https://mybigdaxin.github.io/2019/10/%E7%A7%92%E6%9D%80%E8%AE%BE%E8%AE%A1/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>SpringMvc优雅接收数据</title>

@@ -13,30 +13,30 @@
 
 <meta property="og:description" content="">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SpringMvc优雅接收数据">
-<meta name="twitter:title" content="SpringMvc优雅接收数据">
-<meta property="og:url" content="https://mybigdaxin.github.io/2019/10/springmvc%E4%BC%98%E9%9B%85%E6%8E%A5%E6%94%B6%E6%95%B0%E6%8D%AE/">
-<meta property="twitter:url" content="https://mybigdaxin.github.io/2019/10/springmvc%E4%BC%98%E9%9B%85%E6%8E%A5%E6%94%B6%E6%95%B0%E6%8D%AE/">
+<meta property="og:title" content="秒杀设计">
+<meta name="twitter:title" content="秒杀设计">
+<meta property="og:url" content="https://mybigdaxin.github.io/2019/10/%E7%A7%92%E6%9D%80%E8%AE%BE%E8%AE%A1/">
+<meta property="twitter:url" content="https://mybigdaxin.github.io/2019/10/%E7%A7%92%E6%9D%80%E8%AE%BE%E8%AE%A1/">
 <meta property="og:site_name" content="Just for">
 <meta property="og:description" content="">
 <meta name="twitter:description" content="">
 <meta property="og:locale" content="zh-cn">
 
   
-    <meta property="article:published_time" content="2019-10-16T21:49:58">
+    <meta property="article:published_time" content="2019-10-19T14:52:30">
   
   
-    <meta property="article:modified_time" content="2019-10-16T21:49:58">
+    <meta property="article:modified_time" content="2019-10-19T14:52:30">
   
-  
-  
-    
-      <meta property="article:section" content="框架">
-    
   
   
     
-      <meta property="article:tag" content="Springmvc">
+      <meta property="article:section" content="项目">
+    
+  
+  
+    
+      <meta property="article:tag" content="秒杀系统">
     
   
 
@@ -63,14 +63,14 @@
   <meta property="twitter:image" content="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=640">
 
 
-    <title>SpringMvc优雅接收数据</title>
+    <title>秒杀设计</title>
 
     <link rel="icon" href="https://mybigdaxin.github.io/favicon.png">
     
 
     
 
-    <link rel="canonical" href="https://mybigdaxin.github.io/2019/10/springmvc%E4%BC%98%E9%9B%85%E6%8E%A5%E6%94%B6%E6%95%B0%E6%8D%AE/">
+    <link rel="canonical" href="https://mybigdaxin.github.io/2019/10/%E7%A7%92%E6%9D%80%E8%AE%BE%E8%AE%A1/">
 
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
@@ -219,15 +219,15 @@
       <div class="post-header main-content-wrap text-center">
   
     <h1 class="post-title" itemprop="headline">
-      SpringMvc优雅接收数据
+      秒杀设计
     </h1>
   
   
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2019-10-16T21:49:58&#43;08:00">
+      <time itemprop="datePublished" datetime="2019-10-19T14:52:30&#43;08:00">
         
-  十月 16, 2019
+  十月 19, 2019
 
       </time>
     
@@ -236,7 +236,7 @@
   
     <span>发布在</span>
     
-      <a class="category-link" href="https://mybigdaxin.github.io/categories/%e6%a1%86%e6%9e%b6">框架</a>
+      <a class="category-link" href="https://mybigdaxin.github.io/categories/%e9%a1%b9%e7%9b%ae">项目</a>
     
   
 
@@ -253,267 +253,195 @@
                hasCoverCaption">
         <article class="post" itemscope itemType="http://schema.org/BlogPosting">
           
-            <span class="post-header-cover-caption caption">SpringMvc优雅接收数据</span>
+            <span class="post-header-cover-caption caption">秒杀系统</span>
           
           
           <div class="post-content markdown" itemprop="articleBody">
             <div class="main-content-wrap">
               <h1 id="table-of-contents">目录</h1><nav id="TableOfContents">
 <ul>
-<li><a href="#springmvc优雅接收数据">SpringMvc优雅接收数据</a>
+<li><a href="#秒杀系统">秒杀系统</a>
 <ul>
-<li><a href="#扩展">扩展</a></li>
+<li>
+<ul>
+<li><a href="#优化思路">优化思路</a>
+<ul>
+<li><a href="#页面优化">页面优化</a></li>
+<li><a href="#接口优化">接口优化</a></li>
+<li><a href="#安全优化">安全优化</a></li>
+</ul></li>
+<li><a href="#思路实现">思路实现</a>
+<ul>
+<li><a href="#对象缓存">对象缓存</a></li>
+<li><a href="#页面缓存">页面缓存</a></li>
+<li><a href="#页面静态化">页面静态化</a></li>
+<li><a href="#静态资源优化">静态资源优化</a></li>
+<li><a href="#内存标记减少redis的访问">内存标记减少Redis的访问</a></li>
+<li><a href="#rabbitmq进行异步下单">RabbitMQ进行异步下单</a></li>
+<li><a href="#超卖问题">超卖问题</a></li>
+<li><a href="#秒杀地址隐藏">秒杀地址隐藏</a></li>
+<li><a href="#数学公式验证码">数学公式验证码</a></li>
+<li><a href="#接口限流">接口限流</a></li>
+</ul></li>
+</ul></li>
 </ul></li>
 </ul>
 </nav>
 
-<h1 id="springmvc优雅接收数据">SpringMvc优雅接收数据</h1>
+<h1 id="秒杀系统">秒杀系统</h1>
 
-<p>一个这样的场景，前端用户进行登录，这时候后台随机生成一个UUID作为token写入前端的Cookie，而后端则放入Redis中存储，用户之后的访问带上token，如何好的去对这个token进行解析呢，可以考虑使用<code>HandlerMethodArgumentResolver</code>接口</p>
+<p>秒杀过程：</p>
 
-<p>通过看该接口的继承图可知，@PathVariable,@RequestParam也是实现了该接口</p>
+<p>用户登录&mdash;&gt;点击秒杀&mdash;-&gt;成功，则减库存，下订单&mdash;-&gt;失败，则返回</p>
 
-<p><img src="https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/item20191016204310.png" alt="" /></p>
+<blockquote>
+<p>但因为秒杀的时候，系统瞬间访问量很大，对数据库和服务器都有很大的访问压力</p>
+</blockquote>
 
-<p>所以，接下来可以实现该接口</p>
+<h3 id="优化思路">优化思路</h3>
 
-<pre><code class="language-java">@Service
-public class UserArgumentResolver implements HandlerMethodArgumentResolver {
+<h4 id="页面优化">页面优化</h4>
 
-	@Autowired
-	UserService userService;
-	// 仅对User这个类 有效
-	public boolean supportsParameter(MethodParameter parameter) {
-		Class&lt;?&gt; clazz = parameter.getParameterType();
-		return clazz==User.class;
-	}
+<ol>
+<li>页面缓存+URL缓存+对象缓存</li>
+<li>页面静态化，前后端分离</li>
+<li>静态资源优化</li>
+<li>CDN优化</li>
+</ol>
 
-	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
-			NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-		HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
-		HttpServletResponse response = webRequest.getNativeResponse(HttpServletResponse.class);
-		
-		String paramToken = request.getParameter(UserService.COOKI_NAME_TOKEN);
-		String cookieToken = getCookieValue(request, UserService.COOKI_NAME_TOKEN);
-		if(StringUtils.isEmpty(cookieToken) &amp;&amp; StringUtils.isEmpty(paramToken)) {
-			return null;
+<h4 id="接口优化">接口优化</h4>
+
+<ol>
+<li>Redis预减库存减少数据库访问</li>
+<li>内存标记减少 Redis访问</li>
+<li>RabbitMQ队列缓冲，异步下单，增强用户体验</li>
+<li>访问 Nginx水平扩展</li>
+</ol>
+
+<h4 id="安全优化">安全优化</h4>
+
+<ol>
+<li>秒杀地址隐藏</li>
+<li>数学公式验证码</li>
+<li>接口防刷</li>
+</ol>
+
+<h3 id="思路实现">思路实现</h3>
+
+<h4 id="对象缓存">对象缓存</h4>
+
+<p>可以在第一次访问对象，比如user的时候就放入Redis以后再访问接口的时候，直接从Redis中取出- 即可</p>
+
+<h4 id="页面缓存">页面缓存</h4>
+
+<p>利用<code>SpringWebContent</code>和<code>ThymeleafViewResolver</code> 进行手动渲染，同样的放入Redis缓存中</p>
+
+<pre><code class="language-java">SpringWebContext ctx = new SpringWebContext(request,response,
+    			request.getServletContext(),request.getLocale(), model.asMap(), applicationContext );
+    	//手动渲染
+    	html = thymeleafViewResolver.getTemplateEngine().process(&quot;goods_list&quot;, ctx);
+    	if(!StringUtils.isEmpty(html)) {
+    		redisService.set(GoodsKey.getGoodsList, &quot;&quot;, html);
+    	}
+</code></pre>
+
+<h4 id="页面静态化">页面静态化</h4>
+
+<p>利用ajax,调用后端接口，前后端交互通过<code>JSON</code>进行，前端页面则抽出页面</p>
+
+<pre><code class="language-java">spring.resources.add-mappings=true
+spring.resources.cache-period= 3600
+spring.resources.chain.cache=true 
+spring.resources.chain.enabled=true
+spring.resources.chain.gzipped=true
+spring.resources.chain.html-application-cache=true
+spring.resources.static-locations=classpath:/static/
+</code></pre>
+
+<h4 id="静态资源优化">静态资源优化</h4>
+
+<ol>
+<li>JS/CSS 压缩，减少流量</li>
+<li>多个JS/CSS组合，减少连接数</li>
+<li>CDN就近访问</li>
+</ol>
+
+<h4 id="内存标记减少redis的访问">内存标记减少Redis的访问</h4>
+
+<pre><code>// 通过实现InitializingBean，一开始启动的时候就把商品信息放入Redis中，当进行减库存的时候，如果库存小于0，则把对应goodsId的值改为true
+public void afterPropertiesSet() throws Exception {
+		List&lt;GoodsVo&gt; goodsList = goodsService.listGoodsVo();
+		if(goodsList == null) {
+			return;
 		}
-		String token = StringUtils.isEmpty(paramToken)?cookieToken:paramToken;
-		return userService.getByToken(response, token);
-	}
-
-	private String getCookieValue(HttpServletRequest request, String cookiName) {
-		Cookie[]  cookies = request.getCookies();
-		if(cookies == null || cookies.length &lt;= 0){
-			return null;
+		for(GoodsVo goods : goodsList) {
+			redisService.set(GoodsKey.getMiaoshaGoodsStock, &quot;&quot;+goods.getId(), goods.getStockCount());
+			localOverMap.put(goods.getId(), false);
 		}
-		for(Cookie cookie : cookies) {
-			if(cookie.getName().equals(cookiName)) {
-				return cookie.getValue();
-			}
-		}
-		return null;
 	}
-
-}
 
 </code></pre>
 
-<pre><code class="language-java">	public MiaoshaUser getByToken(HttpServletResponse response, String token) {
-		if(StringUtils.isEmpty(token)) {
-			return null;
-		}
-		User user = redisService.get(UserKey.token, token, User.class);
-		//延长有效期
-		if(user != null) {
-			addCookie(response, token, user);
-		}
-		return user;
-	}
-private void addCookie(HttpServletResponse response, String token, User user) {
-		redisService.set(UserKey.token, token, user);
-		Cookie cookie = new Cookie(COOKI_NAME_TOKEN, token);
-		cookie.setMaxAge(UserKey.token.expireSeconds());
-		cookie.setPath(&quot;/&quot;);
-		response.addCookie(cookie);
-	}
+<h4 id="rabbitmq进行异步下单">RabbitMQ进行异步下单</h4>
 
+<pre><code>// 整个流程就变为了
+1.  预先将要秒杀的商品的库存加入redis中，GoodKey. (但每次访问数据库还可以再进行一次优化，将物品设置个状态位，是否可用)
+2. 访问的时候，如果查询到redis库存的信息小于0，则直接返回错误
+3. 判断是否已经秒杀到了，如果秒杀到了，则说明之前抢到了，不能进行重复提交
+4. 没有秒杀到 构造message，放入MQ队列中，
+MQ的处理逻辑
+1. 创建消息的发送者，和接收者
+发送者逻辑:
+1. 对用户和秒杀物品进行发送，顺便打个Log
+接收者逻辑:
+  	1. 得到物品id,用户，判断是否在redis中存在商品,数据库中库存是否足够，以及是否秒杀到了
+ 2. 减库存数据库是否成功，成功则创建一个order订单，否则让redis中的goodsid的状态位设置为禁用
+
+// 客户端进行轮询，判断是否秒杀成功
+也就是数据库中是否有用户的订单，3个状态：排队中，成功，失败
+没有则再判断Redis中的内存标记
 </code></pre>
 
-<p>之后就是注入SpringMvc的config</p>
+<h4 id="超卖问题">超卖问题</h4>
 
-<pre><code class="language-java">@Configuration
-public class WebConfig  extends WebMvcConfigurerAdapter{
-	
-	@Autowired
-	UserArgumentResolver userArgumentResolver;
-	
-	@Override
-	public void addArgumentResolvers(List&lt;HandlerMethodArgumentResolver&gt; argumentResolvers) {
-		argumentResolvers.add(userArgumentResolver);
-	}
-}
-</code></pre>
+<ol>
+<li>数据库加唯一索引：防止用户重复购买</li>
+<li>SQL加库存数量判断：防止库存变成负数</li>
+</ol>
 
-<p>使用</p>
+<h4 id="秒杀地址隐藏">秒杀地址隐藏</h4>
 
-<pre><code class="language-java">   @RequestMapping(&quot;/info&quot;)
-    @ResponseBody
-    public Result&lt;MiaoshaUser&gt; info(Model model,MiaoshaUser user) {
-        return Result.success(user);
-    }
-</code></pre>
+<p>思路：</p>
 
-<p>结果：</p>
+<ol>
+<li><p>秒杀开始之前，先去请求接口获取秒杀地址</p>
 
-<pre><code class="language-json">{&quot;code&quot;:0,&quot;msg&quot;:null,&quot;data&quot;:{&quot;id&quot;:18670138519,&quot;nickname&quot;:&quot;张三&quot;,&quot;password&quot;:&quot;62833290495de70f541422fbededf769&quot;,&quot;salt&quot;:&quot;123456&quot;,&quot;head&quot;:&quot;![](https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/itemCMUSWF@4Q%77~6_}YH3~CO3.png)&quot;,&quot;registerDate&quot;:1570697329000,&quot;lastLoginDate&quot;:null,&quot;loginCount&quot;:1}}
-</code></pre>
+<ol>
+<li>接口改造，带上 PathVariable参数</li>
+<li>添加生成地址的接口</li>
 
-<h2 id="扩展">扩展</h2>
+<li><p>秒杀收到请求，先验证 PathVariable</p>
 
-<p>当然，除了<code>HandlerMethodArgumentResolver</code>这个接口，抽象类<code>HandlerInterceptorAdapter</code>同时也能做许多功能，比如：限制访问某个接口过于频繁记录用于是否异地登录，这里就拿限制用户访问某个接口频繁来演示</p>
+<pre><code>涉及path请求路径，先得到接口的请求路径
+首先判断用户是否登录了（useragrument参数检验）
+判断验证码是否正确
+创建秒杀的地址
+UUID+salt的方式取创建，并存入redis中
+返回地址
 
-<p>大概思路：</p>
+再去请求真正的地址 /{path}/do_miaosha
+同样是判断用户是否登录了
+然后验证path(去redis中进行验证)
+内存标记，减少redis1访问
+预减库存(incr) &lt; 0 则报错
+..
+</code></pre></li>
+</ol></li>
+</ol>
 
-<p>每当用户进行访问时，就将用户与访问数记录下来，放入Redis中，当发现Redis中访问的次数超过某个阙值，就抛出异常</p>
+<h4 id="数学公式验证码">数学公式验证码</h4>
 
-<pre><code class="language-java">@Retention(RUNTIME)
-@Target(METHOD)
-public @interface AccessLimit {
-  // 访问时间
-	int seconds();
-  // 最大次数
-	int maxCount();
-  // 是否要登录
-	boolean needLogin() default true;
-}
-
-</code></pre>
-
-<pre><code class="language-java">@Service
-public class AccessInterceptor extends HandlerInterceptorAdapter{
-	
-	@Autowired
-	UserService userService;
-	
-	@Autowired
-	RedisService redisService;
-	
-	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-			throws Exception {
-      // 处理器方法的处理
-		if(handler instanceof HandlerMethod) {
-			User user = getUser(request, response);
-          // 这里利用ThreadLocal进行绑定
-			UserContext.setUser(user);
-			HandlerMethod hm = (HandlerMethod)handler;
-          // 得到方法上的AccessLimit注解
-			AccessLimit accessLimit = hm.getMethodAnnotation(AccessLimit.class);
-			if(accessLimit == null) {
-				return true;
-			}
-			int seconds = accessLimit.seconds();
-			int maxCount = accessLimit.maxCount();
-			boolean needLogin = accessLimit.needLogin();
-			String key = request.getRequestURI();
-          // 判断是否要求登录
-			if(needLogin) {
-				if(user == null) {
-					render(response, CodeMsg.SESSION_ERROR);
-					return false;
-				}
-				key += &quot;_&quot; + user.getId();
-			}else {
-				//do nothing
-			}
-			AccessKey ak = AccessKey.withExpire(seconds);
-			Integer count = redisService.get(ak, key, Integer.class);
-          // 第一次访问接口
-	    	if(count  == null) {
-	    		 redisService.set(ak, key, 1);
-          // 小于限定次数
-	    	}else if(count &lt; maxCount) {
-	    		 redisService.incr(ak, key);
-	    	}else {
-	    		render(response, CodeMsg.ACCESS_LIMIT_REACHED);
-	    		return false;
-	    	}
-		}
-		return true;
-	}
-	
-	private void render(HttpServletResponse response, CodeMsg cm)throws Exception {
-		response.setContentType(&quot;application/json;charset=UTF-8&quot;);
-		OutputStream out = response.getOutputStream();
-		String str  = JSON.toJSONString(Result.error(cm));
-		out.write(str.getBytes(&quot;UTF-8&quot;));
-		out.flush();
-		out.close();
-	}
-
-	private User getUser(HttpServletRequest request, HttpServletResponse response) {
-		String paramToken = request.getParameter(UserService.COOKI_NAME_TOKEN);
-		String cookieToken = getCookieValue(request, UserService.COOKI_NAME_TOKEN);
-		if(StringUtils.isEmpty(cookieToken) &amp;&amp; StringUtils.isEmpty(paramToken)) {
-			return null;
-		}
-		String token = StringUtils.isEmpty(paramToken)?cookieToken:paramToken;
-		return userService.getByToken(response, token);
-	}
-	
-	private String getCookieValue(HttpServletRequest request, String cookiName) {
-		Cookie[]  cookies = request.getCookies();
-		if(cookies == null || cookies.length &lt;= 0){
-			return null;
-		}
-		for(Cookie cookie : cookies) {
-			if(cookie.getName().equals(cookiName)) {
-				return cookie.getValue();
-			}
-		}
-		return null;
-	}
-}
-
-</code></pre>
-
-<pre><code class="language-java">public class UserContext {
-	
-	private static ThreadLocal&lt;User&gt; userHolder = new ThreadLocal&lt;User&gt;();
-	
-	public static void setUser(User user) {
-		userHolder.set(user);
-	}
-	
-	public static MiaoshaUser getUser() {
-		return userHolder.get();
-	}
-
-}
-</code></pre>
-
-<pre><code>@Configuration
-public class WebConfig  extends WebMvcConfigurerAdapter{
-	
-	@Autowired
-	UserArgumentResolver userArgumentResolver;
-	
-	@Autowired
-	AccessInterceptor accessInterceptor;
-	
-	@Override
-	public void addArgumentResolvers(List&lt;HandlerMethodArgumentResolver&gt; argumentResolvers) {
-		argumentResolvers.add(userArgumentResolver);
-	}
-	
-	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(accessInterceptor);
-	}
-	
-}
-</code></pre>
+<h4 id="接口限流">接口限流</h4>
               
             </div>
           </div>
@@ -525,7 +453,7 @@ public class WebConfig  extends WebMvcConfigurerAdapter{
                   <div class="post-footer-tags">
                     <span class="text-color-light text-small">标签</span><br/>
                     
-  <a class="tag tag--primary tag--small" href="https://mybigdaxin.github.io/tags/springmvc/">Springmvc</a>
+  <a class="tag tag--primary tag--small" href="https://mybigdaxin.github.io/tags/%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F/">秒杀系统</a>
 
                   </div>
                 
@@ -538,7 +466,7 @@ public class WebConfig  extends WebMvcConfigurerAdapter{
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/09/es/" data-tooltip="Es">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/10/springmvc%E4%BC%98%E9%9B%85%E6%8E%A5%E6%94%B6%E6%95%B0%E6%8D%AE/" data-tooltip="SpringMvc优雅接收数据">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -546,7 +474,7 @@ public class WebConfig  extends WebMvcConfigurerAdapter{
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/10/%E7%A7%92%E6%9D%80%E8%AE%BE%E8%AE%A1/" data-tooltip="秒杀设计">
+                <a class="post-action-btn btn btn--disabled">
               
                   <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -564,19 +492,19 @@ public class WebConfig  extends WebMvcConfigurerAdapter{
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/10/springmvc%E4%BC%98%E9%9B%85%E6%8E%A5%E6%94%B6%E6%95%B0%E6%8D%AE/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/10/%E7%A7%92%E6%9D%80%E8%AE%BE%E8%AE%A1/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/10/springmvc%E4%BC%98%E9%9B%85%E6%8E%A5%E6%94%B6%E6%95%B0%E6%8D%AE/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/10/%E7%A7%92%E6%9D%80%E8%AE%BE%E8%AE%A1/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/10/springmvc%E4%BC%98%E9%9B%85%E6%8E%A5%E6%94%B6%E6%95%B0%E6%8D%AE/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/10/%E7%A7%92%E6%9D%80%E8%AE%BE%E8%AE%A1/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -624,7 +552,7 @@ public class WebConfig  extends WebMvcConfigurerAdapter{
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/09/es/" data-tooltip="Es">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/10/springmvc%E4%BC%98%E9%9B%85%E6%8E%A5%E6%94%B6%E6%95%B0%E6%8D%AE/" data-tooltip="SpringMvc优雅接收数据">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -632,7 +560,7 @@ public class WebConfig  extends WebMvcConfigurerAdapter{
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/10/%E7%A7%92%E6%9D%80%E8%AE%BE%E8%AE%A1/" data-tooltip="秒杀设计">
+                <a class="post-action-btn btn btn--disabled">
               
                   <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -650,19 +578,19 @@ public class WebConfig  extends WebMvcConfigurerAdapter{
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/10/springmvc%E4%BC%98%E9%9B%85%E6%8E%A5%E6%94%B6%E6%95%B0%E6%8D%AE/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/10/%E7%A7%92%E6%9D%80%E8%AE%BE%E8%AE%A1/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/10/springmvc%E4%BC%98%E9%9B%85%E6%8E%A5%E6%94%B6%E6%95%B0%E6%8D%AE/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/10/%E7%A7%92%E6%9D%80%E8%AE%BE%E8%AE%A1/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/10/springmvc%E4%BC%98%E9%9B%85%E6%8E%A5%E6%94%B6%E6%95%B0%E6%8D%AE/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/10/%E7%A7%92%E6%9D%80%E8%AE%BE%E8%AE%A1/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -692,19 +620,19 @@ public class WebConfig  extends WebMvcConfigurerAdapter{
   <ul class="share-options">
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F10%2Fspringmvc%25E4%25BC%2598%25E9%259B%2585%25E6%258E%25A5%25E6%2594%25B6%25E6%2595%25B0%25E6%258D%25AE%2F">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F10%2F%25E7%25A7%2592%25E6%259D%2580%25E8%25AE%25BE%25E8%25AE%25A1%2F">
           <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F10%2Fspringmvc%25E4%25BC%2598%25E9%259B%2585%25E6%258E%25A5%25E6%2594%25B6%25E6%2595%25B0%25E6%258D%25AE%2F">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F10%2F%25E7%25A7%2592%25E6%259D%2580%25E8%25AE%25BE%25E8%25AE%25A1%2F">
           <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F10%2Fspringmvc%25E4%25BC%2598%25E9%259B%2585%25E6%258E%25A5%25E6%2594%25B6%25E6%2595%25B0%25E6%258D%25AE%2F">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F10%2F%25E7%25A7%2592%25E6%259D%2580%25E8%25AE%25BE%25E8%25AE%25A1%2F">
           <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
         </a>
       </li>
@@ -800,9 +728,9 @@ $(document).ready(function() {
     
       <script>
         var disqus_config = function () {
-          this.page.url = 'https:\/\/mybigdaxin.github.io\/2019\/10\/springmvc%E4%BC%98%E9%9B%85%E6%8E%A5%E6%94%B6%E6%95%B0%E6%8D%AE\/';
+          this.page.url = 'https:\/\/mybigdaxin.github.io\/2019\/10\/%E7%A7%92%E6%9D%80%E8%AE%BE%E8%AE%A1\/';
           
-            this.page.identifier = '\/2019\/10\/springmvc%E4%BC%98%E9%9B%85%E6%8E%A5%E6%94%B6%E6%95%B0%E6%8D%AE\/'
+            this.page.identifier = '\/2019\/10\/%E7%A7%92%E6%9D%80%E8%AE%BE%E8%AE%A1\/'
           
         };
         (function() {
