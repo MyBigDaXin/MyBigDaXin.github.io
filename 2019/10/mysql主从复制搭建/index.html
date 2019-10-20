@@ -13,20 +13,20 @@
 
 <meta property="og:description" content="">
 <meta property="og:type" content="article">
-<meta property="og:title" content="秒杀设计">
-<meta name="twitter:title" content="秒杀设计">
-<meta property="og:url" content="https://mybigdaxin.github.io/2019/10/%E7%A7%92%E6%9D%80%E8%AE%BE%E8%AE%A1/">
-<meta property="twitter:url" content="https://mybigdaxin.github.io/2019/10/%E7%A7%92%E6%9D%80%E8%AE%BE%E8%AE%A1/">
+<meta property="og:title" content="Mysql主从复制搭建">
+<meta name="twitter:title" content="Mysql主从复制搭建">
+<meta property="og:url" content="https://mybigdaxin.github.io/2019/10/mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E6%90%AD%E5%BB%BA/">
+<meta property="twitter:url" content="https://mybigdaxin.github.io/2019/10/mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E6%90%AD%E5%BB%BA/">
 <meta property="og:site_name" content="Just for">
 <meta property="og:description" content="">
 <meta name="twitter:description" content="">
 <meta property="og:locale" content="zh-cn">
 
   
-    <meta property="article:published_time" content="2019-10-19T14:52:30">
+    <meta property="article:published_time" content="2019-10-20T08:50:12">
   
   
-    <meta property="article:modified_time" content="2019-10-19T14:52:30">
+    <meta property="article:modified_time" content="2019-10-20T08:50:12">
   
   
   
@@ -36,7 +36,7 @@
   
   
     
-      <meta property="article:tag" content="秒杀系统">
+      <meta property="article:tag" content="Mysql">
     
   
 
@@ -63,14 +63,14 @@
   <meta property="twitter:image" content="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=640">
 
 
-    <title>秒杀设计</title>
+    <title>Mysql主从复制搭建</title>
 
     <link rel="icon" href="https://mybigdaxin.github.io/favicon.png">
     
 
     
 
-    <link rel="canonical" href="https://mybigdaxin.github.io/2019/10/%E7%A7%92%E6%9D%80%E8%AE%BE%E8%AE%A1/">
+    <link rel="canonical" href="https://mybigdaxin.github.io/2019/10/mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E6%90%AD%E5%BB%BA/">
 
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
@@ -219,15 +219,15 @@
       <div class="post-header main-content-wrap text-center">
   
     <h1 class="post-title" itemprop="headline">
-      秒杀设计
+      Mysql主从复制搭建
     </h1>
   
   
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2019-10-19T14:52:30&#43;08:00">
+      <time itemprop="datePublished" datetime="2019-10-20T08:50:12&#43;08:00">
         
-  十月 19, 2019
+  十月 20, 2019
 
       </time>
     
@@ -253,195 +253,142 @@
                hasCoverCaption">
         <article class="post" itemscope itemType="http://schema.org/BlogPosting">
           
-            <span class="post-header-cover-caption caption">秒杀系统</span>
+            <span class="post-header-cover-caption caption">Mysql主从复制搭建</span>
           
           
           <div class="post-content markdown" itemprop="articleBody">
             <div class="main-content-wrap">
               <h1 id="table-of-contents">目录</h1><nav id="TableOfContents">
 <ul>
-<li><a href="#秒杀系统">秒杀系统</a>
+<li><a href="#mysql5-6搭建主从复制">Mysql5.6搭建主从复制</a>
 <ul>
 <li>
 <ul>
-<li><a href="#优化思路">优化思路</a>
-<ul>
-<li><a href="#页面优化">页面优化</a></li>
-<li><a href="#接口优化">接口优化</a></li>
-<li><a href="#安全优化">安全优化</a></li>
-</ul></li>
-<li><a href="#思路实现">思路实现</a>
-<ul>
-<li><a href="#对象缓存">对象缓存</a></li>
-<li><a href="#页面缓存">页面缓存</a></li>
-<li><a href="#页面静态化">页面静态化</a></li>
-<li><a href="#静态资源优化">静态资源优化</a></li>
-<li><a href="#内存标记减少redis的访问">内存标记减少Redis的访问</a></li>
-<li><a href="#rabbitmq进行异步下单">RabbitMQ进行异步下单</a></li>
-<li><a href="#超卖问题">超卖问题</a></li>
-<li><a href="#秒杀地址隐藏">秒杀地址隐藏</a></li>
-<li><a href="#数学公式验证码">数学公式验证码</a></li>
-<li><a href="#接口限流">接口限流</a></li>
-</ul></li>
+<li><a href="#主从配置注意">主从配置注意</a></li>
+<li><a href="#主服务器配置">主服务器配置</a></li>
+<li><a href="#从服务器配置">从服务器配置</a></li>
+<li><a href="#错误">错误</a></li>
 </ul></li>
 </ul></li>
 </ul>
 </nav>
 
-<h1 id="秒杀系统">秒杀系统</h1>
+<h1 id="mysql5-6搭建主从复制">Mysql5.6搭建主从复制</h1>
 
-<p>秒杀过程：</p>
+<h3 id="主从配置注意">主从配置注意</h3>
 
-<p>用户登录&mdash;&gt;点击秒杀&mdash;-&gt;成功，则减库存，下订单&mdash;-&gt;失败，则返回</p>
+<ol>
+<li>主DB server和从DB server数据库的版本一致</li>
+<li>主DB server和从DB server数据库数据一致[ 这里就会可以把主的备份在从上还原，也可以直接将主的数据目录拷贝到从的相应数据目录]</li>
+<li>主DB server开启二进制日志,主DB server和从DB server的server_id都必须唯一</li>
+</ol>
+
+<h3 id="主服务器配置">主服务器配置</h3>
+
+<ol>
+<li>修改my.cnf  /etc/my.cnf</li>
+</ol>
 
 <blockquote>
-<p>但因为秒杀的时候，系统瞬间访问量很大，对数据库和服务器都有很大的访问压力</p>
+<p>若没找到my.cnf，是因为rpm安装的Mysql不会安装/etc/my.cnf,去复制一个/usr/share/mysql目录下的.cnf文件到/etc目录，并改名为my.cnf</p>
 </blockquote>
 
-<h3 id="优化思路">优化思路</h3>
-
-<h4 id="页面优化">页面优化</h4>
-
-<ol>
-<li>页面缓存+URL缓存+对象缓存</li>
-<li>页面静态化，前后端分离</li>
-<li>静态资源优化</li>
-<li>CDN优化</li>
-</ol>
-
-<h4 id="接口优化">接口优化</h4>
-
-<ol>
-<li>Redis预减库存减少数据库访问</li>
-<li>内存标记减少 Redis访问</li>
-<li>RabbitMQ队列缓冲，异步下单，增强用户体验</li>
-<li>访问 Nginx水平扩展</li>
-</ol>
-
-<h4 id="安全优化">安全优化</h4>
-
-<ol>
-<li>秒杀地址隐藏</li>
-<li>数学公式验证码</li>
-<li>接口防刷</li>
-</ol>
-
-<h3 id="思路实现">思路实现</h3>
-
-<h4 id="对象缓存">对象缓存</h4>
-
-<p>可以在第一次访问对象，比如user的时候就放入Redis以后再访问接口的时候，直接从Redis中取出- 即可</p>
-
-<h4 id="页面缓存">页面缓存</h4>
-
-<p>利用<code>SpringWebContent</code>和<code>ThymeleafViewResolver</code> 进行手动渲染，同样的放入Redis缓存中</p>
-
-<pre><code class="language-java">SpringWebContext ctx = new SpringWebContext(request,response,
-    			request.getServletContext(),request.getLocale(), model.asMap(), applicationContext );
-    	//手动渲染
-    	html = thymeleafViewResolver.getTemplateEngine().process(&quot;goods_list&quot;, ctx);
-    	if(!StringUtils.isEmpty(html)) {
-    		redisService.set(GoodsKey.getGoodsList, &quot;&quot;, html);
-    	}
+<pre><code class="language-sql">binlog-do-db=db1
+binlog-ignore-db=mysql
+#启用二进制日志
+log-bin=mysql-bin
+#服务器唯一ID，一般取IP最后一段
+server-id=133
 </code></pre>
 
-<h4 id="页面静态化">页面静态化</h4>
-
-<p>利用ajax,调用后端接口，前后端交互通过<code>JSON</code>进行，前端页面则抽出页面</p>
-
-<pre><code class="language-java">spring.resources.add-mappings=true
-spring.resources.cache-period= 3600
-spring.resources.chain.cache=true 
-spring.resources.chain.enabled=true
-spring.resources.chain.gzipped=true
-spring.resources.chain.html-application-cache=true
-spring.resources.static-locations=classpath:/static/
-</code></pre>
-
-<h4 id="静态资源优化">静态资源优化</h4>
-
 <ol>
-<li>JS/CSS 压缩，减少流量</li>
-<li>多个JS/CSS组合，减少连接数</li>
-<li>CDN就近访问</li>
+<li>重启mysql服务</li>
 </ol>
 
-<h4 id="内存标记减少redis的访问">内存标记减少Redis的访问</h4>
-
-<pre><code>// 通过实现InitializingBean，一开始启动的时候就把商品信息放入Redis中，当进行减库存的时候，如果库存小于0，则把对应goodsId的值改为true
-public void afterPropertiesSet() throws Exception {
-		List&lt;GoodsVo&gt; goodsList = goodsService.listGoodsVo();
-		if(goodsList == null) {
-			return;
-		}
-		for(GoodsVo goods : goodsList) {
-			redisService.set(GoodsKey.getMiaoshaGoodsStock, &quot;&quot;+goods.getId(), goods.getStockCount());
-			localOverMap.put(goods.getId(), false);
-		}
-	}
-
+<pre><code class="language-sql">-- 不同版本，可能是mysqld
+serivce mysql restart
 </code></pre>
-
-<h4 id="rabbitmq进行异步下单">RabbitMQ进行异步下单</h4>
-
-<pre><code>// 整个流程就变为了
-1.  预先将要秒杀的商品的库存加入redis中，GoodKey. (但每次访问数据库还可以再进行一次优化，将物品设置个状态位，是否可用)
-2. 访问的时候，如果查询到redis库存的信息小于0，则直接返回错误
-3. 判断是否已经秒杀到了，如果秒杀到了，则说明之前抢到了，不能进行重复提交
-4. 没有秒杀到 构造message，放入MQ队列中，
-MQ的处理逻辑
-1. 创建消息的发送者，和接收者
-发送者逻辑:
-1. 对用户和秒杀物品进行发送，顺便打个Log
-接收者逻辑:
-  	1. 得到物品id,用户，判断是否在redis中存在商品,数据库中库存是否足够，以及是否秒杀到了
- 2. 减库存数据库是否成功，成功则创建一个order订单，否则让redis中的goodsid的状态位设置为禁用
-
-// 客户端进行轮询，判断是否秒杀成功
-也就是数据库中是否有用户的订单，3个状态：排队中，成功，失败
-没有则再判断Redis中的内存标记
-</code></pre>
-
-<h4 id="超卖问题">超卖问题</h4>
 
 <ol>
-<li>数据库加唯一索引：防止用户重复购买</li>
-<li>SQL加库存数量判断：防止库存变成负数</li>
+<li>建立账号并授权slave</li>
 </ol>
 
-<h4 id="秒杀地址隐藏">秒杀地址隐藏</h4>
-
-<p>思路：</p>
-
-<ol>
-<li><p>秒杀开始之前，先去请求接口获取秒杀地址</p>
+<pre><code class="language-sql">-- '%' 所有客户端都可以连接，账号：backup 密码: 123456
+GRANT FILE ON *.* TO 'backup'@'%' IDENTIFIED BY '123456';
+GRANT REPLICATION SLAVE, REPLICATION CLIENT ON *.* to 'backup'@'%' identified by '123456'; 
+</code></pre>
 
 <ol>
-<li>接口改造，带上 PathVariable参数</li>
-<li>添加生成地址的接口</li>
+<li><p>刷新权限</p>
 
-<li><p>秒杀收到请求，先验证 PathVariable</p>
-
-<pre><code>涉及path请求路径，先得到接口的请求路径
-首先判断用户是否登录了（useragrument参数检验）
-判断验证码是否正确
-创建秒杀的地址
-UUID+salt的方式取创建，并存入redis中
-返回地址
-
-再去请求真正的地址 /{path}/do_miaosha
-同样是判断用户是否登录了
-然后验证path(去redis中进行验证)
-内存标记，减少redis1访问
-预减库存(incr) &lt; 0 则报错
-..
+<pre><code>FLUSH PRIVILEGES;
 </code></pre></li>
-</ol></li>
+
+<li><p>查看Mysql现在有哪些用户</p>
+
+<pre><code>select user,host from mysql.user;
+</code></pre></li>
+
+<li><p>查询Master的状态</p>
+
+<pre><code>show master status;
+</code></pre></li>
 </ol>
 
-<h4 id="数学公式验证码">数学公式验证码</h4>
+<h3 id="从服务器配置">从服务器配置</h3>
 
-<h4 id="接口限流">接口限流</h4>
+<ol>
+<li>修改my.cnf文件</li>
+</ol>
+
+<pre><code class="language-sql">[mysqld]
+server-id=128 [任意]
+</code></pre>
+
+<ol>
+<li>配置从服务器</li>
+</ol>
+
+<pre><code class="language-sql">-- master_host:主服务器主机  master_port:端口 master_user: 执行同步操作的数据库账户
+-- master_log_file，master_log_pos: show master status 里的参数
+change master to master_host='192.168.25.128',
+master_port=3306,master_user='backup',
+master_password='123456',master_log_file='mysql-bin.000001',master_log_pos=120
+</code></pre>
+
+<ol>
+<li>启动从服务器复制功能</li>
+</ol>
+
+<pre><code class="language-sql">start slave; 
+</code></pre>
+
+<ol>
+<li>检查从服务器复制功能状态</li>
+</ol>
+
+<pre><code class="language-sql">show slave status;
+</code></pre>
+
+<p>Slave_IO_Running: Yes //此状态必须YES</p>
+
+<p>Slave_SQL_Running: Yes //此状态必须YES</p>
+
+<h3 id="错误">错误</h3>
+
+<table>
+<thead>
+<tr>
+<th>错误处理：  如果出现此错误：  Fatal  error: The slave I/O thread stops because master and slave have equal MySQL  server UUIDs; these UUIDs must be different for replication to work.  因为是mysql是克隆的系统所以mysql的uuid是一样的，所以需要修改。</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>解决方法：  删除/var/lib/mysql/auto.cnf文件，重新启动服务。</td>
+</tr>
+</tbody>
+</table>
               
             </div>
           </div>
@@ -453,7 +400,7 @@ UUID+salt的方式取创建，并存入redis中
                   <div class="post-footer-tags">
                     <span class="text-color-light text-small">标签</span><br/>
                     
-  <a class="tag tag--primary tag--small" href="https://mybigdaxin.github.io/tags/%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F/">秒杀系统</a>
+  <a class="tag tag--primary tag--small" href="https://mybigdaxin.github.io/tags/mysql/">Mysql</a>
 
                   </div>
                 
@@ -466,7 +413,7 @@ UUID+salt的方式取创建，并存入redis中
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/10/springmvc%E4%BC%98%E9%9B%85%E6%8E%A5%E6%94%B6%E6%95%B0%E6%8D%AE/" data-tooltip="SpringMvc优雅接收数据">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/10/%E7%A7%92%E6%9D%80%E8%AE%BE%E8%AE%A1/" data-tooltip="秒杀设计">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -474,7 +421,7 @@ UUID+salt的方式取创建，并存入redis中
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/10/mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E6%90%AD%E5%BB%BA/" data-tooltip="Mysql主从复制搭建">
+                <a class="post-action-btn btn btn--disabled">
               
                   <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -492,19 +439,19 @@ UUID+salt的方式取创建，并存入redis中
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/10/%E7%A7%92%E6%9D%80%E8%AE%BE%E8%AE%A1/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/10/mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E6%90%AD%E5%BB%BA/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/10/%E7%A7%92%E6%9D%80%E8%AE%BE%E8%AE%A1/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/10/mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E6%90%AD%E5%BB%BA/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/10/%E7%A7%92%E6%9D%80%E8%AE%BE%E8%AE%A1/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/10/mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E6%90%AD%E5%BB%BA/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -552,7 +499,7 @@ UUID+salt的方式取创建，并存入redis中
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/10/springmvc%E4%BC%98%E9%9B%85%E6%8E%A5%E6%94%B6%E6%95%B0%E6%8D%AE/" data-tooltip="SpringMvc优雅接收数据">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/10/%E7%A7%92%E6%9D%80%E8%AE%BE%E8%AE%A1/" data-tooltip="秒杀设计">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -560,7 +507,7 @@ UUID+salt的方式取创建，并存入redis中
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/10/mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E6%90%AD%E5%BB%BA/" data-tooltip="Mysql主从复制搭建">
+                <a class="post-action-btn btn btn--disabled">
               
                   <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -578,19 +525,19 @@ UUID+salt的方式取创建，并存入redis中
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/10/%E7%A7%92%E6%9D%80%E8%AE%BE%E8%AE%A1/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/10/mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E6%90%AD%E5%BB%BA/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/10/%E7%A7%92%E6%9D%80%E8%AE%BE%E8%AE%A1/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/10/mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E6%90%AD%E5%BB%BA/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/10/%E7%A7%92%E6%9D%80%E8%AE%BE%E8%AE%A1/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/10/mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E6%90%AD%E5%BB%BA/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -620,19 +567,19 @@ UUID+salt的方式取创建，并存入redis中
   <ul class="share-options">
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F10%2F%25E7%25A7%2592%25E6%259D%2580%25E8%25AE%25BE%25E8%25AE%25A1%2F">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F10%2Fmysql%25E4%25B8%25BB%25E4%25BB%258E%25E5%25A4%258D%25E5%2588%25B6%25E6%2590%25AD%25E5%25BB%25BA%2F">
           <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F10%2F%25E7%25A7%2592%25E6%259D%2580%25E8%25AE%25BE%25E8%25AE%25A1%2F">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F10%2Fmysql%25E4%25B8%25BB%25E4%25BB%258E%25E5%25A4%258D%25E5%2588%25B6%25E6%2590%25AD%25E5%25BB%25BA%2F">
           <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F10%2F%25E7%25A7%2592%25E6%259D%2580%25E8%25AE%25BE%25E8%25AE%25A1%2F">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F10%2Fmysql%25E4%25B8%25BB%25E4%25BB%258E%25E5%25A4%258D%25E5%2588%25B6%25E6%2590%25AD%25E5%25BB%25BA%2F">
           <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
         </a>
       </li>
@@ -728,9 +675,9 @@ $(document).ready(function() {
     
       <script>
         var disqus_config = function () {
-          this.page.url = 'https:\/\/mybigdaxin.github.io\/2019\/10\/%E7%A7%92%E6%9D%80%E8%AE%BE%E8%AE%A1\/';
+          this.page.url = 'https:\/\/mybigdaxin.github.io\/2019\/10\/mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E6%90%AD%E5%BB%BA\/';
           
-            this.page.identifier = '\/2019\/10\/%E7%A7%92%E6%9D%80%E8%AE%BE%E8%AE%A1\/'
+            this.page.identifier = '\/2019\/10\/mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E6%90%AD%E5%BB%BA\/'
           
         };
         (function() {
