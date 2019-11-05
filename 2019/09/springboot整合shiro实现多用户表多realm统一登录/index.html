@@ -264,6 +264,11 @@
 <ul>
 <li>
 <ul>
+<li><a href="#异常">异常</a>
+<ul>
+<li><a href="#no-securitymanager-accessible-to-the-calling-code">No SecurityManager accessible to the calling code</a></li>
+<li><a href="#castexception">CastException</a></li>
+</ul></li>
 <li><a href="#待参考文章">待参考文章</a></li>
 </ul></li>
 </ul></li>
@@ -751,6 +756,79 @@ public class ShiroConfig {
 </code></pre>
 
 <p>改写完后 就可以根据自己指定认证的去处理</p>
+
+<h3 id="异常">异常</h3>
+
+<h4 id="no-securitymanager-accessible-to-the-calling-code">No SecurityManager accessible to the calling code</h4>
+
+<pre><code class="language-java">No SecurityManager accessible to the calling code, either bound to the org.apache.shiro.util.ThreadContext or as a vm static singleton.  This is an invalid application configuration.
+</code></pre>
+
+<p>调用代码无法访问<code>SecurityManager</code></p>
+
+<p><strong>解决方法</strong></p>
+
+<pre><code class="language-java">/**
+     *
+     * @return MethodInvokingFactoryBean 实例
+     */
+    @Bean
+    public MethodInvokingFactoryBean methodInvokingFactoryBean() {
+        MethodInvokingFactoryBean bean = new MethodInvokingFactoryBean();
+        bean.setStaticMethod(&quot;org.apache.shiro.SecurityUtils.setSecurityManager&quot;);
+        bean.setArguments(securityManager());
+        return bean;
+    }
+
+</code></pre>
+
+<h4 id="castexception">CastException</h4>
+
+<p>这个异常的主要原因是在自定义的Realm中设置的<code>Principal</code>与通过</p>
+
+<pre><code class="language-java">SecurityUtils.getSubject().getPrincipal()
+</code></pre>
+
+<p>获得的对象 不符合，需要对Realm中的<code>认证</code><code>Authentication</code> 方法的返回值中的对象进行更改</p>
+
+<blockquote>
+<p>同时出现上述情况的原因可能是你配置了多Realm的情况，这时候需要进行多Realm的<code>授权</code>处理</p>
+</blockquote>
+
+<pre><code class="language-java">public class CustomerAuthrizer extends ModularRealmAuthorizer {
+    @Override
+    public boolean isPermitted(PrincipalCollection principals, String permission) {
+        assertRealmsConfigured();
+        Object primaryPrincipal = principals.getPrimaryPrincipal();
+ 
+        for (Realm realm : getRealms()) {
+            if (!(realm instanceof Authorizer)) continue;
+          // 对应的类
+            if (primaryPrincipal instanceof Admin) {
+              // 自定义的Realm
+                if (realm instanceof AdminShiroRealm) {
+                    return ((AdminShiroRealm) realm).isPermitted(principals, permission);
+                }
+            }
+            if (primaryPrincipal instanceof Member) {
+                if (realm instanceof CustomShiroRealm) {
+                    return ((CustomShiroRealm) realm).isPermitted(principals, permission);
+                }
+            }
+ 
+        }
+        return false;
+    }
+}
+</code></pre>
+
+<p>在Springboot中的<code>ShiroConfig</code>中的<code>securityManger</code>进行配置</p>
+
+<pre><code class="language-java"> DefaultWebSecurityManager securityManager =  new DefaultWebSecurityManager();
+ CustomerAuthrizer customModularRealmAuthorizer = new CustomerAuthrizer();
+        customModularRealmAuthorizer.setRealms(shiroAuthorizerRealms);
+        securityManager.setAuthorizer(customModularRealmAuthorizer);
+</code></pre>
 
 <h3 id="待参考文章">待参考文章</h3>
 

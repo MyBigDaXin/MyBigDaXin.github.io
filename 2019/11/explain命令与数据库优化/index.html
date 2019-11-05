@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.55.5 with theme Tranquilpeak 0.4.6-BETA">
+<meta name="author" content="Da Xin">
+<meta name="keywords" content="tech">
+<meta name="description" content="">
+
+
+<meta property="og:description" content="">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Explain命令与数据库优化">
+<meta name="twitter:title" content="Explain命令与数据库优化">
+<meta property="og:url" content="https://mybigdaxin.github.io/2019/11/explain%E5%91%BD%E4%BB%A4%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/">
+<meta property="twitter:url" content="https://mybigdaxin.github.io/2019/11/explain%E5%91%BD%E4%BB%A4%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/">
+<meta property="og:site_name" content="Just for">
+<meta property="og:description" content="">
+<meta name="twitter:description" content="">
+<meta property="og:locale" content="zh-cn">
+
+  
+    <meta property="article:published_time" content="2019-11-05T12:00:52">
+  
+  
+    <meta property="article:modified_time" content="2019-11-05T12:00:52">
+  
+  
+  
+    
+      <meta property="article:section" content="Mysql">
+    
+  
+  
+    
+      <meta property="article:tag" content="Mysql优化">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://mybigdaxin.github.io/images/algo.jpg">
+  <meta property="twitter:image" content="https://mybigdaxin.github.io/images/algo.jpg">
+
+
+  <meta property="og:image" content="https://mybigdaxin.github.io/images/cover.jpg">
+  <meta property="twitter:image" content="https://mybigdaxin.github.io/images/cover.jpg">
+
+
+
+
+  <meta property="og:image" content="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=640">
+  <meta property="twitter:image" content="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=640">
+
+
+    <title>Explain命令与数据库优化</title>
+
+    <link rel="icon" href="https://mybigdaxin.github.io/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://mybigdaxin.github.io/2019/11/explain%E5%91%BD%E4%BB%A4%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://mybigdaxin.github.io/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="5">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://mybigdaxin.github.io/">Just for</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://mybigdaxin.github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=90" alt="作者的图片" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="5">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://mybigdaxin.github.io/#about">
+          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=110" alt="作者的图片" />
+        </a>
+        <h4 class="sidebar-profile-name">Da Xin</h4>
+        
+          <h5 class="sidebar-profile-bio">Just for</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">首页</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">分类</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">标签</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">关于</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/MyBigDaXin" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+  <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=240 height=52 src="//music.163.com/outchain/player?type=0&id=2905300990&auto=1&height=32"></iframe>
+</nav>
+
+      
+  <div class="post-header-cover
+              text-center
+              post-header-cover--full"
+       style="background-image:url('/images/cover.jpg')"
+       data-behavior="5">
+    
+      <div class="post-header main-content-wrap text-center">
+  
+    <h1 class="post-title" itemprop="headline">
+      Explain命令与数据库优化
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-11-05T12:00:52&#43;08:00">
+        
+  十一月 5, 2019
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://mybigdaxin.github.io/categories/mysql">Mysql</a>
+    
+  
+
+  </div>
+
+</div>
+    
+  </div>
+
+
+      <div id="main" data-behavior="5"
+        class="hasCover
+               hasCoverMetaIn
+               hasCoverCaption">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+            <span class="post-header-cover-caption caption">文章cover图片描述</span>
+          
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <h1 id="table-of-contents">目录</h1><nav id="TableOfContents">
+<ul>
+<li><a href="#explain命令及数据库优化">Explain命令及数据库优化</a>
+<ul>
+<li><a href="#背景">背景</a></li>
+<li><a href="#explain-命令">Explain 命令</a></li>
+<li><a href="#添加索引">添加索引</a></li>
+<li><a href="#补充">补充</a>
+<ul>
+<li><a href="#id">ID</a></li>
+<li><a href="#select-type">SELECT_TYPE</a></li>
+<li><a href="#type">TYPE</a></li>
+<li><a href="#extra">Extra:</a></li>
+</ul></li>
+<li><a href="#例子">例子</a>
+<ul>
+<li><a href="#通过-explain-对分页语句进行优化">通过<code>Explain</code>对分页语句进行优化</a></li>
+<li><a href="#如何删除重复数据">如何删除重复数据</a></li>
+</ul></li>
+<li><a href="#数据库备份">数据库备份</a>
+<ul>
+<li>
+<ul>
+<li><a href="#使用mysqldump备份">使用mysqldump备份</a></li>
+<li><a href="#恢复mysqldump备份的数据库">恢复mysqldump备份的数据库</a></li>
+</ul></li>
+<li><a href="#恢复误删除的数据">恢复误删除的数据</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="explain命令及数据库优化">Explain命令及数据库优化</h1>
+
+<h2 id="背景">背景</h2>
+
+<p>一个查询课程计划的SQL语句,采用表的自连接方式进行查询 无索引</p>
+
+<h2 id="explain-命令">Explain 命令</h2>
+
+<p>查询所花费时间为0.089s</p>
+
+<p><img src="https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/item20190919090558.png" alt="" /></p>
+
+<p>分析执行情况可看到 进行了全表扫描 type= ALL</p>
+
+<p><img src="https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/item20190919090712.png" alt="" /></p>
+
+<h2 id="添加索引">添加索引</h2>
+
+<pre><code class="language-sql">-- alter table `table_name` add index `index_name`(colum);
+alter table teachplan add index parent(parentid);
+</code></pre>
+
+<pre><code class="language-sql">EXPLAIN
+SELECT
+a.id one_id,
+a.pname one_pname,
+b.id two_id,
+b.pname two_pname,
+c.id three_id,
+c.pname three_pname
+FROM
+teachplan a
+LEFT JOIN teachplan b
+ON a.id = b.parentid
+LEFT JOIN teachplan c
+ON b.id = c.parentid
+WHERE a.parentid = '0'
+AND a.courseid = '402885816243d2dd016243f24c030002'
+ORDER BY a.orderby,
+b.orderby,
+c.orderby
+</code></pre>
+
+<p>再次查询</p>
+
+<p><img src="https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/item20190919091116.png" alt="" /></p>
+
+<p>执行时间为0.44s 且可见使用了parent索引 扫描的行数也减少为15</p>
+
+<h2 id="补充">补充</h2>
+
+<h3 id="id">ID</h3>
+
+<p>ID列中的数据为一组数字，表示执行 SELECT语句的顺序</p>
+
+<p>ID值相同时,执行顺序由上至下</p>
+
+<p>ID值越大<code>优先级越高</code>，越<code>先被执行</code></p>
+
+<h3 id="select-type">SELECT_TYPE</h3>
+
+<p>查询类型，是单表查询、联合查询还是子查询等 可能会出现以下值</p>
+
+<table>
+<thead>
+<tr>
+<th>查询类型</th>
+<th>说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>SIMPLE</td>
+<td>简单的 select 查询,不使用 union 及子查询</td>
+</tr>
+
+<tr>
+<td>PRIMARY</td>
+<td>最外层的 select 查询(使用到主键作为查询条件)</td>
+</tr>
+
+<tr>
+<td>UNION UNION</td>
+<td>中的第二个或随后的 select 查询,不 依赖于外部查询的结果集</td>
+</tr>
+
+<tr>
+<td>DEPENDENT UNION</td>
+<td>UNION 中的第二个或随后的 select 查询,依 赖于外部查询的结果集</td>
+</tr>
+
+<tr>
+<td>SUBQUERY</td>
+<td>子查询中的第一个 select 查询,不依赖于外 部查询的结果集</td>
+</tr>
+
+<tr>
+<td>DEPENDENT SUBQUERY</td>
+<td>子查询中的第一个 select 查询,依赖于外部 查询的结果集</td>
+</tr>
+
+<tr>
+<td>DERIVED</td>
+<td>用于 from 子句里有子查询的情况。 MySQL 会 递归执行这些子查询, 把结果放在临时表里。</td>
+</tr>
+
+<tr>
+<td>UNCACHEABLE SUBQUERY</td>
+<td>结果集不能被缓存的子查询,必须重新为外 层查询的每一行进行评估。</td>
+</tr>
+
+<tr>
+<td>UNCACHEABLE UNION UNION</td>
+<td>中的第二个或随后的 select 查询,属 于不可缓存的子查询</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="type">TYPE</h3>
+
+<blockquote>
+<p>性能从高到低</p>
+</blockquote>
+
+<table>
+<thead>
+<tr>
+<th>type</th>
+<th>说明</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>system</td>
+<td>这是 const联接类型的一个特例当查询的表只有一行时使用</td>
+</tr>
+
+<tr>
+<td>const</td>
+<td>表中有且只有一个匹配的行时使用，如对主键或是唯一索引的查询这是效率最高的联接方式</td>
+</tr>
+
+<tr>
+<td>eq_ref</td>
+<td>唯一索引或主键查找，对于每个索引键，表中只有一条记录与之匹配</td>
+</tr>
+
+<tr>
+<td>ref</td>
+<td>连接不能基于关键字选择单个行,可能查找 到多个符合条件的行。 叫做 ref 是因为索引要 跟某个参考值相比较。这个参考值或者是一 个常数,或者是来自一个表里的多表查询的 结果值</td>
+</tr>
+
+<tr>
+<td>ref_or_null</td>
+<td>如同 ref, 但是 MySQL 必须在初次查找的结果 里找出 null 条目,然后进行二次查找。</td>
+</tr>
+
+<tr>
+<td>index_merge</td>
+<td>说明索引合并优化被使用了。</td>
+</tr>
+
+<tr>
+<td>unique_subquery</td>
+<td>在某些 IN 查询中使用此种类型,而不是常规的 ref<code>:</code>value IN (SELECT primary_key FROM single_table WHERE some_expr)</td>
+</tr>
+
+<tr>
+<td>index_subquery</td>
+<td>在 某 些 IN 查 询 中 使 用 此 种 类 型 , 与 unique_subquery 类似,但是查询的是非唯一 性索引: value IN (SELECT key_column FROM single_table WHERE some_expr)</td>
+</tr>
+
+<tr>
+<td>range</td>
+<td>只检索给定范围的行,使用一个索引来选择 行。key 列显示使用了哪个索引。当使用=、 &lt;&gt;、&gt;、&gt;=、&lt;、&lt;=、IS NULL、&lt;=&gt;、BETWEEN 或者 IN 操作符,用常量比较关键字列时,可 以使用 range。</td>
+</tr>
+
+<tr>
+<td>index</td>
+<td>全表扫描,只是扫描表的时候按照索引次序 进行而不是行。主要优点就是避免了排序, 但是开销仍然非常大。</td>
+</tr>
+
+<tr>
+<td>all</td>
+<td>最坏的情况,从头到尾全表扫描</td>
+</tr>
+</tbody>
+</table>
+
+<pre><code>5. prossible_keys:能在该表中使用哪些索引有助于查询
+  6. key:实际使用的索引
+  7. key_len：索引的长度，在不损失精确性的情况 下,长度越短越好
+  8. ref：索引的哪一列被使用了
+  9. rows:MySQL通过索引统计信息，`估算的所需读取的行数`,统计信息
+</code></pre>
+
+<h3 id="extra">Extra:</h3>
+
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>含义</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Distinct</td>
+<td>优化 distinct操作，在找到第一匹配的元组后即停止找同样值的动作</td>
+</tr>
+
+<tr>
+<td>Not exists</td>
+<td>使用 not exists来优化查询</td>
+</tr>
+
+<tr>
+<td>Using fileSort</td>
+<td>使用额外操作进行排序，通常会出现在 order b或 group by查询中</td>
+</tr>
+
+<tr>
+<td>Using index</td>
+<td>使用了覆盖索引进行查询</td>
+</tr>
+
+<tr>
+<td>Using temporary</td>
+<td>MySQL需要使用临时表来处理查询，常见于排序，子查询，和分组查询</td>
+</tr>
+
+<tr>
+<td>Using where</td>
+<td>需要在 MySQL服务器层使用 WHERE条件来过滤数据</td>
+</tr>
+
+<tr>
+<td>select tables optimized away</td>
+<td>直接通过索引来获得数据，不用访问表</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="例子">例子</h2>
+
+<h3 id="通过-explain-对分页语句进行优化">通过<code>Explain</code>对分页语句进行优化</h3>
+
+<pre><code class="language-sql">CREATE TABLE `product_comment` (
+  `comment_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '评论ID',
+  `product_id` int(10) unsigned NOT NULL COMMENT '商品ID',
+  `order_id` bigint(20) unsigned NOT NULL COMMENT '订单ID',
+  `customer_id` int(10) unsigned NOT NULL COMMENT '用户ID',
+  `title` varchar(50) NOT NULL COMMENT '评论标题',
+  `content` varchar(300) NOT NULL COMMENT '评论内容',
+  `audit_status` tinyint(4) NOT NULL COMMENT '审核状态:0未审核1已审核',
+  `audit_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '评论时间',
+  `modified_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后修改时间',
+  PRIMARY KEY (`comment_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品评论表';
+
+
+</code></pre>
+
+<pre><code class="language-sql">-- 一个分页查询 进行优化
+SELECT 
+customer_id
+,title
+,content 
+FROM product_comment
+WHERE audit status =  1 AND product id=199726
+Limit 0,5
+</code></pre>
+
+<p>通过Explain执行情况发现，没有添加索引，于是可以添加索引进行优化</p>
+
+<pre><code class="language-sql">-- 通过区分度进行查询
+SELECT COUNT(DISTINCT audit_status) / COUNT(*)
+       AS audit_rate
+       COUNT(DISTINCT product_id) / COUNT(*)
+       AS product_rate
+FROM product_comment;
+</code></pre>
+
+<pre><code class="language-sql">SELECT  t.customer id, t.title, t content 
+FROM 
+	(SELECT comment_id 
+		FROM product_comment 
+		WHERE product_id=199727 AND audit status=1 LIMIT 0， 15
+		)a JOIN product_comment t
+        ON a.comment_id =t.comment_id；
+</code></pre>
+
+<h3 id="如何删除重复数据">如何删除重复数据</h3>
+
+<p>删除评论表中对同一订单同一商品的重复评论，只保留最早的一条</p>
+
+<ol>
+<li>查看是否存在对于一订单同一商品的重复评论</li>
+<li>备份 product comment表</li>
+</ol>
+
+<pre><code class="language-sql">CREATE TABLE bak_product_comment_191022
+AS SELECT * FROM product_comment
+</code></pre>
+
+<ol>
+<li>删除同一订单的重复评论</li>
+</ol>
+
+<h2 id="数据库备份">数据库备份</h2>
+
+<p>逻辑备份和物理备份</p>
+
+<ul>
+<li>逻辑备份的结果为SQL语句适合于所有存储引擎</li>
+<li>物理备份是对数据库目录的拷贝，对于内存表只备份<code>结构</code></li>
+</ul>
+
+<h4 id="使用mysqldump备份">使用mysqldump备份</h4>
+
+<pre><code class="language-sql">-- 备份库
+mysqldump 【OPTIONS】 database【tables】
+-- 备份表
+mysqldump 【OPTIONS】--databases 【OPTIONS】 DB1 【DB2】
+-- 备份全库
+mysqldump 【OPTIONS】--all-databases 【OPTIONS】
+</code></pre>
+
+<p>实操</p>
+
+<pre><code class="language-sql">create user 'backup'@'localhost' identified by 123456;
+grant select, reload, lock tables, replication client, show view, event, process on *.* to 'backup'@'localhost';
+-- 进行全库备份 【root#node】# 
+mysqldump -ubackup -p  --master-data=2 --signle-transaction  --routines  --triggers --events
+mc_orderdb &gt; mc_orderdb.sql
+-- 进行单表备份 
+mysqldump -ubackup -p --master-data = 2 --single-transaction --routines --triggers --events mc_orderdb order_master&gt; order_master.sql
+-- 进行全量备份
+mysqldump -ubackup -p --master-data = 2 -- single-transaction --routines --triggers --events
+--all-databases &gt; mc.sql
+-- 进行写库
+grant file on *.* to 'backup'@'localhost'
+mysqldump -ubackup -p --master-data = 2 --single-transaction --routines --triggers --events 
+--tab=&quot;/tmp/mc_orderdb&quot; mc_orderdb
+-- 特定范围备份 选择order_id 在 1000 和 1050之间的
+mysqldump -ubackup -p --master-data = 2 --single-transaction --routines --where &quot;order_id &gt; 1000 and order_id &lt; 1050&quot; mc_orderdb order_master &gt; order_master_1000.sql
+</code></pre>
+
+<h4 id="恢复mysqldump备份的数据库">恢复mysqldump备份的数据库</h4>
+
+<pre><code class="language-sql">-- 客户端下的
+mysql -u -p dbname &lt; backup.sql 
+-- mysql命令行下
+mysql &gt; source/tmp/backup.sql
+</code></pre>
+
+<h3 id="恢复误删除的数据">恢复误删除的数据</h3>
+
+<blockquote>
+<p>通过备份库与被删除库进行left join得到删除了的数据，即可恢复</p>
+</blockquote>
+
+<p>参考:</p>
+
+<p><a href="http://www.shixinke.com/mysql/mysql-sql-optimization-with-using-explain-and-show-profile">http://www.shixinke.com/mysql/mysql-sql-optimization-with-using-explain-and-show-profile</a></p>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">标签</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://mybigdaxin.github.io/tags/mysql%E4%BC%98%E5%8C%96/">Mysql优化</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/10/classnotfoundexception/" data-tooltip="ClassNotFoundException">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/11/explain%E5%91%BD%E4%BB%A4%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/11/explain%E5%91%BD%E4%BB%A4%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/11/explain%E5%91%BD%E4%BB%A4%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 Da Xin. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/10/classnotfoundexception/" data-tooltip="ClassNotFoundException">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/11/explain%E5%91%BD%E4%BB%A4%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/11/explain%E5%91%BD%E4%BB%A4%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/11/explain%E5%91%BD%E4%BB%A4%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F11%2Fexplain%25E5%2591%25BD%25E4%25BB%25A4%25E4%25B8%258E%25E6%2595%25B0%25E6%258D%25AE%25E5%25BA%2593%25E4%25BC%2598%25E5%258C%2596%2F">
+          <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F11%2Fexplain%25E5%2591%25BD%25E4%25BB%25A4%25E4%25B8%258E%25E6%2595%25B0%25E6%258D%25AE%25E5%25BA%2593%25E4%25BC%2598%25E5%258C%2596%2F">
+          <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F11%2Fexplain%25E5%2591%25BD%25E4%25BB%25A4%25E4%25B8%258E%25E6%2595%25B0%25E6%258D%25AE%25E5%25BA%2593%25E4%25BC%2598%25E5%258C%2596%2F">
+          <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=110" alt="作者的图片" />
+    
+    <h4 id="about-card-name">Da Xin</h4>
+    
+      <div id="about-card-bio">Just for</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        Javaer
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        China
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('https://mybigdaxin.github.io/images/cover.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://mybigdaxin.github.io/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+  
+    <script src="https://mybigdaxin.github.io/js/clicklove.js"></script>
+  
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/mybigdaxin.github.io\/2019\/11\/explain%E5%91%BD%E4%BB%A4%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96\/';
+          
+            this.page.identifier = '\/2019\/11\/explain%E5%91%BD%E4%BB%A4%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'tranquilpeak';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+

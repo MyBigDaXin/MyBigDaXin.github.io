@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Mysql优化 on Just for</title>
+    <link>https://mybigdaxin.github.io/tags/mysql%E4%BC%98%E5%8C%96/</link>
+    <description>Recent content in Mysql优化 on Just for</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 05 Nov 2019 12:00:52 +0800</lastBuildDate>
+    
+	<atom:link href="https://mybigdaxin.github.io/tags/mysql%E4%BC%98%E5%8C%96/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Explain命令与数据库优化</title>
+      <link>https://mybigdaxin.github.io/2019/11/explain%E5%91%BD%E4%BB%A4%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/</link>
+      <pubDate>Tue, 05 Nov 2019 12:00:52 +0800</pubDate>
+      
+      <guid>https://mybigdaxin.github.io/2019/11/explain%E5%91%BD%E4%BB%A4%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
