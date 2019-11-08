@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.55.5 with theme Tranquilpeak 0.4.6-BETA">
+<meta name="author" content="Da Xin">
+<meta name="keywords" content="tech">
+<meta name="description" content="">
+
+
+<meta property="og:description" content="">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CORS跨域">
+<meta name="twitter:title" content="CORS跨域">
+<meta property="og:url" content="https://mybigdaxin.github.io/2019/11/cors%E8%B7%A8%E5%9F%9F/">
+<meta property="twitter:url" content="https://mybigdaxin.github.io/2019/11/cors%E8%B7%A8%E5%9F%9F/">
+<meta property="og:site_name" content="Just for">
+<meta property="og:description" content="">
+<meta name="twitter:description" content="">
+<meta property="og:locale" content="zh-cn">
+
+  
+    <meta property="article:published_time" content="2019-11-08T13:26:48">
+  
+  
+    <meta property="article:modified_time" content="2019-11-08T13:26:48">
+  
+  
+  
+    
+      <meta property="article:section" content="杂记">
+    
+  
+  
+    
+      <meta property="article:tag" content="SpringBoot">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://mybigdaxin.github.io/images/snow.png">
+  <meta property="twitter:image" content="https://mybigdaxin.github.io/images/snow.png">
+
+
+  <meta property="og:image" content="https://mybigdaxin.github.io/images/snow.png">
+  <meta property="twitter:image" content="https://mybigdaxin.github.io/images/snow.png">
+
+
+
+
+  <meta property="og:image" content="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=640">
+  <meta property="twitter:image" content="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=640">
+
+
+    <title>CORS跨域</title>
+
+    <link rel="icon" href="https://mybigdaxin.github.io/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://mybigdaxin.github.io/2019/11/cors%E8%B7%A8%E5%9F%9F/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://mybigdaxin.github.io/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="5">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://mybigdaxin.github.io/">Just for</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://mybigdaxin.github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=90" alt="作者的图片" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="5">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://mybigdaxin.github.io/#about">
+          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=110" alt="作者的图片" />
+        </a>
+        <h4 class="sidebar-profile-name">Da Xin</h4>
+        
+          <h5 class="sidebar-profile-bio">Just for</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">首页</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">分类</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">标签</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">关于</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/MyBigDaXin" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://mybigdaxin.github.io/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+  <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=240 height=52 src="//music.163.com/outchain/player?type=0&id=2905300990&auto=1&height=32"></iframe>
+</nav>
+
+      
+  <div class="post-header-cover
+              text-center
+              post-header-cover--full"
+       style="background-image:url('/images/snow.png')"
+       data-behavior="5">
+    
+      <div class="post-header main-content-wrap text-center">
+  
+    <h1 class="post-title" itemprop="headline">
+      CORS跨域
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-11-08T13:26:48&#43;08:00">
+        
+  十一月 8, 2019
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://mybigdaxin.github.io/categories/%e6%9d%82%e8%ae%b0">杂记</a>
+    
+  
+
+  </div>
+
+</div>
+    
+  </div>
+
+
+      <div id="main" data-behavior="5"
+        class="hasCover
+               hasCoverMetaIn
+               hasCoverCaption">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+            <span class="post-header-cover-caption caption">CROS</span>
+          
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <h1 id="table-of-contents">目录</h1><nav id="TableOfContents">
+<ul>
+<li><a href="#cors跨域">CORS跨域</a>
+<ul>
+<li>
+<ul>
+<li><a href="#cors概述">CORS概述</a></li>
+<li><a href="#简单请求">简单请求</a></li>
+<li><a href="#预检请求">预检请求</a></li>
+<li><a href="#请求附带身份验证">请求附带身份验证</a></li>
+</ul></li>
+<li><a href="#springboot进行cros">SpringBoot进行CROS</a>
+<ul>
+<li><a href="#局部配置">局部配置</a></li>
+<li><a href="#全局配置">全局配置</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+
+<h1 id="cors跨域">CORS跨域</h1>
+
+<p>先说说什么是<strong>同源</strong></p>
+
+<blockquote>
+<p>同源： 如果两个页面的协议，端口（如果有指定）和主机都相同，则两个页面具有相同的<strong>源</strong></p>
+</blockquote>
+
+<p>比如：</p>
+
+<pre><code>http://example.com/page/index.html
+http://example.com:81/page/index.html 不同端口
+https://example.com/page/index.html  不同协议
+http://bana.com/page/index.html  不同域名
+</code></pre>
+
+<p>当一个资源从与该资源本身所在的服务器不同的<code>域、协议、端口</code>请求一个资源时，资源会发起一个跨域 HTTP 请求，由于安全考虑，浏览器限制从脚本内发起的跨源HTTP请求，XMLHttpRequest和Fetch API，只能从加载应用程序的同一个域请求HTTP资源，除非使用<code>CORS头文件</code></p>
+
+<h3 id="cors概述">CORS概述</h3>
+
+<p>可能对服务器数据产生副作用的 HTTP 请求方法（除GET以外的，如搭配MIME类型的POST），<strong>浏览器必须首先使用 OPTIONS 方法发起一个预检请求（preflight request），从而获知服务端是否允许该跨域请求</strong>   <strong>服务器确认允许之后，才发起实际的 HTTP 请求</strong>。在预检请求的返回中，服务器端也可以通知客户端，是否需要携带身份凭证（包括 Cookies 和 HTTP 认证相关数据）</p>
+
+<h3 id="简单请求">简单请求</h3>
+
+<p>满足以下<strong>所有条件</strong>的才会被视为<code>简单请求</code>，基本上我们日常开发只会关注前面两点</p>
+
+<ol>
+<li><p>使用<code>GET、POST、HEAD</code>其中一种方法</p></li>
+
+<li><p>只使用了如下的安全首部字段，不得人为设置其他首部字段</p>
+
+<ul>
+<li><code>Accept</code></li>
+<li><code>Accept-Language</code></li>
+<li><code>Content-Language</code></li>
+</ul></li>
+
+<li><p>Content-Type</p></li>
+</ol>
+
+<p>仅限以下三种</p>
+
+<ul>
+<li><code>text/plain</code></li>
+<li><code>multipart/form-data</code></li>
+<li><code>application/x-www-form-urlencoded</code></li>
+<li>HTML头部header field字段：<code>DPR、Download、Save-Data、Viewport-Width、WIdth</code></li>
+</ul>
+
+<ol>
+<li><p>请求中的任意<code>XMLHttpRequestUpload</code> 对象均没有注册任何事件监听器；XMLHttpRequestUpload 对象可以使用 XMLHttpRequest.upload 属性访问</p></li>
+
+<li><p>请求中没有使用 ReadableStream 对象</p></li>
+</ol>
+
+<p>对于简单请求有关的头部</p>
+
+<p><strong>Request Headers</strong></p>
+
+<ul>
+<li><strong>Origin</strong> ：表示跨域请求的原始域</li>
+</ul>
+
+<p><strong>Response Headers</strong></p>
+
+<ul>
+<li><strong>Access-Control-Allow-Origin</strong> ： 表示允许哪些原始域进行跨域访问，它的值要么是请求时 <code>Origin</code>字段的值，要么是一个 <code>*</code>,表示接受任意域名的请求</li>
+<li><strong>Access-Control-Allow-Credentials</strong>： 表示是否允许客户端发送 Cookie，是一个布尔值。默认情况下，Cookie不包括在 CORS 请求之中，设为 true，即表示服务器明确许可，Cookie 可以包含在请求中，一起发给服务器</li>
+<li><strong>Access-Control-Expose-Headers</strong>: CORS请求时，XMLHttpRequest对象的<code>getResponseHeader()</code>方法只能拿到6个基本字段，自定义的header字段是拿不到的，如果想拿到自定义的Header 字段，就必须在 <code>Access-Control-Expose-Headers</code>里面指定</li>
+</ul>
+
+<h3 id="预检请求">预检请求</h3>
+
+<p>预检请求则是要先发送<code>OPTIONS</code>方法的请求到服务器，以获取服务器是否允许实际的请求，大概预检请求如下:</p>
+
+<ol>
+<li>使用了<code>PUT、DELETE、CONNECT、OPTIONS、TRACE、PATCH</code>方法</li>
+<li>人为设置了非规定内的其他首部字段，参考上面简单请求的安全字段集合，还要特别注意<code>Content-Type</code>的类型</li>
+<li><code>XMLHttpRequestUpload</code> 对象注册了任何事件监听器</li>
+<li>请求中使用了<code>ReadableStream</code>对象</li>
+</ol>
+
+<p><strong>Access-Control-Allow-Methods</strong>: 逗号分隔的字符串，表明服务器支持的<strong>所有</strong>跨域请求的方法。注意是所有方法，不是单个浏览器请求时的那个方法，这是为了避免多次 &ldquo;预检&rdquo;请求</p>
+
+<p><strong>Access-Control-Allow-Headers</strong>：如果浏览器请求包括 <code>Access-Control-Request-Headers</code>字段，则 <code>Access-Control-Allow-Headers</code>是必须的，它表明服务器支持的所有头信息字段，不限于浏览器再预检中请求的字段</p>
+
+<p><strong>Access-Control-Max-Age</strong>: 该字段可选，用来指定本次预检请求的有效期，单位为秒</p>
+
+<h3 id="请求附带身份验证">请求附带身份验证</h3>
+
+<p>如果发起请求时设置<code>withCredentials</code> 标志设置为 <code>true</code>，从而向服务器发送cookie， 但是如果服务器端的响应中未携带<code>Access-Control-Allow-Credentials: true</code>，浏览器将不会把响应内容返回给请求的发送者</p>
+
+<p>对于附带身份凭证的请求，服务器不得设置 <code>Access-Control-Allow-Origin</code> 的值为<code>*</code>， <strong>必须是某个具体的域名</strong></p>
+
+<p>注意，简单 GET 请求不会被预检；如果对此类带有身份凭证请求的响应中不包含该字段，这个响应将被忽略掉，并且浏览器也不会将相应内容返回给网页</p>
+
+<p><img src="https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/item20191108121124.png" alt="" /></p>
+
+<h2 id="springboot进行cros">SpringBoot进行CROS</h2>
+
+<h3 id="局部配置">局部配置</h3>
+
+<pre><code class="language-java">// 使用@CrossOrigin注解放在Restful 方法上，允许源为origins的内容访问
+@RequestMapping(value = &quot;/products&quot;)
+@CrossOrigin(origins = &quot;http://localhost:8080&quot;)
+
+public ResponseEntity&lt;Object&gt; getProduct() {
+   return null;
+}
+
+</code></pre>
+
+<h3 id="全局配置">全局配置</h3>
+
+<p>允许源为<a href="http://localhost:9000访问products">http://localhost:9000访问products</a></p>
+
+<pre><code class="language-java">@Bean
+public WebMvcConfigurer corsConfigurer() {
+   return new WebMvcConfigurerAdapter() {
+      @Override
+      public void addCorsMappings(CorsRegistry registry) {
+         registry
+         .addMapping(&quot;/**&quot;)
+         .addMethods(&quot;*&quot;)// 这个要添加
+         .allowedOrigins(&quot;http://localhost:9000&quot;);
+      }    
+   };
+}
+
+</code></pre>
+
+<pre><code>@Configuration
+public class CorsConfig implements WebMvcConfigurer {
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping(&quot;/**&quot;)
+                //是否发送Cookie
+                .allowCredentials(true)
+                //放行哪些原始域
+                .allowedOrigins(&quot;*&quot;)
+                .allowedMethods(new String[]{&quot;GET&quot;, &quot;POST&quot;, &quot;PUT&quot;, &quot;DELETE&quot;})
+                .allowedHeaders(&quot;*&quot;)
+                .exposedHeaders(&quot;*&quot;);
+    }
+}
+
+</code></pre>
+
+<blockquote>
+<p>使用WebMvcConfigurer配置时，一定要调用allowedMethods方法，不然，DELETE，PUT方法就不具有CORS功能，浏览器跨域访问时就会出现403错误</p>
+</blockquote>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">标签</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://mybigdaxin.github.io/tags/springboot/">SpringBoot</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/11/explain%E5%91%BD%E4%BB%A4%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/" data-tooltip="Explain命令与数据库优化">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/11/cors%E8%B7%A8%E5%9F%9F/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/11/cors%E8%B7%A8%E5%9F%9F/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/11/cors%E8%B7%A8%E5%9F%9F/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 Da Xin. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://mybigdaxin.github.io/2019/11/explain%E5%91%BD%E4%BB%A4%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/" data-tooltip="Explain命令与数据库优化">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://mybigdaxin.github.io/2019/11/cors%E8%B7%A8%E5%9F%9F/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://mybigdaxin.github.io/2019/11/cors%E8%B7%A8%E5%9F%9F/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://mybigdaxin.github.io/2019/11/cors%E8%B7%A8%E5%9F%9F/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F11%2Fcors%25E8%25B7%25A8%25E5%259F%259F%2F">
+          <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F11%2Fcors%25E8%25B7%25A8%25E5%259F%259F%2F">
+          <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fmybigdaxin.github.io%2F2019%2F11%2Fcors%25E8%25B7%25A8%25E5%259F%259F%2F">
+          <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://www.gravatar.com/avatar/d09dc2d7aa5c467519e8af89f7b3d94c?s=110" alt="作者的图片" />
+    
+    <h4 id="about-card-name">Da Xin</h4>
+    
+      <div id="about-card-bio">Just for</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        Javaer
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        China
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('https://mybigdaxin.github.io/images/cover.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://mybigdaxin.github.io/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+  
+    <script src="https://mybigdaxin.github.io/js/clicklove.js"></script>
+  
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/mybigdaxin.github.io\/2019\/11\/cors%E8%B7%A8%E5%9F%9F\/';
+          
+            this.page.identifier = '\/2019\/11\/cors%E8%B7%A8%E5%9F%9F\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'tranquilpeak';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+
