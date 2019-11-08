@@ -256,10 +256,11 @@
             <div class="main-content-wrap">
               <h1 id="table-of-contents">目录</h1><nav id="TableOfContents">
 <ul>
-<li><a href="#阿里云centos开发搭建">阿里云centos开发搭建</a>
+<li><a href="#阿里云centos开发环境搭建">阿里云Centos开发环境搭建</a>
 <ul>
 <li><a href="#资源">资源</a></li>
 <li><a href="#jdk">JDK</a></li>
+<li><a href="#maven">Maven</a></li>
 <li><a href="#tomcat">Tomcat</a></li>
 <li><a href="#mysql">Mysql</a></li>
 <li><a href="#redis">Redis</a></li>
@@ -278,7 +279,7 @@
 </ul>
 </nav>
 
-<h1 id="阿里云centos开发搭建">阿里云centos开发搭建</h1>
+<h1 id="阿里云centos开发环境搭建">阿里云Centos开发环境搭建</h1>
 
 <h2 id="资源">资源</h2>
 
@@ -309,6 +310,23 @@ export PATH=$JAVA_HOME/bin:$JRE_HOME/bin:$JAVA_HOME:$PATH
 <li>重新加载[/etc/profile]()配置文件[source /etc/profile]()</li>
 <li>输入java -version</li>
 </ol>
+
+<h2 id="maven">Maven</h2>
+
+<pre><code class="language-shell">wget http://mirrors.hust.edu.cn/apache/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz
+ tar -xvf  apache-maven-3.3.9-bin.tar.gz
+ sudo mv -f apache-maven-3.3.9 /usr/local/
+# 编辑/etc/profile文件 sudo vim /etc/profile 文本末尾追加
+# set maven environment
+export MAVEN_HOME=/usr/local/apache-maven-3.3.9
+export PATH=${PATH}:${MAVEN_HOME}/bin
+
+# 使配置文件生效
+source /etc/profile
+
+#检查是否安装完成
+mvn -v
+</code></pre>
 
 <h2 id="tomcat">Tomcat</h2>
 
