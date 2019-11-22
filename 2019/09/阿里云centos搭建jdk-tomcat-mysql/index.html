@@ -267,6 +267,8 @@
 <li><a href="#docker">Docker</a>
 <ul>
 <li><a href="#rabbitmq">RabbitMQ</a></li>
+<li><a href="#rocketmq">RocketMQ</a></li>
+<li><a href="#redis集群">Redis集群</a></li>
 </ul></li>
 <li><a href="#部署项目到tomcat">部署项目到Tomcat</a>
 <ul>
@@ -522,6 +524,87 @@ docker run -d --hostname my-rabbit --name rabbit -e RABBITMQ_DEFAULT_USER=admin 
 docker logs rabbit
 </code></pre>
 
+<h3 id="rocketmq">RocketMQ</h3>
+
+<pre><code class="language-shell">#拉取镜像
+docker pull foxiswho/rocketmq:server-4.3.2
+docker pull foxiswho/rocketmq:broker-4.3.2
+# 创建nameserver容器
+docker create -p 9876:9876 --name rmqserver \
+-e &quot;JAVA_OPT_EXT=-server -Xms128m -Xmx128m -Xmn128m&quot; \
+-e &quot;JAVA_OPTS=-Duser.home=/opt&quot; \
+-v /haoke/rmq/rmqserver/logs:/opt/logs \
+-v /haoke/rmq/rmqserver/store:/opt/store \
+foxiswho/rocketmq:server-4.3.2
+# 创建broker容器
+docker create -p 10911:10911 -p 10909:10909 --name rmqbroker \
+-e &quot;JAVA_OPTS=-Duser.home=/opt&quot; \
+-e &quot;JAVA_OPT_EXT=-server -Xms128m -Xmx128m -Xmn128m&quot; \
+-v /haoke/rmq/rmqbroker/conf/broker.conf:/etc/rocketmq/broker.conf \
+-v /haoke/rmq/rmqbroker/logs:/opt/logs \
+-v /haoke/rmq/rmqbroker/store:/opt/store \
+foxiswho/rocketmq:broker-4.3.2
+# 启动容器
+docker start rmqserver rmqbroker
+## RocketMQ管理工具
+#拉取镜像
+docker pull styletang/rocketmq-console-ng:1.0.0
+#创建并启动容器
+docker run -e &quot;JAVA_OPTS=-Drocketmq.namesrv.addr=172.16.55.185:9876 -
+Dcom.rocketmq.sendMessageWithVIPChannel=false&quot; -p 8082:8080 -t styletang/rocketmqconsole-
+ng:1.0.0
+</code></pre>
+
+<h3 id="redis集群">Redis集群</h3>
+
+<pre><code class="language-shell">#拉取镜像
+docker pull redis:5.0.2
+#创建容器
+docker create --name redis-node01 -v /data/redis-data/node01:/data -p 6379:6379
+redis:5.0.2 --cluster-enabled yes --cluster-config-file nodes-node-01.conf
+docker create --name redis-node02 -v /data/redis-data/node02:/data -p 6380:6379
+redis:5.0.2 --cluster-enabled yes --cluster-config-file nodes-node-02.conf
+docker create --name redis-node03 -v /data/redis-data/node03:/data -p 6381:6379
+redis:5.0.2 --cluster-enabled yes --cluster-config-file nodes-node-03.conf
+#启动容器
+docker start redis-node01 redis-node02 redis-node03
+#开始组建集群
+# 查看docker分配的ip地址 
+docker inspect redis-node01   ip_1
+docker inspect redis-node02   ip_2
+docker inspect redis-node03   ip_3
+#进入redis-node01进行操作
+docker exec -it redis-node01 /bin/bash
+#组建集群
+redis-cli --cluster create ip_1:6379 ip_2:6380 ip_3:6381 --
+cluster-replicas 0
+</code></pre>
+
+<blockquote>
+<p>上面的Redis地址是docker分配的，客户端无法访问，需要使用<code>host模式</code>创建的容器</p>
+</blockquote>
+
+<p><code>HOST</code>模式</p>
+
+<pre><code class="language-shell">#创建容器
+docker create --name redis-node01 --net host -v /data/redis-data/node01:/data
+redis:5.0.2 --cluster-enabled yes --cluster-config-file nodes-node-01.conf --port
+6379
+docker create --name redis-node02 --net host -v /data/redis-data/node02:/data
+redis:5.0.2 --cluster-enabled yes --cluster-config-file nodes-node-02.conf --port
+6380
+docker create --name redis-node03 --net host -v /data/redis-data/node03:/data
+redis:5.0.2 --cluster-enabled yes --cluster-config-file nodes-node-03.conf --port
+6381
+#启动容器
+docker start redis-node01 redis-node02 redis-node03
+#进入redis-node01容器进行操作
+docker exec -it redis-node01 /bin/bash
+#172.16.55.185是主机的ip地址
+redis-cli --cluster create 172.16.55.185:6379 172.16.55.185:6380 172.16.55.185:6381
+--cluster-replicas 0
+</code></pre>
+
 <h2 id="部署项目到tomcat">部署项目到Tomcat</h2>
 
 <blockquote>
@@ -533,13 +616,13 @@ docker logs rabbit
 </blockquote>
 
 <ol>
-<li>​</li>
+<li></li>
 </ol>
 
 <p><img src="https://raw.githubusercontent.com/MyBigDaXin/BlogPic/master/item20190909125420.png" alt="" /></p>
 
 <ol>
-<li>​</li>
+<li></li>
 </ol>
 
 <pre><code class="language-xml">&lt;packaging&gt;war&lt;/packaging&gt;
@@ -575,7 +658,7 @@ docker logs rabbit
 </code></pre>
 
 <ol>
-<li>​</li>
+<li></li>
 </ol>
 
 <pre><code class="language-xml">mvn clean package
